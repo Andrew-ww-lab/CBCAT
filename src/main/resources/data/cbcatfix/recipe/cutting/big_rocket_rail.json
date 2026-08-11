@@ -1,0 +1,13 @@
+{
+  "type": "create:cutting",
+  "ingredients": [
+    {
+      "item": "cbc_at:wrought_iron_medium_rocket_rail"
+    }
+  ],
+  "results": [
+    {
+      "id": "cbcatfix:big_rocket_rail"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "createbigcannons:block/projectile_block_fuze_head",
+  "textures": {
+    "bottom": "cbcatfix:block/projectile/flak_shell_bottom",
+    "particle": "cbcatfix:block/projectile/flak_shell_top",
+    "side": "cbcatfix:block/projectile/flak_shell",
+    "top": "cbcatfix:block/projectile/flak_shell_top"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "assembled=false,facing=up"    : { "model" : "cbcatfix:block/big_rocket_rail", "x":  0},
+    "assembled=false,facing=down"  : { "model" : "cbcatfix:block/big_rocket_rail", "x": 180},
+    "assembled=false,facing=north" : { "model" : "cbcatfix:block/big_rocket_rail", "x": 270},
+    "assembled=false,facing=east"  : { "model" : "cbcatfix:block/big_rocket_rail", "y": 90, "x": 270},
+    "assembled=false,facing=south" : { "model" : "cbcatfix:block/big_rocket_rail", "x": 270},
+    "assembled=false,facing=west"  : { "model" : "cbcatfix:block/big_rocket_rail", "y": 90, "x": 270},
+    "assembled=true,facing=up"    : { "model" : "cbcatfix:block/big_rocket_rail", "x":  0},
+    "assembled=true,facing=down"  : { "model" : "cbcatfix:block/big_rocket_rail", "x": 180},
+    "assembled=true,facing=north" : { "model" : "cbcatfix:block/big_rocket_rail", "y": 90, "x": 90},
+    "assembled=true,facing=east"  : { "model" : "cbcatfix:block/big_rocket_rail", "y": 90, "x": 270},
+    "assembled=true,facing=south" : { "model" : "cbcatfix:block/big_rocket_rail", "y": 90, "x": 90},
+    "assembled=true,facing=west"  : { "model" : "cbcatfix:block/big_rocket_rail", "y": 90, "x": 270}
+  }
+}

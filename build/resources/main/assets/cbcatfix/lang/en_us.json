@@ -1,0 +1,26 @@
+{
+  "block.cbcatfix.flak_shell": "Flak Shell",
+  "block.cbcatfix.heavy_he_shell": "Heavy HE Shell",
+  "block.cbcatfix.heat_shell": "HEAT Shell",
+  "block.cbcatfix.hesh_shell": "HESH Shell",
+  "block.cbcatfix.big_rocket_rail": "Big Rocket Rail",
+  "block.cbcatfix.big_rocket_rail_breech": "Big Rocket Rail End",
+
+  "item.cbcatfix.flak_shell": "Flak Shell",
+  "item.cbcatfix.heavy_he_shell": "Heavy HE Shell",
+  "item.cbcatfix.heat_shell": "HEAT Shell",
+  "item.cbcatfix.hesh_shell": "HESH Shell",
+  "item.cbcatfix.big_he_rocket": "Big HE Rocket",
+  "item.cbcatfix.big_ap_rocket": "Big AP Rocket",
+  "item.cbcatfix.big_heat_rocket": "Big HEAT Rocket",
+  "item.cbcatfix.big_rocket_rail": "Big Rocket Rail",
+  "item.cbcatfix.big_rocket_rail_breech": "Big Rocket Rail End",
+
+  "entity.cbcatfix.flak_shell": "Flak Shell Projectile",
+  "entity.cbcatfix.heavy_he_shell": "Heavy HE Shell Projectile",
+  "entity.cbcatfix.heat_shell": "HEAT Shell Projectile",
+  "entity.cbcatfix.hesh_shell": "HESH Shell Projectile",
+  "entity.cbcatfix.big_he_rocket": "Big HE Rocket Projectile",
+  "entity.cbcatfix.big_ap_rocket": "Big AP Rocket Projectile",
+  "entity.cbcatfix.big_heat_rocket": "Big HEAT Rocket Projectile"
+}

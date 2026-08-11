@@ -1,0 +1,12 @@
+{
+  "missile_launch": {
+    "category": "neutral",
+    "subtitle": "subtitles.cbcatfix.missile_launch",
+    "sounds": [
+      {
+        "name": "cbcatfix:missile_launch",
+        "stream": false
+      }
+    ]
+  }
+}

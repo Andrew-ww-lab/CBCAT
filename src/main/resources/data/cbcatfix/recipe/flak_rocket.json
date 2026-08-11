@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "F",
+    "C",
+    "P"
+  ],
+  "key": {
+    "F": {
+      "item": "createbigcannons:shot_balls"
+    },
+    "C": {
+      "item": "createbigcannons:cast_iron_ingot"
+    },
+    "P": {
+      "item": "minecraft:gunpowder"
+    }
+  },
+  "result": {
+    "id": "cbc_at:flak_rocket_item",
+    "count": 1
+  }
+}

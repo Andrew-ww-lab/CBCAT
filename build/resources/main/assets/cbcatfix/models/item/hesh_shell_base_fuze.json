@@ -1,0 +1,9 @@
+{
+  "parent": "createbigcannons:block/projectile_block_fuze_base",
+  "textures": {
+    "bottom": "cbcatfix:block/projectile/hesh_shell_bottom",
+    "particle": "cbcatfix:block/projectile/hesh_shell_top",
+    "side": "cbcatfix:block/projectile/hesh_shell",
+    "top": "cbcatfix:block/projectile/hesh_shell_top"
+  }
+}

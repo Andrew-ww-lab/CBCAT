@@ -1,0 +1,29 @@
+{
+  "type": "create:mechanical_crafting",
+  "accept_mirrored": true,
+  "category": "misc",
+  "pattern": [
+    " C ",
+    "CPC",
+    "CTC",
+    " S "
+  ],
+  "key": {
+    "C": {
+      "item": "createbigcannons:cast_iron_ingot"
+    },
+    "P": {
+      "item": "minecraft:copper_ingot"
+    },
+    "T": {
+      "item": "minecraft:tnt"
+    },
+    "S": {
+      "tag": "minecraft:wooden_slabs"
+    }
+  },
+  "result": {
+    "id": "cbcatfix:heat_shell",
+    "count": 1
+  }
+}

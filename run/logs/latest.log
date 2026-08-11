@@ -1,0 +1,256 @@
+[05серп.2026 16:50:19.739] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgeclientdev, --version, 21.1.228, --assetIndex, 17, --assetsDir, C:\\Users\\Maqwr\\.gradle\\caches\\neoformruntime\\assets, --gameDir, ., --fml.fmlVersion, 4.0.42, --fml.mcVersion, 1.21.1, --fml.neoForgeVersion, 21.1.228, --fml.neoFormVersion, 20240808.144430]
+[05серп.2026 16:50:19.741] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: JVM identified as Eclipse Adoptium OpenJDK 64-Bit Server VM 21.0.10+7-LTS
+[05серп.2026 16:50:19.742] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 11.0.5+main.901c6ea8 starting: java version 21.0.10 by Eclipse Adoptium; OS Windows 11 arch amd64 version 10.0
+[05серп.2026 16:50:19.840] [main/INFO] [net.neoforged.fml.loading.ImmediateWindowHandler/]: Loading ImmediateWindowProvider fmlearlywindow
+[05серп.2026 16:50:19.926] [main/INFO] [EARLYDISPLAY/]: Trying GL version 4.6
+[05серп.2026 16:50:20.054] [main/INFO] [EARLYDISPLAY/]: Requested GL version 4.6 got version 4.6
+[05серп.2026 16:50:20.141] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.7 Source=union:/C:/Users/Maqwr/.gradle/caches/modules-2/files-2.1/net.fabricmc/sponge-mixin/0.15.2+mixin.0.8.7/2af2f021d8e02a0220dc27a7a72b4666d66d44ca/sponge-mixin-0.15.2+mixin.0.8.7.jar%23138!/ Service=ModLauncher Env=CLIENT
+[05серп.2026 16:50:20.248] [pool-2-thread-1/INFO] [EARLYDISPLAY/]: GL info: NVIDIA GeForce RTX 4060/PCIe/SSE2 GL version 4.6.0 NVIDIA 591.86, NVIDIA Corporation
+[05серп.2026 16:50:20.936] [main/WARN] [net.neoforged.jarjar.selection.JarSelector/]: Attempted to select a dependency jar for JarJar which was passed in as source: ponder. Using Mod File: C:\Users\Maqwr\.gradle\caches\modules-2\files-2.1\net.createmod.ponder\ponder-neoforge\1.0.82+mc1.21.1\b10a04f40b9d6d33c346fb38df33f10f7e51b713\ponder-neoforge-1.0.82+mc1.21.1.jar
+[05серп.2026 16:50:20.936] [main/WARN] [net.neoforged.jarjar.selection.JarSelector/]: Attempted to select a dependency jar for JarJar which was passed in as source: library:Registrate.MC1._21._67. Using Mod File: C:\Docs\CBCAT\libs\Registrate-MC1.21-1.3.0+67.jar
+[05серп.2026 16:50:20.936] [main/WARN] [net.neoforged.jarjar.selection.JarSelector/]: Attempted to select a dependency jar for JarJar which was passed in as source: flywheel. Using Mod File: C:\Users\Maqwr\.gradle\caches\modules-2\files-2.1\dev.engine-room.flywheel\flywheel-neoforge-1.21.1\1.0.6\a943872ad0bdd4458d818d8d7dc123fb250eb744\flywheel-neoforge-1.21.1-1.0.6.jar
+[05серп.2026 16:50:20.937] [main/INFO] [net.neoforged.fml.loading.moddiscovery.locators.JarInJarDependencyLocator/]: Found 11 dependencies adding them to mods collection
+[05серп.2026 16:50:20.938] [main/INFO] [net.neoforged.fml.loading.moddiscovery.ModDiscoverer/]: 
+     Mod List:
+		Name Version (Mod Id)
+
+		CBC Advanced Technology 0.1.4c-1.21.1 (cbc_at)
+		CBC Military Supplement 2.1.0-1.21.1 (cbcmoreshells)
+		CBCAT Fix 1.0.0 (cbcatfix)
+		Create 6.0.10 (create)
+		Create Aeronautics 1.3.0 (aeronautics)
+		Create Aeronautics 1.3.0 (aeronautics_bundled)
+		Create Big Cannons 5.11.7 (createbigcannons)
+		Create Offroad 1.3.0 (offroad)
+		Create Simulated 1.3.0 (simulated)
+		Create: Radars 0.4.4-1.21.1 (create_radar)
+		Flywheel 1.0.6 (flywheel)
+		Just Enough Items 19.27.0.340 (jei)
+		Minecraft 1.21.1 (minecraft)
+		NeoForge 21.1.228 (neoforge)
+		Ponder 1.0.82+mc1.21.1 (ponder)
+		Ritchie's Projectile Library 2.1.2 (ritchiesprojectilelib)
+		Sable 2.0.3 (sable)
+		Sable Companion 1.6.0 (sablecompanion)
+		Veil 4.1.4 (veil)
+[05серп.2026 16:50:21.600] [main/WARN] [mixin/]: Compatibility level JAVA_17 specified by create_radar.mixins.json is higher than the maximum level supported by this version of mixin (JAVA_13).
+[05серп.2026 16:50:21.601] [main/INFO] [mixin/]: Compatibility level set to JAVA_17
+[05серп.2026 16:50:21.602] [main/WARN] [mixin/]: Compatibility level JAVA_21 specified by veil.command.mixins.json is higher than the maximum level supported by this version of mixin (JAVA_13).
+[05серп.2026 16:50:21.602] [main/INFO] [mixin/]: Compatibility level set to JAVA_21
+[05серп.2026 16:50:21.612] [main/WARN] [mixin/]: Compatibility level JAVA_17 specified by createbigcannons.mixins.json is higher than the maximum level supported by this version of mixin (JAVA_13).
+[05серп.2026 16:50:21.613] [main/WARN] [mixin/]: Compatibility level JAVA_18 specified by aeronautics.mixins.json is higher than the maximum level supported by this version of mixin (JAVA_13).
+[05серп.2026 16:50:21.616] [main/WARN] [mixin/]: Compatibility level JAVA_17 specified by flywheel.impl.neoforge.mixins.json is higher than the maximum level supported by this version of mixin (JAVA_13).
+[05серп.2026 16:50:21.617] [main/WARN] [mixin/]: Compatibility level JAVA_17 specified by ponder.mixins.json is higher than the maximum level supported by this version of mixin (JAVA_13).
+[05серп.2026 16:50:21.618] [main/WARN] [mixin/]: Compatibility level JAVA_17 specified by ponder-common.mixins.json is higher than the maximum level supported by this version of mixin (JAVA_13).
+[05серп.2026 16:50:21.621] [main/WARN] [mixin/]: Compatibility level JAVA_18 specified by offroad.mixins.json is higher than the maximum level supported by this version of mixin (JAVA_13).
+[05серп.2026 16:50:21.623] [main/WARN] [mixin/]: Compatibility level JAVA_17 specified by cbcmoreshells.mixins.json is higher than the maximum level supported by this version of mixin (JAVA_13).
+[05серп.2026 16:50:21.625] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgeclientdev' with arguments [--version, 21.1.228, --gameDir, ., --assetsDir, C:\Users\Maqwr\.gradle\caches\neoformruntime\assets, --assetIndex, 17]
+[05серп.2026 16:50:21.681] [main/INFO] [mixin/]: Attempting to load Fernflower decompiler (Threaded mode)
+[05серп.2026 16:50:21.683] [main/INFO] [mixin/]: Fernflower could not be loaded, exported classes will not be decompiled. NoClassDefFoundError: org/jetbrains/java/decompiler/main/extern/IResultSaver
+[05серп.2026 16:50:21.692] [main/INFO] [mixin/]: Preparing mixins for MixinEnvironment[DEFAULT]
+[05серп.2026 16:50:21.694] [main/INFO] [mixin/]: Selecting config create_radar.mixins.json
+[05серп.2026 16:50:21.701] [main/WARN] [mixin/]: Reference map 'createradar.refmap.json' for create_radar.mixins.json could not be read. If this is a development environment you can ignore this message
+[05серп.2026 16:50:21.702] [main/INFO] [mixin/]: Selecting config veil.command.mixins.json
+[05серп.2026 16:50:21.734] [main/INFO] [mixin/]: Selecting config veil.debug.mixins.json
+[05серп.2026 16:50:21.735] [main/INFO] [mixin/]: Selecting config veil.dynamicbuffer.mixins.json
+[05серп.2026 16:50:21.735] [main/INFO] [mixin/]: Selecting config veil.fix.mixins.json
+[05серп.2026 16:50:21.736] [main/INFO] [mixin/]: Selecting config veil.framebuffer.mixins.json
+[05серп.2026 16:50:21.736] [main/INFO] [mixin/]: Selecting config veil.necromancer.mixins.json
+[05серп.2026 16:50:21.736] [main/INFO] [mixin/]: Selecting config veil.network.mixins.json
+[05серп.2026 16:50:21.737] [main/INFO] [mixin/]: Selecting config veil.performance.mixins.json
+[05серп.2026 16:50:21.737] [main/INFO] [mixin/]: Selecting config veil.perspective.mixins.json
+[05серп.2026 16:50:21.737] [main/INFO] [mixin/]: Selecting config veil.pipeline.mixins.json
+[05серп.2026 16:50:21.738] [main/INFO] [mixin/]: Selecting config veil.quasar.mixins.json
+[05серп.2026 16:50:21.738] [main/INFO] [mixin/]: Selecting config veil.registry.mixins.json
+[05серп.2026 16:50:21.738] [main/INFO] [mixin/]: Selecting config veil.rendertype.mixins.json
+[05серп.2026 16:50:21.739] [main/INFO] [mixin/]: Selecting config veil.resource.mixins.json
+[05серп.2026 16:50:21.739] [main/INFO] [mixin/]: Selecting config veil.scheduler.mixins.json
+[05серп.2026 16:50:21.739] [main/INFO] [mixin/]: Selecting config veil.shader.mixins.json
+[05серп.2026 16:50:21.740] [main/INFO] [mixin/]: Selecting config veil.neoforge.mixins.json
+[05серп.2026 16:50:21.741] [main/INFO] [mixin/]: Selecting config simulated.mixins.json
+[05серп.2026 16:50:21.741] [main/WARN] [mixin/]: Reference map 'simulated.refmap.json' for simulated.mixins.json could not be read. If this is a development environment you can ignore this message
+[05серп.2026 16:50:21.742] [main/INFO] [mixin/]: Selecting config simulated-neoforge.mixins.json
+[05серп.2026 16:50:21.742] [main/INFO] [mixin/]: Selecting config cbc_at.mixins.json
+[05серп.2026 16:50:21.742] [main/INFO] [mixin/]: Selecting config cbcatfix.mixins.json
+[05серп.2026 16:50:21.743] [main/WARN] [mixin/]: Reference map 'cbcatfix.refmap.json' for cbcatfix.mixins.json could not be read. If this is a development environment you can ignore this message
+[05серп.2026 16:50:21.743] [main/INFO] [mixin/]: Selecting config createbigcannons.mixins.json
+[05серп.2026 16:50:21.744] [main/INFO] [mixin/]: Selecting config aeronautics.mixins.json
+[05серп.2026 16:50:21.748] [main/WARN] [mixin/]: Reference map 'aeronautics.refmap.json' for aeronautics.mixins.json could not be read. If this is a development environment you can ignore this message
+[05серп.2026 16:50:21.748] [main/INFO] [mixin/]: Selecting config aeronautics.neoforge.mixins.json
+[05серп.2026 16:50:21.748] [main/INFO] [mixin/]: Selecting config flywheel.backend.mixins.json
+[05серп.2026 16:50:21.756] [main/INFO] [mixin/]: Selecting config flywheel.impl.mixins.json
+[05серп.2026 16:50:21.757] [main/INFO] [mixin/]: Selecting config flywheel.impl.neoforge.mixins.json
+[05серп.2026 16:50:21.758] [main/INFO] [mixin/]: Selecting config ponder.mixins.json
+[05серп.2026 16:50:21.758] [main/INFO] [mixin/]: Selecting config ponder-common.mixins.json
+[05серп.2026 16:50:21.759] [main/WARN] [mixin/]: Reference map 'ponder.refmap.json' for ponder-common.mixins.json could not be read. If this is a development environment you can ignore this message
+[05серп.2026 16:50:21.759] [main/INFO] [mixin/]: Selecting config create.mixins.json
+[05серп.2026 16:50:21.760] [main/INFO] [mixin/]: Selecting config sable.mixins.json
+[05серп.2026 16:50:21.775] [main/INFO] [dev.ryanhcode.sable.mixin.AbstractSableMixinPlugin/]: Using Vanilla renderer mixins
+[05серп.2026 16:50:21.776] [main/INFO] [mixin/]: Selecting config sable-neoforge.mixins.json
+[05серп.2026 16:50:21.776] [main/INFO] [dev.ryanhcode.sable.mixin.AbstractSableMixinPlugin/]: Using Vanilla renderer mixins
+[05серп.2026 16:50:21.777] [main/INFO] [mixin/]: Selecting config offroad.mixins.json
+[05серп.2026 16:50:21.777] [main/WARN] [mixin/]: Reference map 'offroad.refmap.json' for offroad.mixins.json could not be read. If this is a development environment you can ignore this message
+[05серп.2026 16:50:21.777] [main/INFO] [mixin/]: Selecting config offroad.neoforge.mixins.json
+[05серп.2026 16:50:21.777] [main/INFO] [mixin/]: Selecting config neoforge.mixins.json
+[05серп.2026 16:50:21.778] [main/INFO] [mixin/]: Selecting config cbcmoreshells.mixins.json
+[05серп.2026 16:50:21.778] [main/WARN] [mixin/]: Reference map 'cbcmoreshells.refmap.json' for cbcmoreshells.mixins.json could not be read. If this is a development environment you can ignore this message
+[05серп.2026 16:50:21.778] [main/INFO] [mixin/]: Selecting config mixinextras.init.mixins.json
+[05серп.2026 16:50:21.902] [main/INFO] [mixin/]: Preparing create_radar.mixins.json (3)
+[05серп.2026 16:50:21.937] [main/INFO] [mixin/]: Preparing veil.command.mixins.json (1)
+[05серп.2026 16:50:21.960] [main/INFO] [mixin/]: Preparing veil.debug.mixins.json (15)
+[05серп.2026 16:50:22.007] [main/INFO] [mixin/]: Preparing veil.dynamicbuffer.mixins.json (5)
+[05серп.2026 16:50:22.012] [main/INFO] [mixin/]: Preparing veil.fix.mixins.json (3)
+[05серп.2026 16:50:22.023] [main/INFO] [mixin/]: Preparing veil.framebuffer.mixins.json (1)
+[05серп.2026 16:50:22.025] [main/INFO] [mixin/]: Preparing veil.necromancer.mixins.json (2)
+[05серп.2026 16:50:22.028] [main/INFO] [mixin/]: Preparing veil.network.mixins.json (3)
+[05серп.2026 16:50:22.045] [main/INFO] [mixin/]: Preparing veil.performance.mixins.json (4)
+[05серп.2026 16:50:22.047] [main/INFO] [mixin/]: Preparing veil.perspective.mixins.json (3)
+[05серп.2026 16:50:22.049] [main/INFO] [mixin/]: Preparing veil.pipeline.mixins.json (19)
+[05серп.2026 16:50:22.062] [main/INFO] [mixin/]: Preparing veil.quasar.mixins.json (2)
+[05серп.2026 16:50:22.076] [main/INFO] [mixin/]: Preparing veil.registry.mixins.json (1)
+[05серп.2026 16:50:22.077] [main/INFO] [mixin/]: Preparing veil.rendertype.mixins.json (6)
+[05серп.2026 16:50:22.084] [main/INFO] [mixin/]: Preparing veil.resource.mixins.json (6)
+[05серп.2026 16:50:22.089] [main/INFO] [mixin/]: Preparing veil.scheduler.mixins.json (1)
+[05серп.2026 16:50:22.089] [main/INFO] [mixin/]: Preparing veil.shader.mixins.json (4)
+[05серп.2026 16:50:22.092] [main/INFO] [mixin/]: Preparing veil.neoforge.mixins.json (34)
+[05серп.2026 16:50:22.101] [main/WARN] [mixin/]: Error loading class: net/irisshaders/iris/pipeline/PipelineManager (java.lang.ClassNotFoundException: net.irisshaders.iris.pipeline.PipelineManager)
+[05серп.2026 16:50:22.102] [main/WARN] [mixin/]: @Mixin target net.irisshaders.iris.pipeline.PipelineManager was not found veil.neoforge.mixins.json:client.perspective.iris.PipelineManagerMixin from mod veil
+[05серп.2026 16:50:22.102] [main/INFO] [mixin/]: Preparing simulated.mixins.json (86)
+[05серп.2026 16:50:22.153] [main/WARN] [mixin/]: @Mixin target net.minecraft.client.renderer.texture.SpriteContents$Ticker is public in simulated.mixins.json:creative_tab_sections.SpriteContentsTickerMixin from mod simulated and should be specified in value
+[05серп.2026 16:50:22.178] [main/INFO] [mixin/]: Preparing simulated-neoforge.mixins.json (12)
+[05серп.2026 16:50:22.184] [main/INFO] [mixin/]: Preparing cbc_at.mixins.json (6)
+[05серп.2026 16:50:22.188] [main/INFO] [mixin/]: Preparing cbcatfix.mixins.json (31)
+[05серп.2026 16:50:22.207] [main/FATAL] [MixinProcessor/]: /***********************************************************************************************************************************************************************/
+[05серп.2026 16:50:22.208] [main/FATAL] [MixinProcessor/]: /*                                                                            Invalid Mixin                                                                            */
+[05серп.2026 16:50:22.208] [main/FATAL] [MixinProcessor/]: /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+[05серп.2026 16:50:22.208] [main/FATAL] [MixinProcessor/]: /*     Action : PREPARE                                                                                                                                                */
+[05серп.2026 16:50:22.208] [main/FATAL] [MixinProcessor/]: /*      Mixin : com.cbcatfix.mixin.RocketRendererMixin                                                                                                                 */
+[05серп.2026 16:50:22.208] [main/FATAL] [MixinProcessor/]: /*     Config : cbcatfix.mixins.json                                                                                                                                   */
+[05серп.2026 16:50:22.208] [main/FATAL] [MixinProcessor/]: /*      ModId : cbcatfix                                                                                                                                               */
+[05серп.2026 16:50:22.208] [main/FATAL] [MixinProcessor/]: /*      Phase : DEFAULT                                                                                                                                                */
+[05серп.2026 16:50:22.208] [main/FATAL] [MixinProcessor/]: /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+[05серп.2026 16:50:22.208] [main/FATAL] [MixinProcessor/]: /*     org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException                                                                                        */
+[05серп.2026 16:50:22.208] [main/FATAL] [MixinProcessor/]: /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+[05серп.2026 16:50:22.208] [main/FATAL] [MixinProcessor/]: /*     The specified mixin 'com.cbcatfix.mixin.RocketRendererMixin' was not found                                                                                      */
+[05серп.2026 16:50:22.208] [main/FATAL] [MixinProcessor/]: /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+[05серп.2026 16:50:22.208] [main/FATAL] [MixinProcessor/]: /*     org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: The specified mixin 'com.cbcatfix.mixin.RocketRendererMixin' was not found            */
+[05серп.2026 16:50:22.209] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinInfo.<init>(MixinInfo.java:864)                                           */
+[05серп.2026 16:50:22.209] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinConfig.prepareMixins(MixinConfig.java:933)                                */
+[05серп.2026 16:50:22.209] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinConfig.prepare(MixinConfig.java:858)                                      */
+[05серп.2026 16:50:22.209] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinProcessor.prepareConfigs(MixinProcessor.java:540)                         */
+[05серп.2026 16:50:22.209] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinProcessor.select(MixinProcessor.java:462)                                 */
+[05серп.2026 16:50:22.209] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinProcessor.checkSelect(MixinProcessor.java:438)                            */
+[05серп.2026 16:50:22.209] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinProcessor.applyMixins(MixinProcessor.java:290)                            */
+[05серп.2026 16:50:22.209] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClass(MixinTransformer.java:250)                     */
+[05серп.2026 16:50:22.209] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.service.modlauncher.MixinTransformationHandler.processClass(MixinTransformationHandler.java:131) */
+[05серп.2026 16:50:22.209] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.launch.MixinLaunchPluginLegacy.processClass(MixinLaunchPluginLegacy.java:131)                    */
+[05серп.2026 16:50:22.209] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.serviceapi.ILaunchPluginService.processClassWithFlags(ILaunchPluginService.java:156)          */
+[05серп.2026 16:50:22.209] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.LaunchPluginHandler.offerClassNodeToPlugins(LaunchPluginHandler.java:94)                      */
+[05серп.2026 16:50:22.209] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.ClassTransformer.transform(ClassTransformer.java:120)                                         */
+[05серп.2026 16:50:22.209] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.TransformingClassLoader.maybeTransformClassBytes(TransformingClassLoader.java:57)             */
+[05серп.2026 16:50:22.210] [main/FATAL] [MixinProcessor/]: /*         cpw.mods.securejarhandler/cpw.mods.cl.ModuleClassLoader.readerToClass(ModuleClassLoader.java:190)                                                           */
+[05серп.2026 16:50:22.210] [main/FATAL] [MixinProcessor/]: /*         cpw.mods.securejarhandler/cpw.mods.cl.ModuleClassLoader.lambda$findClass$20(ModuleClassLoader.java:298)                                                     */
+[05серп.2026 16:50:22.210] [main/FATAL] [MixinProcessor/]: /*         cpw.mods.securejarhandler/cpw.mods.cl.ModuleClassLoader.loadFromModule(ModuleClassLoader.java:311)                                                          */
+[05серп.2026 16:50:22.210] [main/FATAL] [MixinProcessor/]: /*         cpw.mods.securejarhandler/cpw.mods.cl.ModuleClassLoader.findClass(ModuleClassLoader.java:298)                                                               */
+[05серп.2026 16:50:22.210] [main/FATAL] [MixinProcessor/]: /*         java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:638)                                                                                             */
+[05серп.2026 16:50:22.210] [main/FATAL] [MixinProcessor/]: /*         java.base/java.lang.Class.forName(Class.java:627)                                                                                                           */
+[05серп.2026 16:50:22.210] [main/FATAL] [MixinProcessor/]: /*         java.base/java.lang.Class.forName(Class.java:602)                                                                                                           */
+[05серп.2026 16:50:22.210] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/fml_earlydisplay@4.0.42/net.neoforged.fml.earlydisplay.DisplayWindow.updateModuleReads(DisplayWindow.java:605)                                 */
+[05серп.2026 16:50:22.210] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/fml_loader@4.0.42/net.neoforged.fml.loading.ImmediateWindowHandler.acceptGameLayer(ImmediateWindowHandler.java:94)                             */
+[05серп.2026 16:50:22.210] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/fml_loader@4.0.42/net.neoforged.fml.loading.FMLLoader.beforeStart(FMLLoader.java:166)                                                          */
+[05серп.2026 16:50:22.210] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/fml_loader@4.0.42/net.neoforged.fml.loading.targets.CommonLaunchHandler.launchService(CommonLaunchHandler.java:115)                            */
+[05серп.2026 16:50:22.210] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:30)                   */
+[05серп.2026 16:50:22.210] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:53)                                     */
+[05серп.2026 16:50:22.210] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:71)                                     */
+[05серп.2026 16:50:22.210] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.Launcher.run(Launcher.java:103)                                                               */
+[05серп.2026 16:50:22.210] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.Launcher.main(Launcher.java:74)                                                               */
+[05серп.2026 16:50:22.211] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:26)                               */
+[05серп.2026 16:50:22.211] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:23)                               */
+[05серп.2026 16:50:22.211] [main/FATAL] [MixinProcessor/]: /*         cpw.mods.bootstraplauncher@2.0.2/cpw.mods.bootstraplauncher.BootstrapLauncher.run(BootstrapLauncher.java:210)                                               */
+[05серп.2026 16:50:22.211] [main/FATAL] [MixinProcessor/]: /*         cpw.mods.bootstraplauncher@2.0.2/cpw.mods.bootstraplauncher.BootstrapLauncher.main(BootstrapLauncher.java:69)                                               */
+[05серп.2026 16:50:22.211] [main/FATAL] [MixinProcessor/]: /*         java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)                                                       */
+[05серп.2026 16:50:22.211] [main/FATAL] [MixinProcessor/]: /*         java.base/java.lang.reflect.Method.invoke(Method.java:580)                                                                                                  */
+[05серп.2026 16:50:22.211] [main/FATAL] [MixinProcessor/]: /*         net.neoforged.devlaunch.Main.main(Main.java:55)                                                                                                             */
+[05серп.2026 16:50:22.211] [main/FATAL] [MixinProcessor/]: /*     java.lang.ClassNotFoundException: The specified mixin 'com.cbcatfix.mixin.RocketRendererMixin' was not found                                                    */
+[05серп.2026 16:50:22.211] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinInfo.loadMixinClass(MixinInfo.java:1314)                                  */
+[05серп.2026 16:50:22.211] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinInfo.<init>(MixinInfo.java:857)                                           */
+[05серп.2026 16:50:22.211] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinConfig.prepareMixins(MixinConfig.java:933)                                */
+[05серп.2026 16:50:22.211] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinConfig.prepare(MixinConfig.java:858)                                      */
+[05серп.2026 16:50:22.211] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinProcessor.prepareConfigs(MixinProcessor.java:540)                         */
+[05серп.2026 16:50:22.211] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinProcessor.select(MixinProcessor.java:462)                                 */
+[05серп.2026 16:50:22.211] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinProcessor.checkSelect(MixinProcessor.java:438)                            */
+[05серп.2026 16:50:22.211] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinProcessor.applyMixins(MixinProcessor.java:290)                            */
+[05серп.2026 16:50:22.211] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClass(MixinTransformer.java:250)                     */
+[05серп.2026 16:50:22.211] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.service.modlauncher.MixinTransformationHandler.processClass(MixinTransformationHandler.java:131) */
+[05серп.2026 16:50:22.211] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.launch.MixinLaunchPluginLegacy.processClass(MixinLaunchPluginLegacy.java:131)                    */
+[05серп.2026 16:50:22.212] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.serviceapi.ILaunchPluginService.processClassWithFlags(ILaunchPluginService.java:156)          */
+[05серп.2026 16:50:22.212] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.LaunchPluginHandler.offerClassNodeToPlugins(LaunchPluginHandler.java:94)                      */
+[05серп.2026 16:50:22.212] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.ClassTransformer.transform(ClassTransformer.java:120)                                         */
+[05серп.2026 16:50:22.212] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.TransformingClassLoader.maybeTransformClassBytes(TransformingClassLoader.java:57)             */
+[05серп.2026 16:50:22.212] [main/FATAL] [MixinProcessor/]: /*         cpw.mods.securejarhandler/cpw.mods.cl.ModuleClassLoader.readerToClass(ModuleClassLoader.java:190)                                                           */
+[05серп.2026 16:50:22.212] [main/FATAL] [MixinProcessor/]: /*         cpw.mods.securejarhandler/cpw.mods.cl.ModuleClassLoader.lambda$findClass$20(ModuleClassLoader.java:298)                                                     */
+[05серп.2026 16:50:22.212] [main/FATAL] [MixinProcessor/]: /*         cpw.mods.securejarhandler/cpw.mods.cl.ModuleClassLoader.loadFromModule(ModuleClassLoader.java:311)                                                          */
+[05серп.2026 16:50:22.212] [main/FATAL] [MixinProcessor/]: /*         cpw.mods.securejarhandler/cpw.mods.cl.ModuleClassLoader.findClass(ModuleClassLoader.java:298)                                                               */
+[05серп.2026 16:50:22.212] [main/FATAL] [MixinProcessor/]: /*         java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:638)                                                                                             */
+[05серп.2026 16:50:22.212] [main/FATAL] [MixinProcessor/]: /*         java.base/java.lang.Class.forName(Class.java:627)                                                                                                           */
+[05серп.2026 16:50:22.212] [main/FATAL] [MixinProcessor/]: /*         java.base/java.lang.Class.forName(Class.java:602)                                                                                                           */
+[05серп.2026 16:50:22.212] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/fml_earlydisplay@4.0.42/net.neoforged.fml.earlydisplay.DisplayWindow.updateModuleReads(DisplayWindow.java:605)                                 */
+[05серп.2026 16:50:22.212] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/fml_loader@4.0.42/net.neoforged.fml.loading.ImmediateWindowHandler.acceptGameLayer(ImmediateWindowHandler.java:94)                             */
+[05серп.2026 16:50:22.212] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/fml_loader@4.0.42/net.neoforged.fml.loading.FMLLoader.beforeStart(FMLLoader.java:166)                                                          */
+[05серп.2026 16:50:22.212] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/fml_loader@4.0.42/net.neoforged.fml.loading.targets.CommonLaunchHandler.launchService(CommonLaunchHandler.java:115)                            */
+[05серп.2026 16:50:22.212] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:30)                   */
+[05серп.2026 16:50:22.212] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:53)                                     */
+[05серп.2026 16:50:22.212] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:71)                                     */
+[05серп.2026 16:50:22.212] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.Launcher.run(Launcher.java:103)                                                               */
+[05серп.2026 16:50:22.212] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.Launcher.main(Launcher.java:74)                                                               */
+[05серп.2026 16:50:22.213] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:26)                               */
+[05серп.2026 16:50:22.213] [main/FATAL] [MixinProcessor/]: /*         MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:23)                               */
+[05серп.2026 16:50:22.213] [main/FATAL] [MixinProcessor/]: /*         cpw.mods.bootstraplauncher@2.0.2/cpw.mods.bootstraplauncher.BootstrapLauncher.run(BootstrapLauncher.java:210)                                               */
+[05серп.2026 16:50:22.213] [main/FATAL] [MixinProcessor/]: /*         cpw.mods.bootstraplauncher@2.0.2/cpw.mods.bootstraplauncher.BootstrapLauncher.main(BootstrapLauncher.java:69)                                               */
+[05серп.2026 16:50:22.213] [main/FATAL] [MixinProcessor/]: /*         java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)                                                       */
+[05серп.2026 16:50:22.213] [main/FATAL] [MixinProcessor/]: /*         java.base/java.lang.reflect.Method.invoke(Method.java:580)                                                                                                  */
+[05серп.2026 16:50:22.213] [main/FATAL] [MixinProcessor/]: /*         net.neoforged.devlaunch.Main.main(Main.java:55)                                                                                                             */
+[05серп.2026 16:50:22.213] [main/FATAL] [MixinProcessor/]: /***********************************************************************************************************************************************************************/
+[05серп.2026 16:50:22.213] [main/FATAL] [mixin/]: Mixin prepare for mod cbcatfix failed preparing RocketRendererMixin in cbcatfix.mixins.json: org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException The specified mixin 'com.cbcatfix.mixin.RocketRendererMixin' was not found
+org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException: The specified mixin 'com.cbcatfix.mixin.RocketRendererMixin' was not found
+	at MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinInfo.<init>(MixinInfo.java:864) ~[sponge-mixin-0.15.2+mixin.0.8.7.jar:0.15.2+mixin.0.8.7]
+	at MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinConfig.prepareMixins(MixinConfig.java:933) ~[sponge-mixin-0.15.2+mixin.0.8.7.jar:0.15.2+mixin.0.8.7]
+	at MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinConfig.prepare(MixinConfig.java:858) ~[sponge-mixin-0.15.2+mixin.0.8.7.jar:0.15.2+mixin.0.8.7]
+	at MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinProcessor.prepareConfigs(MixinProcessor.java:540) ~[sponge-mixin-0.15.2+mixin.0.8.7.jar:0.15.2+mixin.0.8.7]
+	at MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinProcessor.select(MixinProcessor.java:462) ~[sponge-mixin-0.15.2+mixin.0.8.7.jar:0.15.2+mixin.0.8.7]
+	at MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinProcessor.checkSelect(MixinProcessor.java:438) ~[sponge-mixin-0.15.2+mixin.0.8.7.jar:0.15.2+mixin.0.8.7]
+	at MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinProcessor.applyMixins(MixinProcessor.java:290) ~[sponge-mixin-0.15.2+mixin.0.8.7.jar:0.15.2+mixin.0.8.7]
+	at MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClass(MixinTransformer.java:250) ~[sponge-mixin-0.15.2+mixin.0.8.7.jar:0.15.2+mixin.0.8.7]
+	at MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.service.modlauncher.MixinTransformationHandler.processClass(MixinTransformationHandler.java:131) ~[sponge-mixin-0.15.2+mixin.0.8.7.jar:0.15.2+mixin.0.8.7]
+	at MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.launch.MixinLaunchPluginLegacy.processClass(MixinLaunchPluginLegacy.java:131) ~[sponge-mixin-0.15.2+mixin.0.8.7.jar:0.15.2+mixin.0.8.7]
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.serviceapi.ILaunchPluginService.processClassWithFlags(ILaunchPluginService.java:156) ~[modlauncher-11.0.5.jar:11.0.5+main.901c6ea8]
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.LaunchPluginHandler.offerClassNodeToPlugins(LaunchPluginHandler.java:94) ~[modlauncher-11.0.5.jar:?]
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.ClassTransformer.transform(ClassTransformer.java:120) ~[modlauncher-11.0.5.jar:?]
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.TransformingClassLoader.maybeTransformClassBytes(TransformingClassLoader.java:57) ~[modlauncher-11.0.5.jar:?]
+	at cpw.mods.securejarhandler/cpw.mods.cl.ModuleClassLoader.readerToClass(ModuleClassLoader.java:190) ~[securejarhandler-3.0.8.jar:?]
+	at cpw.mods.securejarhandler/cpw.mods.cl.ModuleClassLoader.lambda$findClass$20(ModuleClassLoader.java:298) ~[securejarhandler-3.0.8.jar:?]
+	at cpw.mods.securejarhandler/cpw.mods.cl.ModuleClassLoader.loadFromModule(ModuleClassLoader.java:311) [securejarhandler-3.0.8.jar:?]
+	at cpw.mods.securejarhandler/cpw.mods.cl.ModuleClassLoader.findClass(ModuleClassLoader.java:298) [securejarhandler-3.0.8.jar:?]
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:638) [?:?]
+	at java.base/java.lang.Class.forName(Class.java:627) [?:?]
+	at java.base/java.lang.Class.forName(Class.java:602) [?:?]
+	at MC-BOOTSTRAP/fml_earlydisplay@4.0.42/net.neoforged.fml.earlydisplay.DisplayWindow.updateModuleReads(DisplayWindow.java:605) [earlydisplay-4.0.42.jar%23145!/:4.0]
+	at MC-BOOTSTRAP/fml_loader@4.0.42/net.neoforged.fml.loading.ImmediateWindowHandler.acceptGameLayer(ImmediateWindowHandler.java:94) [loader-4.0.42.jar%23146!/:4.0]
+	at MC-BOOTSTRAP/fml_loader@4.0.42/net.neoforged.fml.loading.FMLLoader.beforeStart(FMLLoader.java:166) [loader-4.0.42.jar%23146!/:4.0]
+	at MC-BOOTSTRAP/fml_loader@4.0.42/net.neoforged.fml.loading.targets.CommonLaunchHandler.launchService(CommonLaunchHandler.java:115) [loader-4.0.42.jar%23146!/:4.0]
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:30) [modlauncher-11.0.5.jar%23128!/:?]
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:53) [modlauncher-11.0.5.jar%23128!/:?]
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:71) [modlauncher-11.0.5.jar%23128!/:?]
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.Launcher.run(Launcher.java:103) [modlauncher-11.0.5.jar%23128!/:?]
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.Launcher.main(Launcher.java:74) [modlauncher-11.0.5.jar%23128!/:?]
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:26) [modlauncher-11.0.5.jar%23128!/:?]
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.5/cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:23) [modlauncher-11.0.5.jar%23128!/:?]
+	at cpw.mods.bootstraplauncher@2.0.2/cpw.mods.bootstraplauncher.BootstrapLauncher.run(BootstrapLauncher.java:210) [bootstraplauncher-2.0.2.jar:?]
+	at cpw.mods.bootstraplauncher@2.0.2/cpw.mods.bootstraplauncher.BootstrapLauncher.main(BootstrapLauncher.java:69) [bootstraplauncher-2.0.2.jar:?]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[?:?]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[?:?]
+	at net.neoforged.devlaunch.Main.main(Main.java:55) [DevLaunch-1.0.1.jar:?]
+Caused by: java.lang.ClassNotFoundException: The specified mixin 'com.cbcatfix.mixin.RocketRendererMixin' was not found
+	at MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinInfo.loadMixinClass(MixinInfo.java:1314) ~[sponge-mixin-0.15.2+mixin.0.8.7.jar:0.15.2+mixin.0.8.7]
+	at MC-BOOTSTRAP/org.spongepowered.mixin/org.spongepowered.asm.mixin.transformer.MixinInfo.<init>(MixinInfo.java:857) ~[sponge-mixin-0.15.2+mixin.0.8.7.jar:0.15.2+mixin.0.8.7]
+	... 36 more

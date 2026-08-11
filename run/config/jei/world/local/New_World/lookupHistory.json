@@ -1,0 +1,15 @@
+[
+  {"version":1},
+  {"ingredient":{"id":"cbc_at:ha_he_item"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"cbc_at:ha_hef_item"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"cbc_at:medium_ap_rocket_item","components":{"cbc_at:rocket_fuel":36}},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"cbc_at:ha_heat_item"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"cbc_at:medium_hef_rocket_item","components":{"cbc_at:rocket_fuel":36}},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"cbc_at:medium_heat_rocket_item","components":{"cbc_at:rocket_fuel":36}},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"createbigcannons:gunpowder_pinch"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"cbc_at:wrought_iron_medium_rocket_rail"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"cbc_at:wrought_iron_medium_rocket_rail_breech"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"cbc_at:rocket_pod_rail_mould"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"cbc_at:unbored_cast_iron_rocket_pod_rail"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"cbc_at:cast_iron_rocket_pod_rail"},"type":"item_stack","bookmarkType":"INGREDIENT"}
+]

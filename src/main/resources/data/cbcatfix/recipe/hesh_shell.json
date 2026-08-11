@@ -1,0 +1,29 @@
+{
+  "type": "create:mechanical_crafting",
+  "accept_mirrored": true,
+  "category": "misc",
+  "pattern": [
+    " C ",
+    "CTC",
+    "CPC",
+    " S "
+  ],
+  "key": {
+    "C": {
+      "item": "createbigcannons:cast_iron_ingot"
+    },
+    "T": {
+      "item": "minecraft:tnt"
+    },
+    "P": {
+      "item": "minecraft:clay_ball"
+    },
+    "S": {
+      "tag": "minecraft:wooden_slabs"
+    }
+  },
+  "result": {
+    "id": "cbcatfix:hesh_shell",
+    "count": 1
+  }
+}

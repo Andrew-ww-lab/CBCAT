@@ -1,0 +1,22 @@
+{
+  "block.cbcatfix.flak_shell": "Зенітний снаряд",
+  "block.cbcatfix.heavy_he_shell": "Важкий фугасний снаряд",
+  "block.cbcatfix.heat_shell": "Кумулятивний снаряд",
+  "block.cbcatfix.hesh_shell": "Бронебійно-фугасний снаряд",
+  "block.cbcatfix.big_rocket_rail": "Рельса великої ракети",
+  "block.cbcatfix.big_rocket_rail_breech": "Кінець рельси великої ракети",
+
+  "item.cbcatfix.flak_shell": "Зенітний снаряд",
+  "item.cbcatfix.heavy_he_shell": "Важкий фугасний снаряд",
+  "item.cbcatfix.heat_shell": "Кумулятивний снаряд",
+  "item.cbcatfix.hesh_shell": "Бронебійно-фугасний снаряд",
+  "item.cbcatfix.big_rocket": "Велика ракета",
+  "item.cbcatfix.big_rocket_rail": "Рельса великої ракети",
+  "item.cbcatfix.big_rocket_rail_breech": "Кінець рельси великої ракети",
+
+  "entity.cbcatfix.flak_shell": "Зенітний снаряд",
+  "entity.cbcatfix.heavy_he_shell": "Важкий фугасний снаряд",
+  "entity.cbcatfix.heat_shell": "Кумулятивний снаряд",
+  "entity.cbcatfix.hesh_shell": "Бронебійно-фугасний снаряд",
+  "entity.cbcatfix.big_rocket": "Велика ракета"
+}

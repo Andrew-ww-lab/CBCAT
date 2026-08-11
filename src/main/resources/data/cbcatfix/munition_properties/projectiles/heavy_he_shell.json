@@ -1,0 +1,21 @@
+{
+  "entity_damage": 30.0,
+  "durability_mass": 4.0,
+  "renders_invulnerable": false,
+  "ignores_invulnerability": true,
+  "ignores_entity_armor": true,
+  "gravity": -0.07,
+  "drag": 0.015,
+  "quadratic_drag": false,
+  "knockback": 3,
+  "added_charge_power": 0,
+  "minimum_charge_power": 1.0,
+  "can_squib": true,
+  "added_recoil": 2.0,
+  "base_fuze": true,
+  "entity_damaging_explosive_power": 12,
+  "block_damaging_explosive_power": 8,
+  "penetration": 1,
+  "toughness": 1,
+  "deflection": 0.70
+}
