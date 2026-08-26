@@ -6,7 +6,7 @@ entityDistanceScaling:1.0
 entityShadows:true
 forceUnicodeFont:false
 japaneseGlyphVariants:false
-fov:1.0
+fov:0.5
 fovEffectScale:1.0
 darknessEffectScale:1.0
 glintSpeed:0.5
@@ -44,7 +44,7 @@ toggleSprint:false
 darkMojangStudiosBackground:false
 hideLightningFlashes:false
 hideSplashTexts:false
-mouseSensitivity:0.10299295774647887
+mouseSensitivity:0.5017605633802817
 damageTiltStrength:1.0
 highContrast:false
 narratorHotkey:true
