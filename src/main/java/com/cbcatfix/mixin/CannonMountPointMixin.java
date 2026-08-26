@@ -55,8 +55,8 @@ public class CannonMountPointMixin {
         if (contraption instanceof MountedMediumRocketRailContraption) {
             var breechPos = contraption.getStartPos();
             var breechBE = contraption.presentBlockEntities.get(breechPos);
-            if (breechBE != null) {
-                boolean isBigBreech = ((IMediumRocketPodBreechBlockEntity) breechBE).cbcatfix$isBigBreech();
+            if (breechBE instanceof IMediumRocketPodBreechBlockEntity breech) {
+                boolean isBigBreech = breech.cbcatfix$isBigBreech();
                 if (stack.getItem() instanceof BigHERocketItem || stack.getItem() instanceof BigAPRocketItem || stack.getItem() instanceof BigHEATRocketItem) {
                     if (!isBigBreech) {
                         cir.setReturnValue(stack); // Reject! Not a big breech.
@@ -68,6 +68,9 @@ public class CannonMountPointMixin {
                         return;
                     }
                 }
+            } else if (breechBE != null) {
+                cir.setReturnValue(stack);
+                return;
             }
 
             if (contraption instanceof ItemCannon) {

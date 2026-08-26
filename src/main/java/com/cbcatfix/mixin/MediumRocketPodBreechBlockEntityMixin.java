@@ -46,12 +46,9 @@ public abstract class MediumRocketPodBreechBlockEntityMixin implements IMediumRo
             return true;
         }
         BlockState state = breech.getBlockState();
-        if (state != null && state.getBlock() != null) {
-            String descId = state.getBlock().getDescriptionId();
-            if (descId.endsWith("big_rocket_rail_breech")) {
-                this.cbcatfix$isBigBreech = true;
-                return true;
-            }
+        if (state != null && state.is(CbcatFixMunitions.BIG_ROCKET_RAIL_BREECH.get())) {
+            this.cbcatfix$isBigBreech = true;
+            return true;
         }
         
         return false;

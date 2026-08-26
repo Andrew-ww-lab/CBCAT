@@ -72,7 +72,13 @@ public class ClusterMunitionAssemblyRecipeMixin {
             return;
         }
 
-        cir.setReturnValue(!slab.isEmpty() && !gunpowder.isEmpty() && projectiles.size() >= 4);
+        if (slab.isEmpty() || gunpowder.isEmpty() || projectiles.size() < 4) {
+            cir.setReturnValue(false);
+            return;
+        }
+
+        Item projectileItem = projectiles.getFirst().getItem();
+        cir.setReturnValue(projectiles.stream().allMatch(projectile -> projectile.getItem() == projectileItem));
     }
 
     @Inject(method = "assemble(Lnet/minecraft/world/item/crafting/CraftingInput;Lnet/minecraft/core/HolderLookup$Provider;)Lnet/minecraft/world/item/ItemStack;", at = @At("HEAD"), cancellable = true)
