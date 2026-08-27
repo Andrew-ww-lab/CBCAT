@@ -25,6 +25,7 @@
     "MediumRocketPodBreechRendererMixin",
     "AbstractMediumRocketMixin",
     "BlockMixin",
+    "PlayerMiningMixin",
     "PitchOrientedContraptionEntityMixin",
     "MediumRocketPodBreechInstanceMixin",
     "CustomPropellantContextMixin",

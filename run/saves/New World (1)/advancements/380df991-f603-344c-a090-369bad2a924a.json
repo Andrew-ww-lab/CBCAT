@@ -1,0 +1,46 @@
+{
+  "minecraft:recipes/decorations/crafting_table": {
+    "criteria": {
+      "unlock_right_away": "2026-08-27 16:16:42 +0200"
+    },
+    "done": true
+  },
+  "minecraft:adventure/adventuring_time": {
+    "criteria": {
+      "minecraft:cherry_grove": "2026-08-27 16:19:45 +0200",
+      "minecraft:sunflower_plains": "2026-08-27 16:16:43 +0200"
+    },
+    "done": false
+  },
+  "create:root": {
+    "criteria": {
+      "0": "2026-08-27 16:20:23 +0200"
+    },
+    "done": true
+  },
+  "simulated:root": {
+    "criteria": {
+      "0": "2026-08-27 16:20:23 +0200"
+    },
+    "done": true
+  },
+  "aeronautics:root": {
+    "criteria": {
+      "0": "2026-08-27 16:20:23 +0200"
+    },
+    "done": true
+  },
+  "createbigcannons:recipes/misc/steel_ingot_from_nuggets": {
+    "criteria": {
+      "has_steel_scrap": "2026-08-27 16:24:59 +0200"
+    },
+    "done": true
+  },
+  "minecraft:recipes/misc/pink_dye_from_pink_petals": {
+    "criteria": {
+      "has_pink_petals": "2026-08-27 16:28:16 +0200"
+    },
+    "done": true
+  },
+  "DataVersion": 3955
+}

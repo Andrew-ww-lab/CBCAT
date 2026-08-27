@@ -25,9 +25,9 @@
     "MediumRocketPodBreechRendererMixin",
     "AbstractMediumRocketMixin",
     "BlockMixin",
+    "PlayerMiningMixin",
     "PitchOrientedContraptionEntityMixin",
     "MediumRocketPodBreechInstanceMixin",
-    "CBCATJEIMixin",
     "CustomPropellantContextMixin",
     "AbstractRocketMixin",
     "BlockStateBaseMixin",
@@ -36,7 +36,9 @@
     "AbstractRocketFlightMixin",
     "AbstractMediumRocketFlightMixin"
   ],
-  "client": [],
+  "client": [
+    "CBCATJEIMixin"
+  ],
   "server": [],
   "injectors": {
     "defaultRequire": 1

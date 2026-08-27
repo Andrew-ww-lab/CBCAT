@@ -1,2 +1,23 @@
 /gamemode survival
 /gamemode creative
+/time set day
+/difficulty peaceful
+/gamemode survival
+/gamemode creative
+/gamemode survival
+/gamemode creative
+/gamemode survival
+/clear @s createbigcannons:bronze_scrap 0
+/setblock ~ ~ ~2 cbc_at:bronze_twin_autocannon_barrel
+/loot give @s mine ~ ~ ~2 mainhand
+/loot give @s mine ~ ~ ~2 minecraft:diamond_pickaxe
+/gamemode survival
+/time set
+/time set day
+/difficulty peaceful
+/gamemode creative
+/gamemode survival
+/setblock ~ ~ ~2 cbc_at:bronze_rocket_pod_rail
+/execute if block ~ ~ ~2 #minecraft:mineable/pickaxe if block ~ ~ ~2 #minecraft:needs_iron_tool run tellraw @s "SMALL_LAUNCHER_TAG_OK"
+/setblock ~ ~ ~2 cbc_at:wrought_iron_medium_rocket_rail
+/execute if block ~ ~ ~2 #minecraft:mineable/pickaxe if block ~ ~ ~2 #minecraft:needs_iron_tool run tellraw @s "MEDIUM_LAUNCHER_TAG_OK"

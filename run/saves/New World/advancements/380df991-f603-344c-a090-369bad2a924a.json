@@ -96,15 +96,51 @@
     },
     "done": true
   },
-  "createbigcannons:recipes/misc/wrought_iron_cannon_end": {
-    "criteria": {
-      "has_gunpowder": "2026-08-26 21:21:00 +0200"
-    },
-    "done": true
-  },
   "create:recipes/misc/crafting/appliances/crafting_blueprint": {
     "criteria": {
       "has_item": "2026-08-26 21:18:20 +0200"
+    },
+    "done": true
+  },
+  "minecraft:story/root": {
+    "criteria": {
+      "crafting_table": "2026-08-26 21:18:20 +0200"
+    },
+    "done": true
+  },
+  "createbigcannons:recipes/building_blocks/cast_iron_nugget": {
+    "criteria": {
+      "has_cast_iron_ingot": "2026-08-26 21:20:11 +0200"
+    },
+    "done": true
+  },
+  "createbigcannons:recipes/building_blocks/cast_iron_block": {
+    "criteria": {
+      "has_cast_iron_ingot": "2026-08-26 21:20:11 +0200"
+    },
+    "done": true
+  },
+  "createbigcannons:recipes/misc/cast_iron_sliding_breechblock": {
+    "criteria": {
+      "has_cast_iron_ingot": "2026-08-26 21:20:11 +0200"
+    },
+    "done": true
+  },
+  "createbigcannons:recipes/misc/ap_autocannon_round": {
+    "criteria": {
+      "has_cast_iron": "2026-08-26 21:20:11 +0200"
+    },
+    "done": true
+  },
+  "createbigcannons:recipes/misc/ap_shot": {
+    "criteria": {
+      "has_cast_iron_ingot": "2026-08-26 21:20:11 +0200"
+    },
+    "done": true
+  },
+  "createbigcannons:recipes/misc/wrought_iron_cannon_end": {
+    "criteria": {
+      "has_gunpowder": "2026-08-26 21:21:00 +0200"
     },
     "done": true
   },
@@ -132,12 +168,6 @@
     },
     "done": true
   },
-  "createbigcannons:recipes/building_blocks/cast_iron_nugget": {
-    "criteria": {
-      "has_cast_iron_ingot": "2026-08-26 21:20:11 +0200"
-    },
-    "done": true
-  },
   "createbigcannons:recipes/misc/wrought_iron_cannon_chamber": {
     "criteria": {
       "has_gunpowder": "2026-08-26 21:21:00 +0200"
@@ -147,12 +177,6 @@
   "createbigcannons:recipes/misc/powder_charge": {
     "criteria": {
       "has_gunpowder": "2026-08-26 21:21:00 +0200"
-    },
-    "done": true
-  },
-  "createbigcannons:recipes/building_blocks/cast_iron_block": {
-    "criteria": {
-      "has_cast_iron_ingot": "2026-08-26 21:20:11 +0200"
     },
     "done": true
   },
@@ -168,27 +192,9 @@
     },
     "done": true
   },
-  "createbigcannons:recipes/misc/cast_iron_sliding_breechblock": {
-    "criteria": {
-      "has_cast_iron_ingot": "2026-08-26 21:20:11 +0200"
-    },
-    "done": true
-  },
-  "createbigcannons:recipes/misc/ap_autocannon_round": {
-    "criteria": {
-      "has_cast_iron": "2026-08-26 21:20:11 +0200"
-    },
-    "done": true
-  },
   "createbigcannons:recipes/misc/machine_gun_round": {
     "criteria": {
       "has_gunpowder": "2026-08-26 21:21:00 +0200"
-    },
-    "done": true
-  },
-  "createbigcannons:recipes/misc/ap_shot": {
-    "criteria": {
-      "has_cast_iron_ingot": "2026-08-26 21:20:11 +0200"
     },
     "done": true
   },
@@ -228,9 +234,15 @@
     },
     "done": true
   },
-  "minecraft:story/root": {
+  "create:wrench_goggles": {
     "criteria": {
-      "crafting_table": "2026-08-26 21:18:20 +0200"
+      "0": "2026-08-27 15:41:34 +0200"
+    },
+    "done": false
+  },
+  "createbigcannons:recipes/misc/bronze_ingot_from_nuggets": {
+    "criteria": {
+      "has_bronze_scrap": "2026-08-27 15:56:30 +0200"
     },
     "done": true
   },
