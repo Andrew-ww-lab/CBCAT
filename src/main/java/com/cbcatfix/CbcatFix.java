@@ -27,6 +27,7 @@ public class CbcatFix {
         LOGGER.info("[CBCAT Fix] Loaded — ControlPitchContraption.onRecoil compatibility patch active.");
         LOGGER.info("[CBCAT Fix] cbc_at cannons should no longer crash on fire.");
 
+        initializeCbcatRecipeSerializers();
         SOUNDS.register(modEventBus);
         com.cbcatfix.munitions.CbcatFixMunitions.register(modEventBus);
 
@@ -88,6 +89,11 @@ public class CbcatFix {
         } catch (Exception e) {
             LOGGER.error("Failed to inject items into CBCAT creative mode tab", e);
         }
+    }
+
+    private static void initializeCbcatRecipeSerializers() {
+        int recipeSerializerCount = com.dsvv.cbcat.registry.RecipeRegister.values().length;
+        LOGGER.info("[CBCAT Fix] Initialized {} cbc_at recipe serializers before registry events.", recipeSerializerCount);
     }
 
     private static boolean isClientDist() {

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "cbc_at:heavy_autocannon_silencer_mould"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}
