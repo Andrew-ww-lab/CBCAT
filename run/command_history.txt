@@ -21,3 +21,9 @@
 /execute if block ~ ~ ~2 #minecraft:mineable/pickaxe if block ~ ~ ~2 #minecraft:needs_iron_tool run tellraw @s "SMALL_LAUNCHER_TAG_OK"
 /setblock ~ ~ ~2 cbc_at:wrought_iron_medium_rocket_rail
 /execute if block ~ ~ ~2 #minecraft:mineable/pickaxe if block ~ ~ ~2 #minecraft:needs_iron_tool run tellraw @s "MEDIUM_LAUNCHER_TAG_OK"
+/gamemode creative
+/gamemode survival
+/gamemode creative
+/gamemode survival
+/gamemode creative
+/time set day

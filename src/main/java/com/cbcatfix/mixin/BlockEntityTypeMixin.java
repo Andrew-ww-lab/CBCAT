@@ -9,11 +9,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.registries.BuiltInRegistries;
 import com.cbcatfix.CbcatFix;
-import com.cbcatfix.munitions.CbcatFixMunitions;
 import com.dsvv.cbcat.registry.BlockEntityRegister;
 
 @Mixin(BlockEntityType.class)
 public class BlockEntityTypeMixin {
+
+    private static final ResourceLocation BIG_ROCKET_RAIL_ID =
+        ResourceLocation.fromNamespaceAndPath(CbcatFix.MOD_ID, "big_rocket_rail");
+    private static final ResourceLocation BIG_ROCKET_RAIL_BREECH_ID =
+        ResourceLocation.fromNamespaceAndPath(CbcatFix.MOD_ID, "big_rocket_rail_breech");
 
     @Inject(method = "isValid", at = @At("HEAD"), cancellable = true)
     private void onIsValid(BlockState state, CallbackInfoReturnable<Boolean> cir) {
@@ -22,8 +26,9 @@ public class BlockEntityTypeMixin {
         }
 
         BlockEntityType<?> type = (BlockEntityType<?>) (Object) this;
-        boolean isBigRail = state.is(CbcatFixMunitions.BIG_ROCKET_RAIL.get());
-        boolean isBigRailBreech = state.is(CbcatFixMunitions.BIG_ROCKET_RAIL_BREECH.get());
+        ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(state.getBlock());
+        boolean isBigRail = BIG_ROCKET_RAIL_ID.equals(blockId);
+        boolean isBigRailBreech = BIG_ROCKET_RAIL_BREECH_ID.equals(blockId);
         if (!isBigRail && !isBigRailBreech) {
             return;
         }
