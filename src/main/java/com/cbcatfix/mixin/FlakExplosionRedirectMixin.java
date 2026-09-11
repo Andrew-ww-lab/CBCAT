@@ -35,7 +35,7 @@ public class FlakExplosionRedirectMixin {
     ) {
         float finalSize = size;
         if (RocketDetonationContext.get()) {
-            finalSize = size * 2.0f; // Scale rocket flak explosions by 2.0
+            finalSize = size * RocketDetonationContext.scale();
         }
         return new FlakExplosion(level, entity, damageSource, x, y, z, finalSize, finalSize, blockInteraction);
     }

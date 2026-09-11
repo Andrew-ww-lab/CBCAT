@@ -20,6 +20,9 @@ public class FuzedBlockEntityMixin {
     @Inject(method = "setFuze", at = @At("RETURN"), remap = false)
     private void cbcatfix$onSetFuze(ItemStack fuze, CallbackInfo ci) {
         FuzedBlockEntity be = (FuzedBlockEntity) (Object) this;
+        // RocketBlockEntity swaps CBC's selected-slot view while ticking a stack.
+        // Selection is not a mutation; actual edits already use notifyUpdate().
+        if (be instanceof com.cbcatfix.rocket.RocketBlockEntity) return;
         be.setChanged();
         if (be.getLevel() != null && !be.getLevel().isClientSide()) {
             be.getLevel().sendBlockUpdated(be.getBlockPos(), be.getBlockState(), be.getBlockState(), 3);

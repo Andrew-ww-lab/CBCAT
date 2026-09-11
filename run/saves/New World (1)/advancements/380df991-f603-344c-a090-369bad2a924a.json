@@ -42,21 +42,9 @@
     },
     "done": true
   },
-  "createbigcannons:recipes/misc/cannon_drill": {
+  "minecraft:recipes/brewing/cauldron": {
     "criteria": {
-      "has_piston_extension_pole": "2026-08-27 17:16:13 +0200"
-    },
-    "done": true
-  },
-  "minecraft:recipes/decorations/chest": {
-    "criteria": {
-      "has_lots_of_items": "2026-08-27 17:12:45 +0200"
-    },
-    "done": true
-  },
-  "createbigcannons:recipes/misc/nethersteel_ingot_from_nuggets": {
-    "criteria": {
-      "has_nethersteel_nugget": "2026-08-27 17:22:21 +0200"
+      "has_water_bucket": "2026-08-27 17:11:15 +0200"
     },
     "done": true
   },
@@ -66,9 +54,27 @@
     },
     "done": true
   },
+  "create:recipes/misc/crafting/kinetics/vertical_gearbox": {
+    "criteria": {
+      "has_item": "2026-08-27 17:11:37 +0200"
+    },
+    "done": true
+  },
+  "minecraft:recipes/decorations/chest": {
+    "criteria": {
+      "has_lots_of_items": "2026-08-27 17:12:45 +0200"
+    },
+    "done": true
+  },
   "create:mechanical_pump_0": {
     "criteria": {
       "0": "2026-08-27 17:14:38 +0200"
+    },
+    "done": true
+  },
+  "createbigcannons:recipes/misc/cannon_drill": {
+    "criteria": {
+      "has_piston_extension_pole": "2026-08-27 17:16:13 +0200"
     },
     "done": true
   },
@@ -84,15 +90,27 @@
     },
     "done": true
   },
-  "minecraft:recipes/brewing/cauldron": {
+  "createbigcannons:recipes/misc/nethersteel_ingot_from_nuggets": {
     "criteria": {
-      "has_water_bucket": "2026-08-27 17:11:15 +0200"
+      "has_nethersteel_nugget": "2026-08-27 17:22:21 +0200"
     },
     "done": true
   },
-  "create:recipes/misc/crafting/kinetics/vertical_gearbox": {
+  "createbigcannons:recipes/misc/delayed_inertia_fuze": {
     "criteria": {
-      "has_item": "2026-08-27 17:11:37 +0200"
+      "has_inertia_fuze": "2026-09-01 08:51:31 +0200"
+    },
+    "done": true
+  },
+  "simulated:applied_kinematics": {
+    "criteria": {
+      "0": "2026-09-01 08:52:01 +0200"
+    },
+    "done": true
+  },
+  "simulated:recipes/misc/contraption_diagram": {
+    "criteria": {
+      "has_ingredient": "2026-09-01 08:52:01 +0200"
     },
     "done": true
   },

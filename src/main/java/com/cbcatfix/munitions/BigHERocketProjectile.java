@@ -9,7 +9,10 @@ import com.dsvv.cbcat.registry.EntityRegister;
 import rbasamoyai.createbigcannons.config.CBCConfigs;
 import rbasamoyai.createbigcannons.CreateBigCannons;
 import rbasamoyai.createbigcannons.munitions.ShellExplosion;
-import com.cbcatfix.CbcatFixHelper;
+import rbasamoyai.createbigcannons.index.CBCEntityTypes;
+import rbasamoyai.createbigcannons.index.CBCMunitionPropertiesHandlers;
+import rbasamoyai.createbigcannons.munitions.big_cannon.config.BigCannonCommonShellProperties;
+import com.cbcatfix.rocket.RocketPayloadAccess;
 
 public class BigHERocketProjectile extends AbstractMediumFuzedRocket<HA_HEProjectile> {
     public BigHERocketProjectile(EntityType<? extends BigHERocketProjectile> type, Level level) {
@@ -17,18 +20,19 @@ public class BigHERocketProjectile extends AbstractMediumFuzedRocket<HA_HEProjec
     }
 
     @Override
-    public void tick() {
-        super.tick();
-        CbcatFixHelper.spawnBigRocketParticles(this);
-    }
-
-    @Override
     protected void detonate(Position pos) {
         if (!this.level().isClientSide()) {
+            int payloadCount = ((RocketPayloadAccess) this).cbcatfix$getPayloadCount();
+            float payloadScale = payloadCount > 1 ? 1.5f : 1.0f;
+            BigCannonCommonShellProperties heProperties =
+                CBCMunitionPropertiesHandlers.COMMON_SHELL_BIG_CANNON_PROJECTILE
+                    .getPropertiesOf(CBCEntityTypes.HE_SHELL.get());
             ShellExplosion explosion = new ShellExplosion(
                 this.level(), this, this.indirectArtilleryFire(false),
                 pos.x(), pos.y(), pos.z(),
-                12.0f, 16.0f, true, // Slightly decreased explosion size (was 18/24)
+                heProperties.explosion().blockDamagePower() * payloadScale,
+                heProperties.explosion().entityDamagePower() * payloadScale,
+                false,
                 CBCConfigs.server().munitions.damageRestriction.get().explosiveInteraction()
             );
             CreateBigCannons.handleCustomExplosion(this.level(), explosion);

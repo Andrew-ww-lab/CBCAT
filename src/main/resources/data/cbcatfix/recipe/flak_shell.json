@@ -3,22 +3,29 @@
   "accept_mirrored": true,
   "category": "misc",
   "pattern": [
-    " C ",
-    "CLC",
-    "CPC",
-    " S "
+    "  C  ",
+    " ICI ",
+    "ISLSI",
+    " IPI ",
+    "  W  "
   ],
   "key": {
     "C": {
       "item": "minecraft:iron_ingot"
     },
+    "I": {
+      "tag": "c:plates/iron"
+    },
     "L": {
       "item": "createbigcannons:shot_balls"
+    },
+    "S": {
+      "item": "createbigcannons:shrapnel_shell"
     },
     "P": {
       "item": "createbigcannons:packed_guncotton"
     },
-    "S": {
+    "W": {
       "tag": "minecraft:wooden_slabs"
     }
   },

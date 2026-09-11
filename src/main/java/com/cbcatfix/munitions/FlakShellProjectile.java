@@ -20,6 +20,7 @@ import rbasamoyai.createbigcannons.munitions.big_cannon.config.BigCannonProjecti
 import rbasamoyai.createbigcannons.munitions.big_cannon.shrapnel.ShrapnelBurst;
 import rbasamoyai.createbigcannons.munitions.config.components.BallisticPropertiesComponent;
 import rbasamoyai.createbigcannons.munitions.config.components.EntityDamagePropertiesComponent;
+import com.cbcatfix.config.CbcatFixConfig;
 
 public class FlakShellProjectile extends FuzedBigCannonProjectile {
     public FlakShellProjectile(EntityType<? extends FlakShellProjectile> type, Level level) {
@@ -33,8 +34,8 @@ public class FlakShellProjectile extends FuzedBigCannonProjectile {
             this,
             this.indirectArtilleryFire(false),
             pos.x(), pos.y(), pos.z(),
-            2.0f,
-            2.0f,
+            CbcatFixConfig.FLAK_BLOCK_POWER.get().floatValue(),
+            CbcatFixConfig.FLAK_ENTITY_POWER.get().floatValue(),
             false,
             CBCConfigs.server().munitions.damageRestriction.get().explosiveInteraction()
         );
@@ -46,7 +47,7 @@ public class FlakShellProjectile extends FuzedBigCannonProjectile {
             double speedBase = this.getDeltaMovement().length();
             if (speedBase < 0.1) speedBase = 1.0;
 
-            for (int i = 0; i < 30; i++) {
+            for (int i = 0; i < CbcatFixConfig.FLAK_BURST_COUNT.get(); i++) {
                 double u = random.nextDouble();
                 double v = random.nextDouble();
                 double theta = u * 2.0 * Math.PI;
@@ -73,7 +74,7 @@ public class FlakShellProjectile extends FuzedBigCannonProjectile {
             double speedBase = this.getDeltaMovement().length();
             if (speedBase < 0.1) speedBase = 1.0;
 
-            for (int i = 0; i < 45; i++) {
+            for (int i = 0; i < CbcatFixConfig.FLAK_SHRAPNEL_COUNT.get(); i++) {
                 rbasamoyai.createbigcannons.munitions.autocannon.ap_round.APAutocannonProjectile apRound =
                     rbasamoyai.createbigcannons.index.CBCEntityTypes.AP_AUTOCANNON.get().create(this.level());
                 if (apRound != null) {
@@ -131,17 +132,17 @@ public class FlakShellProjectile extends FuzedBigCannonProjectile {
 
     @Override
     protected BigCannonProjectilePropertiesComponent getBigCannonProjectileProperties() {
-        return this.getAllProperties().bigCannonProperties();
+        return CbcatFixConfig.FLAK_SHELL.bigCannonProperties();
     }
 
     @Override
     public EntityDamagePropertiesComponent getDamageProperties() {
-        return this.getAllProperties().damage();
+        return CbcatFixConfig.FLAK_SHELL.damageProperties();
     }
 
     @Override
     protected BallisticPropertiesComponent getBallisticProperties() {
-        return this.getAllProperties().ballistics();
+        return CbcatFixConfig.FLAK_SHELL.ballisticProperties();
     }
 
     protected BigCannonCommonShellProperties getAllProperties() {

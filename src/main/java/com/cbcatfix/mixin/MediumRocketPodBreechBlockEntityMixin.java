@@ -21,22 +21,31 @@ import com.cbcatfix.munitions.BigHEATRocketItem;
 import rbasamoyai.createbigcannons.cannon_control.contraption.AbstractMountedCannonContraption;
 
 @Mixin(value = MediumRocketPodBreechBlockEntity.class, remap = false)
-public abstract class MediumRocketPodBreechBlockEntityMixin implements IMediumRocketPodBreechBlockEntity {
+public abstract class MediumRocketPodBreechBlockEntityMixin implements IMediumRocketPodBreechBlockEntity, com.cbcatfix.rocket.MountedRocketStorage, net.minecraft.world.Clearable {
 
     @Shadow(remap = false)
     protected ItemStack[] inputBuffer;
+    @Shadow(remap = false) private ItemStack outputBuffer;
+    @Shadow(remap = false) private boolean updateInstance;
 
     @Unique
     private boolean cbcatfix$isBigBreech = false;
 
-    @Unique
-    private int cbcatfix$railLength = 0;
+    @Override public void clearContent() {
+        // All four native cells must be cleared, including legacy large-rocket overflow.
+        java.util.Arrays.fill(inputBuffer, ItemStack.EMPTY);
+        outputBuffer = ItemStack.EMPTY;
+        var breech = (MediumRocketPodBreechBlockEntity) (Object) this;
+        breech.cannonBehavior().removeItem();
+        updateInstance = true;
+        breech.setChanged();
+    }
 
     @Override
     public boolean cbcatfix$isBigBreech() {
         MediumRocketPodBreechBlockEntity breech = (MediumRocketPodBreechBlockEntity) (Object) this;
         if (breech.isVirtual()) {
-            return this.cbcatfix$railLength > 0 || this.cbcatfix$isBigBreech;
+            return this.cbcatfix$isBigBreech || breech.getBlockState().is(CbcatFixMunitions.BIG_ROCKET_RAIL_BREECH.get());
         }
         int bigRailLength = CbcatFixHelper.getInWorldSpecificRailLength(breech, CbcatFixMunitions.BIG_ROCKET_RAIL.get());
         if (bigRailLength > 0) {
@@ -54,13 +63,6 @@ public abstract class MediumRocketPodBreechBlockEntityMixin implements IMediumRo
         return false;
     }
 
-    @Inject(method = "tickFromContraption", at = @At("HEAD"))
-    private void onTickFromContraption(Level level, rbasamoyai.createbigcannons.cannon_control.contraption.PitchOrientedContraptionEntity entity, BlockPos pos, CallbackInfo ci) {
-        if (entity != null && entity.getContraption() instanceof AbstractMountedCannonContraption mounted) {
-            this.cbcatfix$railLength = ((AbstractMountedCannonContraptionAccessor) mounted).getFrontExtensionLength();
-        }
-    }
-
     @Override
     public boolean cbcatfix$hasAnyInput() {
         if (this.inputBuffer == null) return false;
@@ -72,9 +74,52 @@ public abstract class MediumRocketPodBreechBlockEntityMixin implements IMediumRo
         return false;
     }
 
-    @Inject(method = "read", at = @At("TAIL"))
+    @Override public int cbcatfix$slotCount() {
+        return cbcatfix$isBigBreech() ? 1 : ((MediumRocketPodBreechBlockEntity) (Object) this).getQueueLimit();
+    }
+
+    @Override public ItemStack cbcatfix$rocketInSlot(int slot) {
+        return slot >= 0 && slot < inputBuffer.length ? inputBuffer[slot] : ItemStack.EMPTY;
+    }
+
+    @Override public void cbcatfix$setRocketInSlot(int slot, ItemStack stack) {
+        if (slot < 0 || slot >= cbcatfix$slotCount()) return;
+        inputBuffer[slot] = stack.isEmpty() ? ItemStack.EMPTY : stack.copyWithCount(1);
+        cbcatfix$promoteLegacyBigRound();
+        updateInstance = true;
+        ((MediumRocketPodBreechBlockEntity) (Object) this).notifyUpdate();
+    }
+
+    @Inject(method = "read", at = @At("RETURN"))
     private void onRead(net.minecraft.nbt.CompoundTag tag, net.minecraft.core.HolderLookup.Provider provider, boolean clientPacket, CallbackInfo ci) {
         this.cbcatfix$isBigBreech = tag.getBoolean("cbcatfix$isBigBreech");
+        cbcatfix$promoteLegacyBigRound();
+    }
+
+    @Unique private void cbcatfix$promoteLegacyBigRound() {
+        if (!cbcatfix$isBigBreech() || inputBuffer.length == 0 || !inputBuffer[0].isEmpty()) return;
+        for (int slot = 1; slot < inputBuffer.length; slot++) {
+            if (!inputBuffer[slot].isEmpty()) {
+                inputBuffer[0] = inputBuffer[slot];
+                inputBuffer[slot] = ItemStack.EMPTY;
+                break;
+            }
+        }
+    }
+
+    @Inject(method = "extractNextInput", at = @At("RETURN"))
+    private void cbcatfix$syncExtraction(CallbackInfoReturnable<ItemStack> cir) {
+        if (!cir.getReturnValue().isEmpty()) {
+            cbcatfix$promoteLegacyBigRound();
+            updateInstance = true;
+            ((MediumRocketPodBreechBlockEntity) (Object) this).notifyUpdate();
+        }
+    }
+
+    @Inject(method = "extractNextInput", at = @At("HEAD"), cancellable = true)
+    private void cbcatfix$rejectTransferExtraction(CallbackInfoReturnable<ItemStack> cir) {
+        if (com.cbcatfix.rocket.LauncherTransfer.isLocked((MediumRocketPodBreechBlockEntity) (Object) this))
+            cir.setReturnValue(ItemStack.EMPTY);
     }
 
     @Inject(method = "write", at = @At("TAIL"))
@@ -84,18 +129,14 @@ public abstract class MediumRocketPodBreechBlockEntityMixin implements IMediumRo
 
     @Inject(method = "addToInputBuffer", at = @At("HEAD"), cancellable = true)
     private void onAddToInputBuffer(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-        boolean isBigBreech = this.cbcatfix$isBigBreech();
+        var inventory = new com.cbcatfix.rocket.MountedRocketItemHandler((MediumRocketPodBreechBlockEntity) (Object) this);
+        cir.setReturnValue(inventory.insertFirstAvailable(stack, false).getCount() < stack.getCount());
+    }
 
-        if (stack.getItem() instanceof BigHERocketItem || stack.getItem() instanceof BigAPRocketItem || stack.getItem() instanceof BigHEATRocketItem) {
-            if (!isBigBreech) {
-                cir.setReturnValue(false);
-                return;
-            }
-        } else if (stack.getItem() instanceof com.dsvv.cbcat.cannon.medium_rocketpod.munitions.AbstractMediumRocketItem) {
-            if (isBigBreech) {
-                cir.setReturnValue(false);
-                return;
-            }
+    @Inject(method = "isInputFull", at = @At("HEAD"), cancellable = true)
+    private void onIsInputFull(CallbackInfoReturnable<Boolean> cir) {
+        if (this.cbcatfix$isBigBreech()) {
+            cir.setReturnValue(this.cbcatfix$hasAnyInput());
         }
     }
 }

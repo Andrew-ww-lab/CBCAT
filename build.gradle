@@ -8,6 +8,57 @@ version = '1.0.0'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
+// Generate the open tube mesh from the SAME constants used for mounted slot transforms.
+def launcherGeometrySource = file('src/main/java/com/cbcatfix/rocket/RocketMounts.java')
+def launcherResources = layout.buildDirectory.dir('generated/launcherResources')
+tasks.register('generateLauncherModel') {
+    inputs.file(launcherGeometrySource)
+    outputs.dir(launcherResources)
+    doLast {
+        def source = launcherGeometrySource.text
+        def number = { name ->
+            def match = source =~ /\b${name}\s*=\s*([\d.]+);/
+            if (!match.find()) throw new GradleException("Missing launcher geometry constant ${name}")
+            Double.parseDouble(match.group(1))
+        }
+        int columns = number('SMALL_COLUMNS'), rows = number('SMALL_ROWS')
+        double pitchX = number('SMALL_COLUMN_PITCH_PX'), pitchZ = number('SMALL_ROW_PITCH_PX')
+        double halfHole = number('SMALL_HOLE_WIDTH_PX') / 2
+        def elements = []
+        def wall = { x0, z0, x1, z1 ->
+            elements.add([from: [x0, 0, z0], to: [x1, 16, z1],
+                faces: ['north','south','east','west','up','down'].collectEntries {
+                    [(it): [texture: '#0']]
+                }])
+        }
+        // Only longitudinal walls; no face ever spans a tube aperture.
+        double previous = 0
+        for (int col = 0; col < columns; col++) {
+            double center = 8 + (col - (columns - 1) * 0.5) * pitchX
+            wall(previous, 1.5, center - halfHole, 14.5)
+            previous = center + halfHole
+        }
+        wall(previous, 1.5, 16, 14.5)
+        for (int col = 0; col < columns; col++) {
+            double centerX = 8 + (col - (columns - 1) * 0.5) * pitchX
+            previous = 1.5
+            for (int row = 0; row < rows; row++) {
+                double centerZ = 8 + (row - (rows - 1) * 0.5) * pitchZ
+                wall(centerX - halfHole, previous, centerX + halfHole, centerZ - halfHole)
+                previous = centerZ + halfHole
+            }
+            wall(centerX - halfHole, previous, centerX + halfHole, 14.5)
+        }
+        def model = [parent: 'minecraft:block/block', elements: elements,
+            display: [gui: [rotation: [35,-135,0], scale: [0.625,0.625,0.625]]]]
+        def output = launcherResources.get().file('assets/cbc_at/models/block/rocket_pod/rocket_pod.json').asFile
+        output.parentFile.mkdirs()
+        output.text = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(model))
+    }
+}
+sourceSets.main.resources.srcDir(launcherResources)
+tasks.named('processResources') { dependsOn('generateLauncherModel') }
+
 repositories {
     mavenCentral()
     mavenLocal()
@@ -41,7 +92,14 @@ dependencies {
     // CBC & Aeronautics Dependencies
     implementation name: "createbigcannons-5.11.7+mc.1.21.1"
     implementation name: "sable-neoforge-1.21.1-2.0.3"
+    // Public pose/target API is embedded in Sable at runtime; expose it only for compilation.
+    compileOnly files(zipTree('libs/sable-neoforge-1.21.1-2.0.3.jar').matching {
+        include 'META-INF/jarjar/sable-companion-common-*.jar'
+    })
     implementation name: "ritchiesprojectilelib-2.1.2+mc.1.21.1-neoforge"
+    // Development-only targeting validation. This is not packaged and is not a required mod dependency.
+    compileOnly("maven.modrinth:jade:15.10.6+neoforge")
+    runtimeOnly("maven.modrinth:jade:15.10.6+neoforge")
     
 
     // Local Mods in libs/ folder
@@ -58,6 +116,10 @@ neoForge {
             systemProperty 'neoforge.logging.console.level', 'debug'
             systemProperty 'mixin.debug.verbose', 'true'
             systemProperty 'mixin.debug.export', 'true'
+            if (project.hasProperty('quickPlayWorld')) {
+                programArgument '--quickPlaySingleplayer'
+                programArgument project.property('quickPlayWorld').toString()
+            }
         }
         server {
             server()

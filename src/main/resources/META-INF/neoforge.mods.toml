@@ -42,5 +42,26 @@ This mod injects the missing bridge method via Mixin.
     ordering = "AFTER"
     side = "BOTH"
 
+[[dependencies.cbcatfix]]
+    modId = "create_radar"
+    type = "optional"
+    versionRange = "[0.4.4,)"
+    ordering = "AFTER"
+    side = "BOTH"
+
+[[dependencies.cbcatfix]]
+    modId = "sable"
+    type = "optional"
+    versionRange = "[2.0.3,)"
+    ordering = "AFTER"
+    side = "BOTH"
+
+[[dependencies.cbcatfix]]
+    modId = "jade"
+    type = "optional"
+    versionRange = "[15.10,)"
+    ordering = "AFTER"
+    side = "CLIENT"
+
 [[mixins]]
     config = "cbcatfix.mixins.json"

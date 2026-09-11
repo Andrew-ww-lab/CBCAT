@@ -1,22 +1,48 @@
 package com.cbcatfix;
 
-public class RocketDetonationContext {
-    private static final ThreadLocal<Integer> DETONATION_DEPTH = ThreadLocal.withInitial(() -> 0);
+import java.util.ArrayDeque;
+import java.util.Deque;
+import com.cbcatfix.rocket.RocketBalance;
+import net.minecraft.world.phys.Vec3;
 
-    public static void enter() {
-        DETONATION_DEPTH.set(DETONATION_DEPTH.get() + 1);
+public class RocketDetonationContext {
+    private static final ThreadLocal<Deque<DetonationData>> DETONATIONS = ThreadLocal.withInitial(ArrayDeque::new);
+
+    public static void enter(int payloadCount, Vec3 direction, RocketBalance.Tier tier) {
+        float payloadScale = payloadCount > 1 ? 1.5f : 1.0f;
+        Vec3 safeDirection = direction.lengthSqr() > 1.0e-8 ? direction.normalize() : Vec3.ZERO;
+        DETONATIONS.get().push(new DetonationData(payloadScale, safeDirection, tier));
     }
 
     public static void exit() {
-        int depth = DETONATION_DEPTH.get() - 1;
-        if (depth > 0) {
-            DETONATION_DEPTH.set(depth);
-        } else {
-            DETONATION_DEPTH.remove();
+        Deque<DetonationData> detonations = DETONATIONS.get();
+        if (!detonations.isEmpty()) {
+            detonations.pop();
+        }
+        if (detonations.isEmpty()) {
+            DETONATIONS.remove();
         }
     }
 
     public static boolean get() {
-        return DETONATION_DEPTH.get() > 0;
+        return !DETONATIONS.get().isEmpty();
+    }
+
+    public static float scale() {
+        Deque<DetonationData> detonations = DETONATIONS.get();
+        return detonations.isEmpty() ? 1.0f : detonations.peek().scale();
+    }
+
+    public static Vec3 direction() {
+        Deque<DetonationData> detonations = DETONATIONS.get();
+        return detonations.isEmpty() ? Vec3.ZERO : detonations.peek().direction();
+    }
+
+    public static RocketBalance.Tier tier() {
+        Deque<DetonationData> detonations = DETONATIONS.get();
+        return detonations.isEmpty() ? null : detonations.peek().tier();
+    }
+
+    private record DetonationData(float scale, Vec3 direction, RocketBalance.Tier tier) {
     }
 }

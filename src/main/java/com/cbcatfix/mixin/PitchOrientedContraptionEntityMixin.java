@@ -7,18 +7,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import rbasamoyai.createbigcannons.cannon_control.contraption.PitchOrientedContraptionEntity;
 import rbasamoyai.createbigcannons.cannon_control.contraption.AbstractMountedCannonContraption;
 import rbasamoyai.createbigcannons.cannons.big_cannons.BigCannonBlock;
-import com.dsvv.cbcat.cannon.medium_rocketpod.MediumRocketPodBarrelBlock;
-import com.dsvv.cbcat.cannon.medium_rocketpod.breech.MediumRocketPodBreechBlock;
-import com.dsvv.cbcat.cannon.medium_rocketpod.breech.MediumRocketPodBreechBlockEntity;
-import com.cbcatfix.CbcatFix;
+
+
+
+
 
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+
 import net.minecraft.world.InteractionHand;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
+
+
 
 @Mixin(value = PitchOrientedContraptionEntity.class, remap = false)
 public class PitchOrientedContraptionEntityMixin {
@@ -34,35 +34,28 @@ public class PitchOrientedContraptionEntityMixin {
         PitchOrientedContraptionEntity entity = (PitchOrientedContraptionEntity) (Object) this;
         var contraption = entity.getContraption();
         if (contraption instanceof AbstractMountedCannonContraption mounted) {
-            var blockInfo = contraption.getBlocks().get(localPos);
-            if (blockInfo != null && (blockInfo.state().getBlock() instanceof MediumRocketPodBarrelBlock || blockInfo.state().getBlock() instanceof MediumRocketPodBreechBlock)) {
-                ItemStack stack = player.getItemInHand(hand);
-                if (stack.getItem() instanceof com.dsvv.cbcat.cannon.medium_rocketpod.munitions.AbstractMediumRocketItem) {
-                    if (player.getCooldowns().isOnCooldown(stack.getItem())) {
-                        cir.setReturnValue(false);
-                        return;
+            BlockPos selectedBreechPos = com.cbcatfix.rocket.LauncherAssembly.findBreech(mounted, localPos);
+            if (selectedBreechPos == null) return;
+            var mountedBreech = mounted.presentBlockEntities.get(selectedBreechPos);
+            if (mountedBreech instanceof com.cbcatfix.rocket.MountedRocketStorage) {
+                var base = net.minecraft.world.phys.Vec3.atLowerCornerOf(selectedBreechPos);
+                var eye = player.getEyePosition();
+                var localStart = com.cbcatfix.rocket.RocketMounts.toLocal(entity, eye).subtract(base);
+                var localEnd = com.cbcatfix.rocket.RocketMounts.toLocal(entity,
+                    eye.add(player.getViewVector(1).scale(player.blockInteractionRange()))).subtract(base);
+                boolean loading = com.cbcatfix.rocket.RocketGroundPlacement.isRocket(player.getItemInHand(hand));
+                var selection = com.cbcatfix.rocket.MountedRocketInteraction.select(mountedBreech, localStart, localEnd, loading);
+                if (com.cbcatfix.rocket.MountedRocketInteraction.interact(mountedBreech, selection, player, hand)) {
+                    if (!player.level().isClientSide()) {
+                        var info = mounted.getBlocks().get(selectedBreechPos);
+                        if (info != null) BigCannonBlock.writeAndSyncSingleBlockData(mountedBreech, info, entity, mounted);
                     }
-
-                    BlockPos breechPos = mounted.getStartPos();
-                    BlockEntity breechBE = mounted.presentBlockEntities.get(breechPos);
-                    var breechInfo = mounted.getBlocks().get(breechPos);
-                    if (breechBE instanceof MediumRocketPodBreechBlockEntity breech) {
-                        if (breech.addToInputBuffer(stack)) {
-                            Level level = player.level();
-                            if (!level.isClientSide()) {
-                                if (breechInfo != null) {
-                                    BigCannonBlock.writeAndSyncSingleBlockData(breech, breechInfo, entity, contraption);
-                                }
-                                if (!player.isCreative()) {
-                                    ItemStack copy = stack.copy();
-                                    copy.shrink(1);
-                                    player.setItemInHand(hand, copy);
-                                }
-                                player.getCooldowns().addCooldown(stack.getItem(), 20);
-                            }
-                            cir.setReturnValue(true);
-                        }
-                    }
+                    cir.setReturnValue(true);
+                    return;
+                }
+                if (loading) {
+                    cir.setReturnValue(false); // Never fall through to native "fill next slot" handling.
+                    return;
                 }
             }
         }

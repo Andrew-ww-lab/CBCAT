@@ -8,16 +8,12 @@ import com.cbcatfix.munitions.CbcatFixMunitions;
 import rbasamoyai.createbigcannons.munitions.big_cannon.FuzedBlockEntityRenderer;
 import rbasamoyai.createbigcannons.munitions.big_cannon.FuzedBlockVisual;
 import dev.engine_room.flywheel.lib.visualization.SimpleBlockEntityVisualizer;
-import dev.engine_room.flywheel.lib.model.baked.PartialModel;
-import net.minecraft.resources.ResourceLocation;
 
 public class ClientSetup {
 
-    public static final PartialModel BIG_ROCKET_MODEL = 
-        PartialModel.of(ResourceLocation.fromNamespaceAndPath("cbcatfix", "block/big_rocket"));
-
     @SubscribeEvent
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(com.dsvv.cbcat.registry.BlockEntityRegister.ROCKET_POD_BREECH_BLOCK_ENTITY.get(), MountedRocketRenderer::new);
         event.registerBlockEntityRenderer(CbcatFixMunitions.FUZED_BLOCK_ENTITY.get(), FuzedBlockEntityRenderer::new);
         try {
             event.registerBlockEntityRenderer(com.dsvv.cbcat.registry.BlockEntityRegister.FUZED_PROJECTILE_CARTRIDGE_BLOCK_ENTITY.get(), FuzedBlockEntityRenderer::new);

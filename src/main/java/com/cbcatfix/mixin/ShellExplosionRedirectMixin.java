@@ -38,7 +38,7 @@ public class ShellExplosionRedirectMixin {
     ) {
         float finalSize = size;
         if (RocketDetonationContext.get()) {
-            finalSize = size * 2.0f; // Scale rocket HE explosions by 2.0
+            finalSize = size * RocketDetonationContext.scale();
         }
         return new ShellExplosion(level, entity, damageSource, x, y, z, finalSize, finalSize, fire, blockInteraction);
     }

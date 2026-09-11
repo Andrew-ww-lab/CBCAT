@@ -44,6 +44,16 @@ public class CbcatFixMunitions {
         () -> new BigRocketRailBreechBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(2.0f),
             rbasamoyai.createbigcannons.index.CBCAutocannonMaterials.STEEL)
     );
+    public static final DeferredHolder<Block, com.cbcatfix.rocket.RocketBlock> ROCKET_BLOCK = BLOCKS.register("rocket",
+        () -> new com.cbcatfix.rocket.RocketBlock(
+            BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(2.0f).noOcclusion()
+        )
+    );
+    public static final DeferredHolder<Block, com.cbcatfix.rocket.RocketBodyExtensionBlock> ROCKET_BODY_EXTENSION = BLOCKS.register("rocket_body_extension",
+        () -> new com.cbcatfix.rocket.RocketBodyExtensionBlock(
+            BlockBehaviour.Properties.of().mapColor(MapColor.NONE).strength(2.0f).noOcclusion()
+        )
+    );
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CbcatFixFuzedBlockEntity>> FUZED_BLOCK_ENTITY = BLOCK_ENTITY_TYPES.register("fuzed_block_entity",
         () -> BlockEntityType.Builder.of(
             (pos, state) -> new CbcatFixFuzedBlockEntity(pos, state),
@@ -51,6 +61,12 @@ public class CbcatFixMunitions {
             HEAVY_HE_SHELL.get(),
             HEAT_SHELL.get(),
             HESH_SHELL.get()
+        ).build(null)
+    );
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<com.cbcatfix.rocket.RocketBlockEntity>> ROCKET_BLOCK_ENTITY = BLOCK_ENTITY_TYPES.register("rocket",
+        () -> BlockEntityType.Builder.of(
+            (pos, state) -> new com.cbcatfix.rocket.RocketBlockEntity(pos, state),
+            ROCKET_BLOCK.get()
         ).build(null)
     );
     public static final DeferredHolder<EntityType<?>, EntityType<FlakShellProjectile>> FLAK_SHELL_PROJECTILE = ENTITY_TYPES.register("flak_shell",
@@ -109,6 +125,21 @@ public class CbcatFixMunitions {
             .updateInterval(1)
             .build("big_heat_rocket")
     );
+    public static final DeferredHolder<EntityType<?>, EntityType<com.cbcatfix.rocket.RocketBlockProjectile>> ROCKET_BLOCK_PROJECTILE = ENTITY_TYPES.register("rocket_block_projectile",
+        () -> EntityType.Builder.<com.cbcatfix.rocket.RocketBlockProjectile>of(com.cbcatfix.rocket.RocketBlockProjectile::new, MobCategory.MISC)
+            .sized(0.25f, 0.25f)
+            .fireImmune()
+            .clientTrackingRange(16)
+            .updateInterval(1)
+            .build("rocket_block_projectile")
+    );
+    public static final DeferredHolder<Item, Item> SMALL_ROCKET_PROPELLANT = ITEMS.register("small_rocket_propellant",
+        () -> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item, Item> MEDIUM_ROCKET_PROPELLANT = ITEMS.register("medium_rocket_propellant",
+        () -> new Item(new Item.Properties()));
+    public static final DeferredHolder<Item, Item> LARGE_ROCKET_PROPELLANT = ITEMS.register("large_rocket_propellant",
+        () -> new Item(new Item.Properties()));
+
     public static final DeferredHolder<Item, FuzedProjectileBlockItem> FLAK_SHELL_ITEM = ITEMS.register("flak_shell",
         () -> new FuzedProjectileBlockItem(FLAK_SHELL.get(), new Item.Properties())
     );
@@ -152,18 +183,29 @@ public class CbcatFixMunitions {
             MunitionPropertiesHandler.registerProjectileHandler(HEAVY_HE_SHELL_PROJECTILE.get(), CBCMunitionPropertiesHandlers.COMMON_SHELL_BIG_CANNON_PROJECTILE);
             MunitionPropertiesHandler.registerProjectileHandler(HEAT_SHELL_PROJECTILE.get(), CBCMunitionPropertiesHandlers.COMMON_SHELL_BIG_CANNON_PROJECTILE);
             MunitionPropertiesHandler.registerProjectileHandler(HESH_SHELL_PROJECTILE.get(), CBCMunitionPropertiesHandlers.COMMON_SHELL_BIG_CANNON_PROJECTILE);
+            MunitionPropertiesHandler.registerProjectileHandler(ROCKET_BLOCK_PROJECTILE.get(), CBCMunitionPropertiesHandlers.COMMON_SHELL_BIG_CANNON_PROJECTILE);
         });
     }
 
     private static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.AP_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.FLAK_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.HE_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.HEI_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.MEDIUM_AP_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.MEDIUM_HE_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.MEDIUM_HEF_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.MEDIUM_HEAT_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
         event.registerEntityRenderer(FLAK_SHELL_PROJECTILE.get(), BigCannonProjectileRenderer::new);
         event.registerEntityRenderer(HEAVY_HE_SHELL_PROJECTILE.get(), BigCannonProjectileRenderer::new);
         event.registerEntityRenderer(HEAT_SHELL_PROJECTILE.get(), BigCannonProjectileRenderer::new);
         event.registerEntityRenderer(HESH_SHELL_PROJECTILE.get(), BigCannonProjectileRenderer::new);
-        event.registerEntityRenderer(BIG_HE_ROCKET_PROJECTILE.get(), BigRocketRenderer::new);
-        event.registerEntityRenderer(BIG_AP_ROCKET_PROJECTILE.get(), BigRocketRenderer::new);
-        event.registerEntityRenderer(BIG_HEAT_ROCKET_PROJECTILE.get(), BigRocketRenderer::new);
+        event.registerEntityRenderer(BIG_HE_ROCKET_PROJECTILE.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(BIG_AP_ROCKET_PROJECTILE.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(BIG_HEAT_ROCKET_PROJECTILE.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(ROCKET_BLOCK_PROJECTILE.get(), BigCannonProjectileRenderer::new);
 
         event.registerBlockEntityRenderer(FUZED_BLOCK_ENTITY.get(), FuzedBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ROCKET_BLOCK_ENTITY.get(), com.cbcatfix.client.RocketBlockEntityRenderer::new);
     }
 }

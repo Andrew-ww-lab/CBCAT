@@ -1,5 +1,10 @@
 [
   {"version":1},
+  {"ingredient":{"id":"cbc_at:medium_heat_rocket_item","components":{"cbc_at:rocket_fuel":36}},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"cbc_at:flak_rocket_item","components":{"cbc_at:rocket_fuel":18}},"type":"item_stack","bookmarkType":"INGREDIENT"},
   {"ingredient":{"id":"cbc_at:he_rocket_item","components":{"cbc_at:rocket_fuel":18}},"type":"item_stack","bookmarkType":"INGREDIENT"},
-  {"ingredient":{"id":"cbc_at:medium_heat_rocket_item","components":{"cbc_at:rocket_fuel":36}},"type":"item_stack","bookmarkType":"INGREDIENT"}
+  {"ingredient":{"id":"cbc_at:hei_rocket_item","components":{"cbc_at:rocket_fuel":18}},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"cbcatfix:big_ap_rocket"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"cbcatfix:big_he_rocket"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"cbcatfix:big_heat_rocket"},"type":"item_stack","bookmarkType":"INGREDIENT"}
 ]

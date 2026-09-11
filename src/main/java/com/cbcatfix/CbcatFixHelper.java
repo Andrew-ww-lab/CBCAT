@@ -100,21 +100,4 @@ public class CbcatFixHelper {
         return length;
     }
 
-    public static void spawnBigRocketParticles(com.dsvv.cbcat.cannon.medium_rocketpod.munitions.AbstractMediumRocket<?> rocket) {
-        if (rocket.level().isClientSide() && !rocket.isInGround()) {
-            net.minecraft.world.phys.Vec3 motion = rocket.getDeltaMovement();
-            net.minecraft.world.phys.Vec3 pos = rocket.position();
-
-            double bx = pos.x - motion.x * 0.5;
-            double by = pos.y - motion.y * 0.5;
-            double bz = pos.z - motion.z * 0.5;
-
-            rocket.level().addParticle(net.minecraft.core.particles.ParticleTypes.CAMPFIRE_COSY_SMOKE,
-                bx, by, bz,
-                -motion.x * 0.05, -motion.y * 0.05 + 0.02, -motion.z * 0.05);
-            rocket.level().addParticle(net.minecraft.core.particles.ParticleTypes.FLAME,
-                bx, by, bz,
-                -motion.x * 0.1, -motion.y * 0.1, -motion.z * 0.1);
-        }
-    }
 }

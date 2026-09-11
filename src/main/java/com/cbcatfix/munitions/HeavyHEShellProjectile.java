@@ -17,6 +17,7 @@ import rbasamoyai.createbigcannons.munitions.big_cannon.config.BigCannonFuzeProp
 import rbasamoyai.createbigcannons.munitions.big_cannon.config.BigCannonProjectilePropertiesComponent;
 import rbasamoyai.createbigcannons.munitions.config.components.BallisticPropertiesComponent;
 import rbasamoyai.createbigcannons.munitions.config.components.EntityDamagePropertiesComponent;
+import com.cbcatfix.config.CbcatFixConfig;
 
 public class HeavyHEShellProjectile extends FuzedBigCannonProjectile {
     public HeavyHEShellProjectile(EntityType<? extends HeavyHEShellProjectile> type, Level level) {
@@ -27,17 +28,17 @@ public class HeavyHEShellProjectile extends FuzedBigCannonProjectile {
     public void tick() {
         Vec3 velocity = this.getDeltaMovement();
         double speed = velocity.length();
-        if (speed > 4.0) { // Capped at 80 m/s (4.0 blocks/tick)
-            this.setDeltaMovement(velocity.scale(4.0 / speed));
+        double maximumSpeed = CbcatFixConfig.HEAVY_HE_MAX_SPEED.get();
+        if (speed > maximumSpeed) {
+            this.setDeltaMovement(velocity.scale(maximumSpeed / speed));
         }
         super.tick();
     }
 
     @Override
     protected void detonate(Position pos) {
-        BigCannonCommonShellProperties properties = this.getAllProperties();
-        float blockPower = properties.explosion().blockDamagePower() * 2.0f;
-        float entityPower = properties.explosion().entityDamagePower() * 2.0f;
+        float blockPower = CbcatFixConfig.HEAVY_HE_BLOCK_POWER.get().floatValue();
+        float entityPower = CbcatFixConfig.HEAVY_HE_ENTITY_POWER.get().floatValue();
 
         ShellExplosion explosion = new ShellExplosion(
             this.level(),
@@ -64,17 +65,17 @@ public class HeavyHEShellProjectile extends FuzedBigCannonProjectile {
 
     @Override
     protected BigCannonProjectilePropertiesComponent getBigCannonProjectileProperties() {
-        return this.getAllProperties().bigCannonProperties();
+        return CbcatFixConfig.HEAVY_HE_SHELL.bigCannonProperties();
     }
 
     @Override
     public EntityDamagePropertiesComponent getDamageProperties() {
-        return this.getAllProperties().damage();
+        return CbcatFixConfig.HEAVY_HE_SHELL.damageProperties();
     }
 
     @Override
     protected BallisticPropertiesComponent getBallisticProperties() {
-        return this.getAllProperties().ballistics();
+        return CbcatFixConfig.HEAVY_HE_SHELL.ballisticProperties();
     }
 
     protected BigCannonCommonShellProperties getAllProperties() {

@@ -3,17 +3,27 @@
   "accept_mirrored": true,
   "category": "misc",
   "pattern": [
-    " C ",
-    "CTC",
-    "CTC",
-    " S "
+    "  C  ",
+    " ICI ",
+    "IHEHI",
+    " IPI ",
+    "  S  "
   ],
   "key": {
     "C": {
       "item": "createbigcannons:cast_iron_ingot"
     },
-    "T": {
-      "item": "minecraft:tnt"
+    "I": {
+      "tag": "c:plates/iron"
+    },
+    "H": {
+      "item": "createbigcannons:he_shell"
+    },
+    "E": {
+      "tag": "createbigcannons:high_explosive_materials"
+    },
+    "P": {
+      "item": "createbigcannons:packed_guncotton"
     },
     "S": {
       "tag": "minecraft:wooden_slabs"

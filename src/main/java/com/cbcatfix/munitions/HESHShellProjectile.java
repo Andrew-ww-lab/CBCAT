@@ -18,6 +18,7 @@ import rbasamoyai.createbigcannons.munitions.big_cannon.config.BigCannonFuzeProp
 import rbasamoyai.createbigcannons.munitions.big_cannon.config.BigCannonProjectilePropertiesComponent;
 import rbasamoyai.createbigcannons.munitions.config.components.BallisticPropertiesComponent;
 import rbasamoyai.createbigcannons.munitions.config.components.EntityDamagePropertiesComponent;
+import com.cbcatfix.config.CbcatFixConfig;
 
 public class HESHShellProjectile extends FuzedBigCannonProjectile {
     public HESHShellProjectile(EntityType<? extends HESHShellProjectile> type, Level level) {
@@ -31,11 +32,11 @@ public class HESHShellProjectile extends FuzedBigCannonProjectile {
         if (dir.lengthSqr() < 0.001) {
             dir = new Vec3(0, -1, 0); // fallback down
         }
-        double maxDist = 4.0;
+        double maxDist = CbcatFixConfig.HESH_SPALL_DISTANCE.get();
         int blocksDestroyed = 0;
         BlockPos lastPos = BlockPos.containing(start);
 
-        for (double d = 0.5; d <= maxDist && blocksDestroyed < 2; d += 0.5) {
+        for (double d = 0.5; d <= maxDist && blocksDestroyed < CbcatFixConfig.HESH_BLOCKS_DESTROYED.get(); d += 0.5) {
             Vec3 point = start.add(dir.scale(d));
             BlockPos blockPos = BlockPos.containing(point);
             BlockState state = this.level().getBlockState(blockPos);
@@ -52,13 +53,14 @@ public class HESHShellProjectile extends FuzedBigCannonProjectile {
             }
         }
         Vec3 spallOrigin = Vec3.atCenterOf(lastPos).add(dir.scale(1.5));
+        double spallRadius = CbcatFixConfig.HESH_SPALL_RADIUS.get();
         AABB spallBox = new AABB(
-            spallOrigin.x - 2.0, spallOrigin.y - 2.0, spallOrigin.z - 2.0,
-            spallOrigin.x + 2.0, spallOrigin.y + 2.0, spallOrigin.z + 2.0
+            spallOrigin.x - spallRadius, spallOrigin.y - spallRadius, spallOrigin.z - spallRadius,
+            spallOrigin.x + spallRadius, spallOrigin.y + spallRadius, spallOrigin.z + spallRadius
         );
         List<Entity> entities = this.level().getEntities(this, spallBox);
         for (Entity entity : entities) {
-            entity.hurt(this.level().damageSources().magic(), 35.0f); // 35 magic/spall damage
+            entity.hurt(this.level().damageSources().magic(), CbcatFixConfig.HESH_SPALL_DAMAGE.get().floatValue());
         }
         this.level().playSound(
             null,
@@ -89,17 +91,17 @@ public class HESHShellProjectile extends FuzedBigCannonProjectile {
 
     @Override
     protected BigCannonProjectilePropertiesComponent getBigCannonProjectileProperties() {
-        return this.getAllProperties().bigCannonProperties();
+        return CbcatFixConfig.HESH_SHELL.bigCannonProperties();
     }
 
     @Override
     public EntityDamagePropertiesComponent getDamageProperties() {
-        return this.getAllProperties().damage();
+        return CbcatFixConfig.HESH_SHELL.damageProperties();
     }
 
     @Override
     protected BallisticPropertiesComponent getBallisticProperties() {
-        return this.getAllProperties().ballistics();
+        return CbcatFixConfig.HESH_SHELL.ballisticProperties();
     }
 
     protected BigCannonCommonShellProperties getAllProperties() {
