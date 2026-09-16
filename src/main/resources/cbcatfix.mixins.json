@@ -29,8 +29,6 @@
     "AbstractFuzedRocketMixin",
     "AbstractMediumFuzedRocketMixin",
     "HeavyAutocannonHeatMixin",
-    "AbstractMountedCannonContraptionAccessor",
-    "BlockEntityTypeMixin",
     "AbstractMediumRocketMixin",
     "BlockMixin",
     "PlayerMiningMixin",
@@ -39,7 +37,6 @@
     "AbstractRocketMixin",
     "BlockStateBaseMixin",
     "FuzedBlockEntityMixin",
-    "FuzedBlockEntityRendererMixin",
     "AbstractRocketFlightMixin",
     "AbstractMediumRocketFlightMixin",
     "AbstractCannonProjectileAccess",
@@ -53,7 +50,8 @@
     "GuidedFuzeItemMixin",
     "RocketGroundPlacementMixin",
     "RocketItemStackSizeMixin",
-    "RocketDetonationInvoker"
+    "RocketDetonationInvoker",
+    "RocketDetonationGuardMixin"
   ],
   "client": [
     "MediumRocketPodBreechInstanceMixin",
@@ -63,11 +61,11 @@
     "RocketItemTooltipMixin",
     "FuzeSelectionHandlerMixin",
     "RocketSectionCrackMixin",
-    "RocketRendererMixin",
-    "MediumRocketRendererMixin"
+    "FuzedBlockEntityRendererMixin"
   ],
   "server": [],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "plugin": "com.cbcatfix.mixin.CbcatFixMixinPlugin"
 }

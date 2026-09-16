@@ -9,12 +9,9 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import rbasamoyai.createbigcannons.munitions.big_cannon.BigCannonProjectileRenderer;
-import rbasamoyai.createbigcannons.munitions.big_cannon.FuzedBlockEntityRenderer;
 import rbasamoyai.createbigcannons.munitions.FuzedProjectileBlockItem;
 import rbasamoyai.createbigcannons.munitions.config.MunitionPropertiesHandler;
 import rbasamoyai.createbigcannons.index.CBCMunitionPropertiesHandlers;
@@ -32,9 +29,6 @@ public class CbcatFixMunitions {
     );
     public static final DeferredHolder<Block, HEATShellBlock> HEAT_SHELL = BLOCKS.register("heat_shell",
         () -> new HEATShellBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(2.0f))
-    );
-    public static final DeferredHolder<Block, HESHShellBlock> HESH_SHELL = BLOCKS.register("hesh_shell",
-        () -> new HESHShellBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(2.0f))
     );
     public static final DeferredHolder<Block, BigRocketRailBlock> BIG_ROCKET_RAIL = BLOCKS.register("big_rocket_rail",
         () -> new BigRocketRailBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(2.0f),
@@ -59,8 +53,7 @@ public class CbcatFixMunitions {
             (pos, state) -> new CbcatFixFuzedBlockEntity(pos, state),
             FLAK_SHELL.get(),
             HEAVY_HE_SHELL.get(),
-            HEAT_SHELL.get(),
-            HESH_SHELL.get()
+            HEAT_SHELL.get()
         ).build(null)
     );
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<com.cbcatfix.rocket.RocketBlockEntity>> ROCKET_BLOCK_ENTITY = BLOCK_ENTITY_TYPES.register("rocket",
@@ -92,14 +85,6 @@ public class CbcatFixMunitions {
             .clientTrackingRange(16)
             .updateInterval(1)
             .build("heat_shell")
-    );
-    public static final DeferredHolder<EntityType<?>, EntityType<HESHShellProjectile>> HESH_SHELL_PROJECTILE = ENTITY_TYPES.register("hesh_shell",
-        () -> EntityType.Builder.<HESHShellProjectile>of(HESHShellProjectile::new, MobCategory.MISC)
-            .sized(0.8f, 0.8f)
-            .fireImmune()
-            .clientTrackingRange(16)
-            .updateInterval(1)
-            .build("hesh_shell")
     );
     public static final DeferredHolder<EntityType<?>, EntityType<BigHERocketProjectile>> BIG_HE_ROCKET_PROJECTILE = ENTITY_TYPES.register("big_he_rocket",
         () -> EntityType.Builder.<BigHERocketProjectile>of(BigHERocketProjectile::new, MobCategory.MISC)
@@ -149,9 +134,6 @@ public class CbcatFixMunitions {
     public static final DeferredHolder<Item, FuzedProjectileBlockItem> HEAT_SHELL_ITEM = ITEMS.register("heat_shell",
         () -> new FuzedProjectileBlockItem(HEAT_SHELL.get(), new Item.Properties())
     );
-    public static final DeferredHolder<Item, FuzedProjectileBlockItem> HESH_SHELL_ITEM = ITEMS.register("hesh_shell",
-        () -> new FuzedProjectileBlockItem(HESH_SHELL.get(), new Item.Properties())
-    );
     public static final DeferredHolder<Item, net.minecraft.world.item.BlockItem> BIG_ROCKET_RAIL_ITEM = ITEMS.register("big_rocket_rail",
         () -> new net.minecraft.world.item.BlockItem(BIG_ROCKET_RAIL.get(), new Item.Properties())
     );
@@ -169,12 +151,65 @@ public class CbcatFixMunitions {
     );
 
     public static void register(IEventBus modEventBus) {
+        // Native registry aliases preserve old stacks, placed blocks and in-flight entities.
+        var oldHesh = net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(com.cbcatfix.CbcatFix.MOD_ID, "hesh_shell");
+        var replacement = net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(com.cbcatfix.CbcatFix.MOD_ID, "heavy_he_shell");
+        BLOCKS.addAlias(oldHesh, replacement);
+        ITEMS.addAlias(oldHesh, replacement);
+        ENTITY_TYPES.addAlias(oldHesh, replacement);
+        registerRocketVariants(modEventBus);
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
         BLOCK_ENTITY_TYPES.register(modEventBus);
         ENTITY_TYPES.register(modEventBus);
-        modEventBus.addListener(CbcatFixMunitions::registerRenderers);
         modEventBus.addListener(CbcatFixMunitions::commonSetup);
+    }
+
+    private static void registerRocketVariants(IEventBus bus) {
+        registerRocketVariants(bus, "ap_rocket", com.dsvv.cbcat.cannon.rocketpod.munitions.ap_rocket.AP_RocketItem::new,
+            () -> rbasamoyai.createbigcannons.index.CBCItems.AP_AUTOCANNON_ROUND.get());
+        registerRocketVariants(bus, "flak_rocket", com.dsvv.cbcat.cannon.rocketpod.munitions.flak_rocket.Flak_RocketItem::new,
+            () -> rbasamoyai.createbigcannons.index.CBCItems.FLAK_AUTOCANNON_ROUND.get());
+        registerRocketVariants(bus, "he_rocket", com.dsvv.cbcat.cannon.rocketpod.munitions.he_rocket.HE_RocketItem::new,
+            () -> com.dsvv.cbcat.registry.ItemRegister.HE_ITEM.get());
+        registerRocketVariants(bus, "hei_rocket", com.dsvv.cbcat.cannon.rocketpod.munitions.hei_rocket.HEI_RocketItem::new,
+            () -> com.dsvv.cbcat.registry.ItemRegister.HEI_ITEM.get());
+        registerRocketVariants(bus, "medium_ap_rocket", com.dsvv.cbcat.cannon.medium_rocketpod.munitions.medium_ap_rocket.APMediumRocketItem::new,
+            () -> com.dsvv.cbcat.registry.ItemRegister.HA_AP_ITEM.get());
+        registerRocketVariants(bus, "medium_he_rocket", com.dsvv.cbcat.cannon.medium_rocketpod.munitions.medium_he_rocket.HEMediumRocketItem::new,
+            () -> com.dsvv.cbcat.registry.ItemRegister.HA_HE_ITEM.get());
+        registerRocketVariants(bus, "medium_hef_rocket", com.dsvv.cbcat.cannon.medium_rocketpod.munitions.medium_hef_rocket.HEFMediumRocketItem::new,
+            () -> com.dsvv.cbcat.registry.ItemRegister.HA_HEF_ITEM.get());
+        registerRocketVariants(bus, "medium_heat_rocket", com.dsvv.cbcat.cannon.medium_rocketpod.munitions.medium_heat_rocket.HEATMediumRocketItem::new,
+            () -> com.dsvv.cbcat.registry.ItemRegister.HA_HEAT_ITEM.get());
+        registerRocketVariants(bus, "big_ap_rocket", BigAPRocketItem::new,
+            () -> rbasamoyai.createbigcannons.index.CBCBlocks.AP_SHOT.asItem());
+        registerRocketVariants(bus, "big_he_rocket", BigHERocketItem::new, () -> HEAVY_HE_SHELL_ITEM.get());
+        registerRocketVariants(bus, "big_heat_rocket", BigHEATRocketItem::new, () -> HEAT_SHELL_ITEM.get());
+    }
+
+    private static void registerRocketVariants(IEventBus bus, String path,
+            java.util.function.Function<Item.Properties, ? extends Item> factory,
+            java.util.function.Supplier<Item> warhead) {
+        var doubleFuel = ITEMS.register(path + "_double_fuel", () -> factory.apply(new Item.Properties()));
+        var doublePayload = ITEMS.register(path + "_double_payload", () -> factory.apply(new Item.Properties()));
+        // Resolve ammunition only after all item registries are ready. Defaults apply to /give,
+        // recipes and creative stacks alike, without adding a second rocket identity system.
+        bus.addListener((net.neoforged.neoforge.event.ModifyDefaultComponentsEvent event) -> {
+            for (int count = 1; count <= 2; count++) {
+                var item = count == 1 ? doubleFuel.get() : doublePayload.get();
+                var payload = net.minecraft.world.item.component.ItemContainerContents.fromItems(
+                    java.util.List.of(new net.minecraft.world.item.ItemStack(warhead.get(), count)));
+                var data = new net.minecraft.nbt.CompoundTag();
+                data.putBoolean("CbcatFixAssemblyFuel", true);
+                data.putBoolean("CbcatFixLightweight", false);
+                event.modify(item, patch -> patch
+                    .set(rbasamoyai.createbigcannons.index.CBCDataComponents.PROJECTILE, payload)
+                    .set(com.dsvv.cbcat.registry.DataComponentRegistry.ROCKET_FUEL, (byte) 127)
+                    .set(net.minecraft.core.component.DataComponents.CUSTOM_DATA,
+                        net.minecraft.world.item.component.CustomData.of(data)));
+            }
+        });
     }
 
     private static void commonSetup(FMLCommonSetupEvent event) {
@@ -182,30 +217,8 @@ public class CbcatFixMunitions {
             MunitionPropertiesHandler.registerProjectileHandler(FLAK_SHELL_PROJECTILE.get(), CBCMunitionPropertiesHandlers.COMMON_SHELL_BIG_CANNON_PROJECTILE);
             MunitionPropertiesHandler.registerProjectileHandler(HEAVY_HE_SHELL_PROJECTILE.get(), CBCMunitionPropertiesHandlers.COMMON_SHELL_BIG_CANNON_PROJECTILE);
             MunitionPropertiesHandler.registerProjectileHandler(HEAT_SHELL_PROJECTILE.get(), CBCMunitionPropertiesHandlers.COMMON_SHELL_BIG_CANNON_PROJECTILE);
-            MunitionPropertiesHandler.registerProjectileHandler(HESH_SHELL_PROJECTILE.get(), CBCMunitionPropertiesHandlers.COMMON_SHELL_BIG_CANNON_PROJECTILE);
             MunitionPropertiesHandler.registerProjectileHandler(ROCKET_BLOCK_PROJECTILE.get(), CBCMunitionPropertiesHandlers.COMMON_SHELL_BIG_CANNON_PROJECTILE);
         });
     }
 
-    private static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.AP_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
-        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.FLAK_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
-        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.HE_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
-        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.HEI_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
-        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.MEDIUM_AP_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
-        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.MEDIUM_HE_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
-        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.MEDIUM_HEF_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
-        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.MEDIUM_HEAT_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
-        event.registerEntityRenderer(FLAK_SHELL_PROJECTILE.get(), BigCannonProjectileRenderer::new);
-        event.registerEntityRenderer(HEAVY_HE_SHELL_PROJECTILE.get(), BigCannonProjectileRenderer::new);
-        event.registerEntityRenderer(HEAT_SHELL_PROJECTILE.get(), BigCannonProjectileRenderer::new);
-        event.registerEntityRenderer(HESH_SHELL_PROJECTILE.get(), BigCannonProjectileRenderer::new);
-        event.registerEntityRenderer(BIG_HE_ROCKET_PROJECTILE.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
-        event.registerEntityRenderer(BIG_AP_ROCKET_PROJECTILE.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
-        event.registerEntityRenderer(BIG_HEAT_ROCKET_PROJECTILE.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
-        event.registerEntityRenderer(ROCKET_BLOCK_PROJECTILE.get(), BigCannonProjectileRenderer::new);
-
-        event.registerBlockEntityRenderer(FUZED_BLOCK_ENTITY.get(), FuzedBlockEntityRenderer::new);
-        event.registerBlockEntityRenderer(ROCKET_BLOCK_ENTITY.get(), com.cbcatfix.client.RocketBlockEntityRenderer::new);
-    }
 }

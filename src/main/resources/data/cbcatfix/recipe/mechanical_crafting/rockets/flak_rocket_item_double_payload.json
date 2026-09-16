@@ -1,0 +1,28 @@
+{
+  "type": "create:mechanical_crafting",
+  "accept_mirrored": false,
+  "category": "misc",
+  "key": {
+    "F": {
+      "item": "cbcatfix:small_rocket_propellant"
+    },
+    "I": {
+      "item": "create:iron_sheet"
+    },
+    "N": {
+      "item": "minecraft:iron_nugget"
+    },
+    "W": {
+      "item": "createbigcannons:flak_autocannon_round"
+    }
+  },
+  "pattern": [
+    " I  ",
+    "FNWW",
+    " I  "
+  ],
+  "result": {
+    "id": "cbcatfix:flak_rocket_double_payload",
+    "count": 1
+  }
+}

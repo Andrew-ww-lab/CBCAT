@@ -5,7 +5,7 @@ issueTrackerURL = "https://github.com/cbcatfix/issues"
 
 [[mods]]
     modId = "cbcatfix"
-    version = "1.0.0"
+    version = "${mod_version}"
     displayName = "CBCAT Fix"
     description = '''
 Compatibility fix for Create Big Cannons: Advanced Technologies (cbc_at) on Minecraft 1.21.1 NeoForge.
@@ -24,7 +24,21 @@ This mod injects the missing bridge method via Mixin.
 [[dependencies.cbcatfix]]
     modId = "neoforge"
     type = "required"
-    versionRange = "[21.1,)"
+    versionRange = "[21.1.228,)"
+    ordering = "NONE"
+    side = "BOTH"
+
+[[dependencies.cbcatfix]]
+    modId = "minecraft"
+    type = "required"
+    versionRange = "[1.21.1]"
+    ordering = "NONE"
+    side = "BOTH"
+
+[[dependencies.cbcatfix]]
+    modId = "create"
+    type = "required"
+    versionRange = "[6.0.9,6.1.0)"
     ordering = "NONE"
     side = "BOTH"
 

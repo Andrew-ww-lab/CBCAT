@@ -1,0 +1,28 @@
+{
+  "type": "create:mechanical_crafting",
+  "accept_mirrored": false,
+  "category": "misc",
+  "key": {
+    "F": {
+      "item": "cbcatfix:medium_rocket_propellant"
+    },
+    "I": {
+      "item": "create:iron_sheet"
+    },
+    "S": {
+      "item": "createbigcannons:steel_ingot"
+    },
+    "W": {
+      "item": "cbc_at:ha_ap_item"
+    }
+  },
+  "pattern": [
+    "  I  ",
+    "FFSIW",
+    "  I  "
+  ],
+  "result": {
+    "id": "cbcatfix:medium_ap_rocket_double_fuel",
+    "count": 1
+  }
+}

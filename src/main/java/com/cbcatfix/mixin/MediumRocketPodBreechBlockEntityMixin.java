@@ -13,7 +13,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import com.dsvv.cbcat.cannon.medium_rocketpod.breech.MediumRocketPodBreechBlockEntity;
 import com.cbcatfix.IMediumRocketPodBreechBlockEntity;
-import com.cbcatfix.CbcatFixHelper;
 import com.cbcatfix.munitions.CbcatFixMunitions;
 import com.cbcatfix.munitions.BigHERocketItem;
 import com.cbcatfix.munitions.BigAPRocketItem;
@@ -47,9 +46,11 @@ public abstract class MediumRocketPodBreechBlockEntityMixin implements IMediumRo
         if (breech.isVirtual()) {
             return this.cbcatfix$isBigBreech || breech.getBlockState().is(CbcatFixMunitions.BIG_ROCKET_RAIL_BREECH.get());
         }
-        int bigRailLength = CbcatFixHelper.getInWorldSpecificRailLength(breech, CbcatFixMunitions.BIG_ROCKET_RAIL.get());
-        if (bigRailLength > 0) {
-            return true;
+        // The old unbounded count was used only as > 0: the adjacent rail is sufficient.
+        if (breech.getLevel() != null && breech.getBlockState().hasProperty(net.minecraft.world.level.block.state.properties.BlockStateProperties.FACING)) {
+            var facing = breech.getBlockState().getValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.FACING);
+            if (breech.getLevel().getBlockState(breech.getBlockPos().relative(facing)).is(CbcatFixMunitions.BIG_ROCKET_RAIL.get())
+                || breech.getLevel().getBlockState(breech.getBlockPos().relative(facing.getOpposite())).is(CbcatFixMunitions.BIG_ROCKET_RAIL.get())) return true;
         }
         if (this.cbcatfix$isBigBreech) {
             return true;

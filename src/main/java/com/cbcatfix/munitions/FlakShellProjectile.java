@@ -34,8 +34,8 @@ public class FlakShellProjectile extends FuzedBigCannonProjectile {
             this,
             this.indirectArtilleryFire(false),
             pos.x(), pos.y(), pos.z(),
-            CbcatFixConfig.FLAK_BLOCK_POWER.get().floatValue(),
-            CbcatFixConfig.FLAK_ENTITY_POWER.get().floatValue(),
+            CbcatFixConfig.value(CbcatFixConfig.FLAK_BLOCK_POWER).floatValue(),
+            CbcatFixConfig.value(CbcatFixConfig.FLAK_ENTITY_POWER).floatValue(),
             false,
             CBCConfigs.server().munitions.damageRestriction.get().explosiveInteraction()
         );
@@ -47,7 +47,7 @@ public class FlakShellProjectile extends FuzedBigCannonProjectile {
             double speedBase = this.getDeltaMovement().length();
             if (speedBase < 0.1) speedBase = 1.0;
 
-            for (int i = 0; i < CbcatFixConfig.FLAK_BURST_COUNT.get(); i++) {
+            for (int i = 0; i < CbcatFixConfig.value(CbcatFixConfig.FLAK_BURST_COUNT); i++) {
                 double u = random.nextDouble();
                 double v = random.nextDouble();
                 double theta = u * 2.0 * Math.PI;
@@ -74,7 +74,7 @@ public class FlakShellProjectile extends FuzedBigCannonProjectile {
             double speedBase = this.getDeltaMovement().length();
             if (speedBase < 0.1) speedBase = 1.0;
 
-            for (int i = 0; i < CbcatFixConfig.FLAK_SHRAPNEL_COUNT.get(); i++) {
+            for (int i = 0; i < CbcatFixConfig.value(CbcatFixConfig.FLAK_SHRAPNEL_COUNT); i++) {
                 rbasamoyai.createbigcannons.munitions.autocannon.ap_round.APAutocannonProjectile apRound =
                     rbasamoyai.createbigcannons.index.CBCEntityTypes.AP_AUTOCANNON.get().create(this.level());
                 if (apRound != null) {

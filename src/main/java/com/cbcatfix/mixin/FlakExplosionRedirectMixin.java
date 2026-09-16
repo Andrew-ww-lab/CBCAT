@@ -11,8 +11,7 @@ import rbasamoyai.createbigcannons.munitions.autocannon.flak.FlakExplosion;
 import com.cbcatfix.RocketDetonationContext;
 
 @Mixin(targets = {
-    "com.dsvv.cbcat.cannon.heavy_autocannon.munitions.hef_shell.HA_HEFProjectile",
-    "com.dsvv.cbcat.cannon.autocannon.munitions.flak.AutocannonFlakProjectile"
+    "com.dsvv.cbcat.cannon.heavy_autocannon.munitions.hef_shell.HA_HEFProjectile"
 }, remap = false)
 public class FlakExplosionRedirectMixin {
 

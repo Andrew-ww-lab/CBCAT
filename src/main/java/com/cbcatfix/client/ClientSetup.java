@@ -4,11 +4,14 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import com.cbcatfix.CbcatFix;
+import static com.cbcatfix.munitions.CbcatFixMunitions.*;
+import rbasamoyai.createbigcannons.munitions.big_cannon.BigCannonProjectileRenderer;
 import com.cbcatfix.munitions.CbcatFixMunitions;
 import rbasamoyai.createbigcannons.munitions.big_cannon.FuzedBlockEntityRenderer;
 import rbasamoyai.createbigcannons.munitions.big_cannon.FuzedBlockVisual;
 import dev.engine_room.flywheel.lib.visualization.SimpleBlockEntityVisualizer;
 
+@net.neoforged.fml.common.EventBusSubscriber(modid = CbcatFix.MOD_ID, value = net.neoforged.api.distmarker.Dist.CLIENT)
 public class ClientSetup {
 
     @SubscribeEvent
@@ -23,6 +26,26 @@ public class ClientSetup {
         }
     }
 
+    @SubscribeEvent
+    public static void registerProjectileRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.AP_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.FLAK_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.HE_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.HEI_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.MEDIUM_AP_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.MEDIUM_HE_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.MEDIUM_HEF_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(com.dsvv.cbcat.registry.EntityRegister.MEDIUM_HEAT_ROCKET.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(FLAK_SHELL_PROJECTILE.get(), BigCannonProjectileRenderer::new);
+        event.registerEntityRenderer(HEAVY_HE_SHELL_PROJECTILE.get(), BigCannonProjectileRenderer::new);
+        event.registerEntityRenderer(HEAT_SHELL_PROJECTILE.get(), BigCannonProjectileRenderer::new);
+        event.registerEntityRenderer(BIG_HE_ROCKET_PROJECTILE.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(BIG_AP_ROCKET_PROJECTILE.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(BIG_HEAT_ROCKET_PROJECTILE.get(), com.cbcatfix.client.UnifiedRocketRenderer::new);
+        event.registerEntityRenderer(ROCKET_BLOCK_PROJECTILE.get(), BigCannonProjectileRenderer::new);
+
+        event.registerBlockEntityRenderer(ROCKET_BLOCK_ENTITY.get(), com.cbcatfix.client.RocketBlockEntityRenderer::new);
+    }
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {

@@ -17,12 +17,8 @@ public class BigHEATRocketProjectile extends AbstractMediumFuzedRocket<HA_HEProj
     @Override
     protected void detonate(Position pos) {
         int payloadCount = ((RocketPayloadAccess) this).cbcatfix$getPayloadCount();
-        float payloadScale = payloadCount > 1 ? 1.5f : 1.0f;
+        float payloadScale = com.cbcatfix.rocket.RocketBalance.payloadScale(payloadCount);
         HeatEffect.detonate(this, pos, this.getDeltaMovement(), payloadScale, CbcatFixConfig.BIG_ROCKET_HEAT);
     }
 
-    @Override
-    protected double getDefaultGravity() {
-        return -0.015d;
-    }
 }

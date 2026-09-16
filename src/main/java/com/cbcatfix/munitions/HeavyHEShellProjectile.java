@@ -28,7 +28,7 @@ public class HeavyHEShellProjectile extends FuzedBigCannonProjectile {
     public void tick() {
         Vec3 velocity = this.getDeltaMovement();
         double speed = velocity.length();
-        double maximumSpeed = CbcatFixConfig.HEAVY_HE_MAX_SPEED.get();
+        double maximumSpeed = CbcatFixConfig.value(CbcatFixConfig.HEAVY_HE_MAX_SPEED);
         if (speed > maximumSpeed) {
             this.setDeltaMovement(velocity.scale(maximumSpeed / speed));
         }
@@ -37,8 +37,8 @@ public class HeavyHEShellProjectile extends FuzedBigCannonProjectile {
 
     @Override
     protected void detonate(Position pos) {
-        float blockPower = CbcatFixConfig.HEAVY_HE_BLOCK_POWER.get().floatValue();
-        float entityPower = CbcatFixConfig.HEAVY_HE_ENTITY_POWER.get().floatValue();
+        float blockPower = CbcatFixConfig.value(CbcatFixConfig.HEAVY_HE_BLOCK_POWER).floatValue();
+        float entityPower = CbcatFixConfig.value(CbcatFixConfig.HEAVY_HE_ENTITY_POWER).floatValue();
 
         ShellExplosion explosion = new ShellExplosion(
             this.level(),

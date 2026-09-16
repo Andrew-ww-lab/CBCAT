@@ -1,0 +1,26 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "createbigcannons:packed_gunpowder"
+    },
+    {
+      "item": "createbigcannons:packed_gunpowder"
+    },
+    {
+      "item": "minecraft:paper"
+    },
+    {
+      "item": "createbigcannons:steel_scrap"
+    },
+    {
+      "item": "createbigcannons:steel_scrap"
+    }
+  ],
+  "results": [
+    {
+      "id": "cbcatfix:large_rocket_propellant",
+      "count": 1
+    }
+  ]
+}

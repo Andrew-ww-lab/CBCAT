@@ -1,0 +1,44 @@
+{
+  "type": "create:mechanical_crafting",
+  "accept_mirrored": false,
+  "category": "misc",
+  "key": {
+    "F": {
+      "item": "cbcatfix:small_rocket_propellant"
+    },
+    "I": {
+      "item": "create:iron_sheet"
+    },
+    "N": {
+      "item": "minecraft:iron_nugget"
+    },
+    "W": {
+      "item": "cbc_at:he_item"
+    }
+  },
+  "pattern": [
+    "  I ",
+    "F NW",
+    "  I "
+  ],
+  "result": {
+    "id": "cbc_at:he_rocket_item",
+    "count": 1,
+    "components": {
+      "createbigcannons:projectile": [
+        {
+          "slot": 0,
+          "item": {
+            "id": "cbc_at:he_item",
+            "count": 1
+          }
+        }
+      ],
+      "cbc_at:rocket_fuel": 127,
+      "minecraft:custom_data": {
+        "CbcatFixAssemblyFuel": true,
+        "CbcatFixLightweight": true
+      }
+    }
+  }
+}

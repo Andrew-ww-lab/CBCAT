@@ -23,7 +23,7 @@ public class BigHERocketProjectile extends AbstractMediumFuzedRocket<HA_HEProjec
     protected void detonate(Position pos) {
         if (!this.level().isClientSide()) {
             int payloadCount = ((RocketPayloadAccess) this).cbcatfix$getPayloadCount();
-            float payloadScale = payloadCount > 1 ? 1.5f : 1.0f;
+            float payloadScale = com.cbcatfix.rocket.RocketBalance.payloadScale(payloadCount);
             BigCannonCommonShellProperties heProperties =
                 CBCMunitionPropertiesHandlers.COMMON_SHELL_BIG_CANNON_PROJECTILE
                     .getPropertiesOf(CBCEntityTypes.HE_SHELL.get());
@@ -39,8 +39,4 @@ public class BigHERocketProjectile extends AbstractMediumFuzedRocket<HA_HEProjec
         }
     }
 
-    @Override
-    protected double getDefaultGravity() {
-        return -0.015d;
-    }
 }

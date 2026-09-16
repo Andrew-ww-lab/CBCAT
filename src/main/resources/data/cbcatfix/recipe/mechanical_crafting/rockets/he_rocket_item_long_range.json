@@ -1,0 +1,28 @@
+{
+  "type": "create:mechanical_crafting",
+  "accept_mirrored": false,
+  "category": "misc",
+  "key": {
+    "F": {
+      "item": "cbcatfix:small_rocket_propellant"
+    },
+    "I": {
+      "item": "create:iron_sheet"
+    },
+    "N": {
+      "item": "minecraft:iron_nugget"
+    },
+    "W": {
+      "item": "cbc_at:he_item"
+    }
+  },
+  "pattern": [
+    "  I ",
+    "FFNW",
+    "  I "
+  ],
+  "result": {
+    "id": "cbcatfix:he_rocket_double_fuel",
+    "count": 1
+  }
+}

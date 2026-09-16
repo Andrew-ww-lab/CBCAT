@@ -9,7 +9,7 @@ public class RocketDetonationContext {
     private static final ThreadLocal<Deque<DetonationData>> DETONATIONS = ThreadLocal.withInitial(ArrayDeque::new);
 
     public static void enter(int payloadCount, Vec3 direction, RocketBalance.Tier tier) {
-        float payloadScale = payloadCount > 1 ? 1.5f : 1.0f;
+        float payloadScale = com.cbcatfix.rocket.RocketBalance.payloadScale(payloadCount);
         Vec3 safeDirection = direction.lengthSqr() > 1.0e-8 ? direction.normalize() : Vec3.ZERO;
         DETONATIONS.get().push(new DetonationData(payloadScale, safeDirection, tier));
     }

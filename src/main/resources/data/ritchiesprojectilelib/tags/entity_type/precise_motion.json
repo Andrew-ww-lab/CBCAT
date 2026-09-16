@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "cbc_at:ap_rocket",
+    "cbc_at:flak_rocket",
+    "cbc_at:he_rocket",
+    "cbc_at:hei_rocket",
+    "cbc_at:medium_ap_rocket",
+    "cbc_at:medium_he_rocket",
+    "cbc_at:medium_hef_rocket",
+    "cbc_at:medium_heat_rocket",
+    "cbcatfix:big_ap_rocket",
+    "cbcatfix:big_he_rocket",
+    "cbcatfix:big_heat_rocket"
+  ]
+}

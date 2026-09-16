@@ -32,7 +32,7 @@ public class CbcatFix {
         LOGGER.info("[CBCAT Fix] cbc_at cannons should no longer crash on fire.");
 
         initializeCbcatRecipeSerializers();
-        modContainer.registerConfig(net.neoforged.fml.config.ModConfig.Type.COMMON, com.cbcatfix.config.CbcatFixConfig.SPEC);
+        modContainer.registerConfig(net.neoforged.fml.config.ModConfig.Type.SERVER, com.cbcatfix.config.CbcatFixConfig.SPEC);
         SOUNDS.register(modEventBus);
         com.cbcatfix.rocket.RocketArmPoint.register(modEventBus);
         modEventBus.addListener((net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent event) ->
@@ -41,65 +41,52 @@ public class CbcatFix {
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(com.cbcatfix.rocket.RocketSounds::onEntityJoin);
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(com.cbcatfix.rocket.MountedRocketInteraction::onRightClick);
         com.cbcatfix.munitions.CbcatFixMunitions.register(modEventBus);
+        modEventBus.addListener((net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent event) -> {
+            event.modify(com.dsvv.cbcat.registry.BlockEntityRegister.MEDIUM_ROCKET_POD_BARREL_BLOCK_ENTITY.get(),
+                com.cbcatfix.munitions.CbcatFixMunitions.BIG_ROCKET_RAIL.get());
+            event.modify(com.dsvv.cbcat.registry.BlockEntityRegister.MEDIUM_ROCKET_POD_BREECH_BLOCK_ENTITY.get(),
+                com.cbcatfix.munitions.CbcatFixMunitions.BIG_ROCKET_RAIL_BREECH.get());
+        });
 
         modEventBus.addListener(EventPriority.LOWEST, this::onBuildCreativeTabContents);
 
-        if (isClientDist()) {
-            modEventBus.register(com.cbcatfix.client.ClientSetup.class);
-            net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
-                com.cbcatfix.client.RocketClientEvents::onEntityTick
-            );
-            net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(com.cbcatfix.client.RocketClientEvents::onEntityLeave);
-            net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(com.cbcatfix.client.RocketClientEvents::onLevelUnload);
-        }
     }
 
     private void onBuildCreativeTabContents(BuildCreativeModeTabContentsEvent event) {
-        try {
-            boolean isCbcAtTab = false;
-            if (event.getTabKey() != null && "cbc_at".equals(event.getTabKey().location().getNamespace())) {
-                isCbcAtTab = true;
-            }
-            try {
-                if (com.dsvv.cbcat.registry.TabRegister.SIMPLE_TAB != null && com.dsvv.cbcat.registry.TabRegister.SIMPLE_TAB.get() == event.getTab()) {
-                    isCbcAtTab = true;
-                }
-            } catch (Throwable ignored) {}
-
-            if (isCbcAtTab) {
-                net.minecraft.world.item.CreativeModeTab.TabVisibility vis = net.minecraft.world.item.CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS;
-
-                removeDefaultRocketEntries(event, vis);
-                addBalancedRocketVariants(event, vis);
-                event.accept(com.cbcatfix.munitions.CbcatFixMunitions.SMALL_ROCKET_PROPELLANT.get());
-                event.accept(com.cbcatfix.munitions.CbcatFixMunitions.MEDIUM_ROCKET_PROPELLANT.get());
-                event.accept(com.cbcatfix.munitions.CbcatFixMunitions.LARGE_ROCKET_PROPELLANT.get());
-
-                try {
-                    net.minecraft.world.item.ItemStack anchorRail = new net.minecraft.world.item.ItemStack(com.dsvv.cbcat.registry.BlockRegister.WROUGHT_IRON_MEDIUM_ROCKET_RAIL.get());
-                    event.insertAfter(anchorRail, com.cbcatfix.munitions.CbcatFixMunitions.BIG_ROCKET_RAIL_ITEM.get().getDefaultInstance(), vis);
-                    event.insertAfter(anchorRail, com.cbcatfix.munitions.CbcatFixMunitions.BIG_ROCKET_RAIL_BREECH_ITEM.get().getDefaultInstance(), vis);
-                } catch (Exception e) {
-                    event.accept(com.cbcatfix.munitions.CbcatFixMunitions.BIG_ROCKET_RAIL_ITEM.get());
-                    event.accept(com.cbcatfix.munitions.CbcatFixMunitions.BIG_ROCKET_RAIL_BREECH_ITEM.get());
-                }
-
-                try {
-                    net.minecraft.world.item.ItemStack anchorHA = com.dsvv.cbcat.registry.ItemRegister.HA_AP_ITEM.asStack();
-                    event.insertAfter(anchorHA, com.cbcatfix.munitions.CbcatFixMunitions.FLAK_SHELL_ITEM.get().getDefaultInstance(), vis);
-                    event.insertAfter(anchorHA, com.cbcatfix.munitions.CbcatFixMunitions.HEAVY_HE_SHELL_ITEM.get().getDefaultInstance(), vis);
-                    event.insertAfter(anchorHA, com.cbcatfix.munitions.CbcatFixMunitions.HEAT_SHELL_ITEM.get().getDefaultInstance(), vis);
-                    event.insertAfter(anchorHA, com.cbcatfix.munitions.CbcatFixMunitions.HESH_SHELL_ITEM.get().getDefaultInstance(), vis);
-                } catch (Exception e) {
-                    event.accept(com.cbcatfix.munitions.CbcatFixMunitions.FLAK_SHELL_ITEM.get());
-                    event.accept(com.cbcatfix.munitions.CbcatFixMunitions.HEAVY_HE_SHELL_ITEM.get());
-                    event.accept(com.cbcatfix.munitions.CbcatFixMunitions.HEAT_SHELL_ITEM.get());
-                    event.accept(com.cbcatfix.munitions.CbcatFixMunitions.HESH_SHELL_ITEM.get());
-                }
-            }
-        } catch (Exception e) {
-            LOGGER.error("Failed to inject items into CBCAT creative mode tab", e);
+        if (event.getTab() != com.dsvv.cbcat.registry.TabRegister.SIMPLE_TAB.get()) return;
+        var vis = net.minecraft.world.item.CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS;
+        var ordered = new java.util.ArrayList<net.minecraft.world.item.ItemStack>();
+        // Preserve native unrelated entries and third-party contributions in their existing order.
+        var launchers = event.getParentEntries().stream().filter(CbcatFix::isLauncherStack)
+            .filter(stack -> !MOD_ID.equals(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem()).getNamespace()))
+            .sorted(java.util.Comparator.<net.minecraft.world.item.ItemStack>comparingInt(stack ->
+                ((net.minecraft.world.item.BlockItem) stack.getItem()).getBlock() instanceof com.dsvv.cbcat.cannon.rocketpod.RocketPodBlock ? 0 : 1)
+                .thenComparing(stack -> net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem()).toString())).toList();
+        ordered.addAll(launchers);
+        ordered.add(com.cbcatfix.munitions.CbcatFixMunitions.BIG_ROCKET_RAIL_BREECH_ITEM.get().getDefaultInstance());
+        ordered.add(com.cbcatfix.munitions.CbcatFixMunitions.BIG_ROCKET_RAIL_ITEM.get().getDefaultInstance());
+        addBalancedRocketVariants(ordered);
+        ordered.add(com.cbcatfix.munitions.CbcatFixMunitions.FLAK_SHELL_ITEM.get().getDefaultInstance());
+        ordered.add(com.cbcatfix.munitions.CbcatFixMunitions.HEAVY_HE_SHELL_ITEM.get().getDefaultInstance());
+        ordered.add(com.cbcatfix.munitions.CbcatFixMunitions.HEAT_SHELL_ITEM.get().getDefaultInstance());
+        ordered.add(com.cbcatfix.munitions.CbcatFixMunitions.SMALL_ROCKET_PROPELLANT.get().getDefaultInstance());
+        ordered.add(com.cbcatfix.munitions.CbcatFixMunitions.MEDIUM_ROCKET_PROPELLANT.get().getDefaultInstance());
+        ordered.add(com.cbcatfix.munitions.CbcatFixMunitions.LARGE_ROCKET_PROPELLANT.get().getDefaultInstance());
+        var owned = ordered.stream().map(net.minecraft.world.item.ItemStack::getItem).collect(java.util.stream.Collectors.toSet());
+        var remove = java.util.stream.Stream.concat(event.getParentEntries().stream(), event.getSearchEntries().stream())
+            .filter(stack -> owned.contains(stack.getItem()) || isRocketStack(stack)).toList();
+        remove.forEach(stack -> event.remove(stack, vis));
+        var anchor = event.getParentEntries().stream().findFirst().orElse(net.minecraft.world.item.ItemStack.EMPTY);
+        for (var stack : ordered) {
+            if (anchor.isEmpty()) event.accept(stack, vis);
+            else event.insertBefore(anchor, stack, vis);
         }
+    }
+
+    private static boolean isLauncherStack(net.minecraft.world.item.ItemStack stack) {
+        if (!(stack.getItem() instanceof net.minecraft.world.item.BlockItem blockItem)) return false;
+        return blockItem.getBlock() instanceof com.dsvv.cbcat.cannon.rocketpod.RocketPodBlock
+            || blockItem.getBlock() instanceof com.dsvv.cbcat.cannon.medium_rocketpod.MediumRocketPodBlock;
     }
 
     private static boolean isRocketStack(net.minecraft.world.item.ItemStack stack) {
@@ -107,26 +94,7 @@ public class CbcatFix {
             || stack.getItem() instanceof com.dsvv.cbcat.cannon.medium_rocketpod.munitions.AbstractMediumRocketItem;
     }
 
-    private static void removeDefaultRocketEntries(
-        BuildCreativeModeTabContentsEvent event,
-        net.minecraft.world.item.CreativeModeTab.TabVisibility visibility
-    ) {
-        java.util.List<net.minecraft.world.item.ItemStack> existingRockets = java.util.stream.Stream.concat(
-                event.getParentEntries().stream(),
-                event.getSearchEntries().stream()
-            )
-            .filter(CbcatFix::isRocketStack)
-            .map(net.minecraft.world.item.ItemStack::copy)
-            .toList();
-        for (net.minecraft.world.item.ItemStack stack : existingRockets) {
-            event.remove(stack, visibility);
-        }
-    }
-
-    private static void addBalancedRocketVariants(
-        BuildCreativeModeTabContentsEvent event,
-        net.minecraft.world.item.CreativeModeTab.TabVisibility visibility
-    ) {
+    private static void addBalancedRocketVariants(java.util.List<net.minecraft.world.item.ItemStack> ordered) {
         java.util.List<RocketCreativePair> rockets = java.util.List.of(
             new RocketCreativePair(rbasamoyai.createbigcannons.index.CBCItems.AP_AUTOCANNON_ROUND.get(), com.dsvv.cbcat.registry.ItemRegister.AP_ROCKET_ITEM.get(), com.cbcatfix.rocket.RocketBalance.Tier.SMALL),
             new RocketCreativePair(rbasamoyai.createbigcannons.index.CBCItems.FLAK_AUTOCANNON_ROUND.get(), com.dsvv.cbcat.registry.ItemRegister.FLAK_ROCKET_ITEM.get(), com.cbcatfix.rocket.RocketBalance.Tier.SMALL),
@@ -142,12 +110,16 @@ public class CbcatFix {
         );
 
         for (RocketCreativePair pair : rockets) {
-            int fullFuelTicks = com.cbcatfix.rocket.RocketBalance.fullFlightTicks(pair.tier());
-            int lightweightFuelTicks = Math.max(1, (int) Math.round(fullFuelTicks
-                * com.cbcatfix.config.CbcatFixConfig.LIGHTWEIGHT_FUEL_MULTIPLIER.get()));
-            event.accept(com.cbcatfix.rocket.RocketStackFactory.create(
-                pair.rocket(), pair.warhead(), 1, lightweightFuelTicks, true
-            ), visibility);
+            int fuel = com.cbcatfix.rocket.RocketBalance.fullFlightTicks(pair.tier());
+            var lightweight = com.cbcatfix.rocket.RocketStackFactory.create(pair.rocket(), pair.warhead(), 1, fuel, true);
+            net.minecraft.world.item.component.CustomData.update(net.minecraft.core.component.DataComponents.CUSTOM_DATA,
+                lightweight, tag -> tag.putBoolean("CbcatFixAssemblyFuel", true));
+            ordered.add(lightweight);
+            String base = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(pair.rocket()).getPath().replaceFirst("_item$", "");
+            for (String suffix : java.util.List.of("_double_fuel", "_double_payload")) {
+                var item = net.minecraft.core.registries.BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath(MOD_ID, base + suffix));
+                ordered.add(item.getDefaultInstance());
+            }
         }
     }
 
@@ -163,14 +135,4 @@ public class CbcatFix {
         LOGGER.info("[CBCAT Fix] Initialized {} cbc_at recipe serializers before registry events.", recipeSerializerCount);
     }
 
-    private static boolean isClientDist() {
-        try {
-            Object dist = Class.forName("net.neoforged.fml.loading.FMLEnvironment")
-                               .getField("dist")
-                               .get(null);
-            return dist != null && dist.toString().equals("CLIENT");
-        } catch (Exception e) {
-            return false;
-        }
-    }
 }

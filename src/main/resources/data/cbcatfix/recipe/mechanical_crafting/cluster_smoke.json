@@ -1,0 +1,89 @@
+{
+  "type": "create:mechanical_crafting",
+  "accept_mirrored": false,
+  "pattern": [
+    " ISSI ",
+    "IPPPPI",
+    "IPPPPI",
+    " ISGI "
+  ],
+  "key": {
+    "I": {
+      "item": "create:iron_sheet"
+    },
+    "S": {
+      "item": "createbigcannons:steel_ingot"
+    },
+    "G": {
+      "item": "createbigcannons:packed_gunpowder"
+    },
+    "P": {
+      "item": "cbc_at:ha_smoke_item"
+    }
+  },
+  "result": {
+    "id": "cbc_at:cluster",
+    "count": 1,
+    "components": {
+      "cbc_at:cluster_projectile": "tooltip.cbc_at.ha_smoke",
+      "cbc_at:cluster_fuzes": [
+        {
+          "slot": 0,
+          "item": {
+            "id": "createbigcannons:impact_fuze",
+            "count": 1
+          }
+        },
+        {
+          "slot": 1,
+          "item": {
+            "id": "createbigcannons:impact_fuze",
+            "count": 1
+          }
+        },
+        {
+          "slot": 2,
+          "item": {
+            "id": "createbigcannons:impact_fuze",
+            "count": 1
+          }
+        },
+        {
+          "slot": 3,
+          "item": {
+            "id": "createbigcannons:impact_fuze",
+            "count": 1
+          }
+        },
+        {
+          "slot": 4,
+          "item": {
+            "id": "createbigcannons:impact_fuze",
+            "count": 1
+          }
+        },
+        {
+          "slot": 5,
+          "item": {
+            "id": "createbigcannons:impact_fuze",
+            "count": 1
+          }
+        },
+        {
+          "slot": 6,
+          "item": {
+            "id": "createbigcannons:impact_fuze",
+            "count": 1
+          }
+        },
+        {
+          "slot": 7,
+          "item": {
+            "id": "createbigcannons:impact_fuze",
+            "count": 1
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "type": "create:mechanical_crafting",
+  "accept_mirrored": false,
+  "category": "misc",
+  "key": {
+    "F": {
+      "item": "cbcatfix:large_rocket_propellant"
+    },
+    "I": {
+      "item": "create:iron_sheet"
+    },
+    "S": {
+      "item": "createbigcannons:steel_ingot"
+    },
+    "W": {
+      "item": "createbigcannons:he_shell"
+    }
+  },
+  "pattern": [
+    " IS   ",
+    "FSSIWW",
+    " IS   "
+  ],
+  "result": {
+    "id": "cbcatfix:big_he_rocket_double_payload",
+    "count": 1
+  }
+}

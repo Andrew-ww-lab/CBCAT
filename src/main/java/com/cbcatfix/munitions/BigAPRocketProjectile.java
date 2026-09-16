@@ -11,8 +11,4 @@ public class BigAPRocketProjectile extends AbstractMediumRocket<HA_APProjectile>
         super(type, level, 1.0d, 9.0d, EntityRegister.HA_AP_PROJECTILE);
     }
 
-    @Override
-    protected double getDefaultGravity() {
-        return -0.015d;
-    }
 }

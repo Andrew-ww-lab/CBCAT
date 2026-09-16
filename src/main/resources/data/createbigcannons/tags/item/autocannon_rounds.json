@@ -1,0 +1,27 @@
+{
+  "replace": false,
+  "values": [
+    "cbcatfix:ap_rocket_double_fuel",
+    "cbcatfix:ap_rocket_double_payload",
+    "cbcatfix:flak_rocket_double_fuel",
+    "cbcatfix:flak_rocket_double_payload",
+    "cbcatfix:he_rocket_double_fuel",
+    "cbcatfix:he_rocket_double_payload",
+    "cbcatfix:hei_rocket_double_fuel",
+    "cbcatfix:hei_rocket_double_payload",
+    "cbcatfix:medium_ap_rocket_double_fuel",
+    "cbcatfix:medium_ap_rocket_double_payload",
+    "cbcatfix:medium_he_rocket_double_fuel",
+    "cbcatfix:medium_he_rocket_double_payload",
+    "cbcatfix:medium_hef_rocket_double_fuel",
+    "cbcatfix:medium_hef_rocket_double_payload",
+    "cbcatfix:medium_heat_rocket_double_fuel",
+    "cbcatfix:medium_heat_rocket_double_payload",
+    "cbcatfix:big_ap_rocket_double_fuel",
+    "cbcatfix:big_ap_rocket_double_payload",
+    "cbcatfix:big_he_rocket_double_fuel",
+    "cbcatfix:big_he_rocket_double_payload",
+    "cbcatfix:big_heat_rocket_double_fuel",
+    "cbcatfix:big_heat_rocket_double_payload"
+  ]
+}

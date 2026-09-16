@@ -1,0 +1,44 @@
+{
+  "type": "create:mechanical_crafting",
+  "accept_mirrored": false,
+  "category": "misc",
+  "key": {
+    "F": {
+      "item": "cbcatfix:large_rocket_propellant"
+    },
+    "I": {
+      "item": "create:iron_sheet"
+    },
+    "S": {
+      "item": "createbigcannons:steel_ingot"
+    },
+    "W": {
+      "item": "cbcatfix:heat_shell"
+    }
+  },
+  "pattern": [
+    "  IS  ",
+    "F SSIW",
+    "  IS  "
+  ],
+  "result": {
+    "id": "cbcatfix:big_heat_rocket",
+    "count": 1,
+    "components": {
+      "createbigcannons:projectile": [
+        {
+          "slot": 0,
+          "item": {
+            "id": "cbcatfix:heat_shell",
+            "count": 1
+          }
+        }
+      ],
+      "cbc_at:rocket_fuel": 127,
+      "minecraft:custom_data": {
+        "CbcatFixAssemblyFuel": true,
+        "CbcatFixLightweight": true
+      }
+    }
+  }
+}

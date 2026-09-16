@@ -1,0 +1,5 @@
+{
+  "neoforge:conditions": [{"type": "neoforge:false"}],
+  "type": "cbc_at:rocket_assembly",
+  "category": "misc"
+}

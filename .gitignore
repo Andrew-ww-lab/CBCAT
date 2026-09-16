@@ -1,1 +1,73 @@
-*.gz
+# Gradle / Java build output
+.gradle/
+build/
+out/
+*.class
+hs_err_pid*
+replay_pid*
+*.hprof
+*.jfr
+
+# Minecraft / NeoForge runtime (root-scoped to preserve source resources)
+/run/
+/runs/
+/logs/
+/crash-reports/
+/saves/
+/screenshots/
+/world/
+/world_nether/
+/world_the_end/
+/server/
+/.sable/
+/.mixin.out/
+/disabled-mods/
+/server.properties
+/eula.txt
+/usercache.json
+/usernamecache.json
+/ops.json
+/whitelist.json
+/banned-ips.json
+/banned-players.json
+
+# IDE configuration and caches
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.classpath
+.project
+.settings/
+/bin/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files and developer script caches
+*.tmp
+*.bak
+*.old
+*.orig
+*~
+__pycache__/
+*.pyc
+
+# Local configuration / credentials
+local.properties
+gradle.properties.local
+.env
+.env.*
+!.env.example
+
+# Built JARs; preserve the wrapper and intentional vendored dependencies
+*.jar
+!/gradle/wrapper/gradle-wrapper.jar
+!/libs/*.jar
+/libs/cbcatfix-*.jar
+
+# Generated launcher/test resources live under build/.
+# Do not ignore src/generated/: future checked-in datagen needs explicit review.

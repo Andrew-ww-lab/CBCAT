@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'com.cbcatfix'
-version = '1.0.0'
+version = providers.gradleProperty('mod_version').get()
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
@@ -57,11 +57,16 @@ tasks.register('generateLauncherModel') {
     }
 }
 sourceSets.main.resources.srcDir(launcherResources)
-tasks.named('processResources') { dependsOn('generateLauncherModel') }
+tasks.named('processResources') {
+    dependsOn('generateLauncherModel')
+    inputs.property('mod_version', project.version)
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand(mod_version: project.version)
+    }
+}
 
 repositories {
     mavenCentral()
-    mavenLocal()
     flatDir {
         dir 'libs'
     }
@@ -91,7 +96,8 @@ dependencies {
 
     // CBC & Aeronautics Dependencies
     implementation name: "createbigcannons-5.11.7+mc.1.21.1"
-    implementation name: "sable-neoforge-1.21.1-2.0.3"
+    implementation name: "cbc_at_Neoforge_1.21.1_0.1.4c"
+    compileOnly name: "sable-neoforge-1.21.1-2.0.3"
     // Public pose/target API is embedded in Sable at runtime; expose it only for compilation.
     compileOnly files(zipTree('libs/sable-neoforge-1.21.1-2.0.3.jar').matching {
         include 'META-INF/jarjar/sable-companion-common-*.jar'
@@ -99,12 +105,17 @@ dependencies {
     implementation name: "ritchiesprojectilelib-2.1.2+mc.1.21.1-neoforge"
     // Development-only targeting validation. This is not packaged and is not a required mod dependency.
     compileOnly("maven.modrinth:jade:15.10.6+neoforge")
-    runtimeOnly("maven.modrinth:jade:15.10.6+neoforge")
     
 
-    // Local Mods in libs/ folder
-    implementation('maven.modrinth:create-radars:0.4.8-1.21.1')
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly('maven.modrinth:create-radars:0.4.8-1.21.1')
+    // Explicit development integrations: never ingest old builds or arbitrary libs/*.jar.
+    if (!project.hasProperty('minimalRuntime')) {
+        runtimeOnly name: "sable-neoforge-1.21.1-2.0.3"
+        runtimeOnly name: "create-aeronautics-bundled-1.21.1-1.3.0"
+        runtimeOnly name: "jei-1.21.1-neoforge-19.27.0.340"
+        runtimeOnly("maven.modrinth:jade:15.10.6+neoforge")
+        runtimeOnly('maven.modrinth:create-radars:0.4.8-1.21.1')
+    }
 }
 
 neoForge {
@@ -113,6 +124,7 @@ neoForge {
     runs {
         client {
             client()
+            if (project.hasProperty('runDirectory')) gameDirectory = file(project.property('runDirectory'))
             systemProperty 'neoforge.logging.console.level', 'debug'
             systemProperty 'mixin.debug.verbose', 'true'
             systemProperty 'mixin.debug.export', 'true'
@@ -123,6 +135,7 @@ neoForge {
         }
         server {
             server()
+            if (project.hasProperty('runDirectory')) gameDirectory = file(project.property('runDirectory'))
             programArgument '--nogui'
         }
     }
@@ -132,4 +145,40 @@ neoForge {
             sourceSet sourceSets.main
         }
     }
+}
+
+// Opt-in integration tests run real transformed projectiles in an isolated game world.
+if (project.hasProperty('rocketTests')) {
+    sourceSets.main.java.srcDir('dev/rocket-tests/java')
+    sourceSets.main.resources.srcDir(layout.buildDirectory.dir('generated/rocketTests'))
+    tasks.register('generateRocketTestStructure') {
+        def output = layout.buildDirectory.file('generated/rocketTests/data/cbcatfix/structure/rocket_empty.nbt')
+        outputs.file(output)
+        doLast {
+            def target = output.get().asFile
+            target.parentFile.mkdirs()
+            new DataOutputStream(new java.util.zip.GZIPOutputStream(new FileOutputStream(target))).withCloseable { out ->
+                out.writeByte(10); out.writeUTF('')
+                out.writeByte(3); out.writeUTF('DataVersion'); out.writeInt(3955)
+                out.writeByte(9); out.writeUTF('size'); out.writeByte(3); out.writeInt(3)
+                [16, 8, 8].each { out.writeInt(it) }
+                out.writeByte(9); out.writeUTF('palette'); out.writeByte(10); out.writeInt(1)
+                out.writeByte(8); out.writeUTF('Name'); out.writeUTF('minecraft:air'); out.writeByte(0)
+                ['blocks', 'entities'].each { out.writeByte(9); out.writeUTF(it); out.writeByte(10); out.writeInt(0) }
+                out.writeByte(0)
+            }
+        }
+    }
+    tasks.named('processResources') { dependsOn('generateRocketTestStructure') }
+    neoForge.runs {
+        rocketTests {
+            type = 'gameTestServer'
+            gameDirectory = layout.buildDirectory.dir('rocket-gametest')
+            systemProperty 'neoforge.enabledGameTestNamespaces', 'cbcatfix'
+        }
+    }
+}
+
+tasks.named('jar') {
+    exclude('com/cbcatfix/rocket/tests/**', 'data/cbcatfix/structure/rocket_empty.nbt')
 }

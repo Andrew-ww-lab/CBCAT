@@ -28,7 +28,10 @@ import net.minecraft.world.level.Level;
 import rbasamoyai.createbigcannons.munitions.fuzes.FuzeItem;
 
 @Mixin(value = AbstractMediumRocket.class, remap = false)
-public class AbstractMediumRocketFlightMixin implements RocketPayloadAccess {
+public abstract class AbstractMediumRocketFlightMixin extends rbasamoyai.createbigcannons.munitions.AbstractCannonProjectile implements RocketPayloadAccess {
+    protected AbstractMediumRocketFlightMixin(net.minecraft.world.entity.EntityType<? extends rbasamoyai.createbigcannons.munitions.AbstractCannonProjectile> type, Level level) {
+        super(type, level);
+    }
 
     @Shadow private byte fuel;
 
@@ -50,7 +53,8 @@ public class AbstractMediumRocketFlightMixin implements RocketPayloadAccess {
     @Override
     public void cbcatfix$configurePayload(int payloadCount, ItemStack fuze, boolean armorPiercing) {
         this.cbcatfix$payloadCount = Math.clamp(payloadCount, 1, 2);
-        this.cbcatfix$universalFuze = fuze.copy();
+        // Explosive rockets already own a mutable fuze in the native superclass.
+        this.cbcatfix$universalFuze = (Object) this instanceof AbstractMediumFuzedRocket<?> ? ItemStack.EMPTY : fuze.copy();
         this.cbcatfix$armorPiercing = armorPiercing;
         this.cbcatfix$guidanceBroken = false;
     }
@@ -83,6 +87,7 @@ public class AbstractMediumRocketFlightMixin implements RocketPayloadAccess {
 
     @Override
     public int cbcatfix$getPoweredFlightTicks() {
+        if (((com.cbcatfix.rocket.RocketEngineAccess) this).cbcatfix$isEngineDisabled()) return 0;
         return this.cbcatfix$poweredFlightTicks >= 0 ? this.cbcatfix$poweredFlightTicks : this.fuel;
     }
 
@@ -100,12 +105,15 @@ public class AbstractMediumRocketFlightMixin implements RocketPayloadAccess {
 
     @Override public float cbcatfix$getDurability() { return this.cbcatfix$durability; }
     @Override public float cbcatfix$getMaximumDurability() { return this.cbcatfix$maximumDurability; }
-    @Override public boolean cbcatfix$isArmorPiercing() { return this.cbcatfix$armorPiercing; }
+    @Override public boolean cbcatfix$isArmorPiercing() {
+        return this.cbcatfix$armorPiercing || com.cbcatfix.rocket.RocketBallistics.isApProjectile(
+            (rbasamoyai.createbigcannons.munitions.AbstractCannonProjectile) (Object) this);
+    }
 
     @Override
     public boolean cbcatfix$hasGuidance() {
         return !this.cbcatfix$guidanceBroken
-            && "com.happysg.radar.item.GuidedFuzeItem".equals(this.cbcatfix$universalFuze.getItem().getClass().getName());
+            && this.cbcatfix$flightState.seeker != null;
     }
 
     @Override
@@ -118,6 +126,7 @@ public class AbstractMediumRocketFlightMixin implements RocketPayloadAccess {
     @Inject(method = "getForces", at = @At("HEAD"), cancellable = true, remap = false)
     private void cbcatfix$flyStraightWhileFueled(Vec3 position, Vec3 velocity, CallbackInfoReturnable<Vec3> cir) {
         if (this.cbcatfix$getPoweredFlightTicks() <= 0) {
+            cir.setReturnValue(super.getForces(position, velocity));
             return;
         }
         cir.setReturnValue(RocketSteering.poweredForces((AbstractMediumRocket<?>) (Object) this,
@@ -135,6 +144,11 @@ public class AbstractMediumRocketFlightMixin implements RocketPayloadAccess {
         AbstractMediumRocket<?> rocket = (AbstractMediumRocket<?>) (Object) this;
         RocketFlightEffects.initializeOrientation(rocket);
         this.cbcatfix$flightState.beginTick(rocket);
+        if (((com.cbcatfix.rocket.RocketEngineAccess) this).cbcatfix$isEngineDisabled()) {
+            this.cbcatfix$poweredFlightTicks = 0;
+            this.fuel = 0;
+            this.cbcatfix$guidanceBroken = true;
+        }
         if (this.cbcatfix$poweredFlightTicks >= 0) {
             this.fuel = (byte) (this.cbcatfix$poweredFlightTicks > 0 ? 2 : 0);
         }
@@ -150,13 +164,12 @@ public class AbstractMediumRocketFlightMixin implements RocketPayloadAccess {
             this.cbcatfix$poweredFlightTicks--;
         }
         AbstractMediumRocket<?> rocket = (AbstractMediumRocket<?>) (Object) this;
-        rocket.refreshDimensions();
         if (!(rocket instanceof AbstractMediumFuzedRocket<?>)
             && !rocket.level().isClientSide()
             && this.cbcatfix$universalFuze.getItem() instanceof FuzeItem fuze
             && !SableGuidanceCompat.isGuidedFuze(this.cbcatfix$universalFuze)
             && fuze.onProjectileTick(this.cbcatfix$universalFuze, rocket)) {
-            rocket.discard();
+            com.cbcatfix.rocket.RocketDamage.disableEngine(rocket);
         }
     }
 
@@ -185,6 +198,10 @@ public class AbstractMediumRocketFlightMixin implements RocketPayloadAccess {
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"), remap = false)
     private void cbcatfix$saveBalancedPayload(CompoundTag tag, CallbackInfo ci) {
+        tag.putInt("CbcatFixMechanicsVersion", 3);
+        this.cbcatfix$flightState.saveClearance(tag);
+        tag.putFloat("CbcatFixMaximumDurability", this.cbcatfix$maximumDurability);
+        tag.putDouble("CbcatFixMotorMassScale", this.cbcatfix$flightState.motorMassScale);
         if (this.cbcatfix$flightState.seeker != null) {
             tag.put("CbcatFixSeeker", this.cbcatfix$flightState.seeker.save());
         }
@@ -193,7 +210,6 @@ public class AbstractMediumRocketFlightMixin implements RocketPayloadAccess {
         tag.putFloat("CbcatFixGuidanceTurnRate", this.cbcatfix$guidanceTurnRate);
         tag.putInt("CbcatFixPoweredFlightTicks", this.cbcatfix$getPoweredFlightTicks());
         tag.putFloat("CbcatFixDurability", this.cbcatfix$durability);
-        tag.putFloat("CbcatFixMaximumDurability", this.cbcatfix$maximumDurability);
         tag.putBoolean("CbcatFixArmorPiercing", this.cbcatfix$armorPiercing);
         tag.putBoolean("CbcatFixGuidanceBroken", this.cbcatfix$guidanceBroken);
         if (!this.cbcatfix$universalFuze.isEmpty()) {
@@ -203,6 +219,8 @@ public class AbstractMediumRocketFlightMixin implements RocketPayloadAccess {
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"), remap = false)
     private void cbcatfix$loadBalancedPayload(CompoundTag tag, CallbackInfo ci) {
+        this.cbcatfix$flightState.loadClearance(tag);
+        this.cbcatfix$flightState.seeker = RocketSeeker.load(tag.getCompound("CbcatFixSeeker"));
         this.fuel = tag.getByte("Fuel");
         this.cbcatfix$payloadCount = Math.clamp(tag.getInt("CbcatFixPayloadCount"), 1, 2);
         if (tag.contains("CbcatFixMaxPoweredSpeed")) {
@@ -218,15 +236,25 @@ public class AbstractMediumRocketFlightMixin implements RocketPayloadAccess {
             || (Object) this instanceof com.cbcatfix.munitions.BigHERocketProjectile
             || (Object) this instanceof com.cbcatfix.munitions.BigHEATRocketProjectile
             ? RocketBalance.Tier.BIG : RocketBalance.Tier.MEDIUM;
-        this.cbcatfix$maximumDurability = tag.contains("CbcatFixMaximumDurability")
-            ? Math.max(1.0f, tag.getFloat("CbcatFixMaximumDurability"))
-            : RocketBalance.maximumDurability(tier);
+        this.cbcatfix$maximumDurability = RocketBalance.maximumDurability(tier);
+        float savedMaximum = tag.getFloat("CbcatFixMaximumDurability");
+        if (tag.getInt("CbcatFixMechanicsVersion") >= 3 && Float.isFinite(savedMaximum) && savedMaximum > 0)
+            this.cbcatfix$maximumDurability = savedMaximum;
+        double motorMass = tag.getDouble("CbcatFixMotorMassScale");
+        this.cbcatfix$flightState.motorMassScale = Double.isFinite(motorMass) && motorMass > 0
+            ? Math.clamp(motorMass, 0.1, 2.0) : RocketBalance.payloadScale(this.cbcatfix$payloadCount);
         this.cbcatfix$durability = tag.contains("CbcatFixDurability")
             ? Math.clamp(tag.getFloat("CbcatFixDurability"), 0.0f, this.cbcatfix$maximumDurability)
             : this.cbcatfix$maximumDurability;
         this.cbcatfix$armorPiercing = tag.getBoolean("CbcatFixArmorPiercing");
+        if (tag.getInt("CbcatFixMechanicsVersion") < 2 && tag.contains("CbcatFixDurability")) {
+            float oldMaximum = Math.max(1.0f, tag.getFloat("CbcatFixMaximumDurability"));
+            this.cbcatfix$durability = this.cbcatfix$maximumDurability
+                * Math.clamp(tag.getFloat("CbcatFixDurability") / oldMaximum, 0.0f, 1.0f);
+        }
         this.cbcatfix$guidanceBroken = tag.getBoolean("CbcatFixGuidanceBroken");
-        if (tag.contains("CbcatFixUniversalFuze", Tag.TAG_COMPOUND)) {
+        this.cbcatfix$universalFuze = ItemStack.EMPTY;
+        if (!((Object) this instanceof AbstractMediumFuzedRocket<?>) && tag.contains("CbcatFixUniversalFuze", Tag.TAG_COMPOUND)) {
             this.cbcatfix$universalFuze = ItemStack.parseOptional(
                 ((AbstractMediumRocket<?>) (Object) this).level().registryAccess(),
                 tag.getCompound("CbcatFixUniversalFuze")
@@ -243,6 +271,8 @@ public class AbstractMediumRocketFlightMixin implements RocketPayloadAccess {
         buffer.writeFloat(this.cbcatfix$maximumDurability);
         buffer.writeBoolean(this.cbcatfix$armorPiercing);
         buffer.writeBoolean(this.cbcatfix$guidanceBroken);
+        buffer.writeDouble(this.cbcatfix$flightState.motorMassScale);
+        buffer.writeFloat(this.cbcatfix$flightState.launchMass);
     }
 
     @Inject(method = "baseReadSpawnData", at = @At("TAIL"), remap = false)
@@ -254,6 +284,8 @@ public class AbstractMediumRocketFlightMixin implements RocketPayloadAccess {
         this.cbcatfix$maximumDurability = buffer.readFloat();
         this.cbcatfix$armorPiercing = buffer.readBoolean();
         this.cbcatfix$guidanceBroken = buffer.readBoolean();
+        this.cbcatfix$flightState.motorMassScale = buffer.readDouble();
+        this.cbcatfix$flightState.launchMass = buffer.readFloat();
     }
 
     @Inject(method = "onTickRotate", at = @At("HEAD"), cancellable = true, remap = false)
