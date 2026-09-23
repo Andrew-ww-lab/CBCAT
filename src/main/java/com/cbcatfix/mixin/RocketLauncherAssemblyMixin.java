@@ -26,13 +26,26 @@ import rbasamoyai.createbigcannons.cannons.autocannon.material.AutocannonMateria
 
 @Mixin(targets = {"com.dsvv.cbcat.cannon.rocketpod.contraption.MountedRocketPodContraption",
     "com.dsvv.cbcat.cannon.medium_rocketpod.contraption.MountedMediumRocketRailContraption"}, remap = false)
-public abstract class RocketLauncherAssemblyMixin extends AbstractMountedCannonContraption implements LauncherAssembly.Access {
+public abstract class RocketLauncherAssemblyMixin extends AbstractMountedCannonContraption implements LauncherAssembly.Access, com.cbcatfix.rocket.LauncherShotView {
     @Shadow(remap = false) private AutocannonMaterial cannonMaterial;
     @Shadow(remap = false) private boolean collectCannonBlocks(Level level, BlockPos pos) throws AssemblyException { throw new AssertionError(); }
     // Only topology, derived from native blocks after assembly/load. No copied inventories or persistent parallel state.
     @Unique private java.util.List<BlockPos> cbcatfix$lanes = java.util.List.of();
     @Unique private int cbcatfix$nextLane;
     @Unique private double cbcatfix$intervalRemainder;
+
+    @Override public BlockPos cbcatfix$nextLoadedLane() {
+        if (cbcatfix$lanes.isEmpty()) cbcatfix$indexLanes();
+        BlockPos waiting = null;
+        for (int offset = 0; offset < cbcatfix$lanes.size(); offset++) {
+            BlockPos lane = cbcatfix$lanes.get((cbcatfix$nextLane + offset) % cbcatfix$lanes.size());
+            var be = presentBlockEntities.get(lane);
+            if (!(be instanceof MountedRocketStorage storage) || storage.cbcatfix$firstOccupiedSlot() < 0) continue;
+            if (waiting == null) waiting = lane;
+            if (be instanceof com.cbcatfix.rocket.LauncherCooldown cooldown && cooldown.cbcatfix$getCooldown() <= 0) return lane;
+        }
+        return waiting;
+    }
 
     @Override public boolean cbcatfix$collectLane(Level level, BlockPos pos) throws AssemblyException {
         return collectCannonBlocks(level, pos);

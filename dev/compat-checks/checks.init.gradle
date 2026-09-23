@@ -1,0 +1,23 @@
+allprojects {
+    afterEvaluate {
+        tasks.register('compileSeekerChecks', JavaCompile) {
+            dependsOn tasks.named('classes')
+            source = project.fileTree(project.file('dev/compat-checks')) { include '*.java' }
+            classpath = sourceSets.main.compileClasspath + sourceSets.main.output
+            destinationDirectory = layout.buildDirectory.dir('seeker-checks')
+            javaCompiler = javaToolchains.compilerFor { languageVersion = JavaLanguageVersion.of(21) }
+        }
+        tasks.register('checkSeekerState', JavaExec) {
+            dependsOn tasks.named('compileSeekerChecks')
+            classpath = files(layout.buildDirectory.dir('seeker-checks')) + sourceSets.main.runtimeClasspath
+            mainClass = 'com.cbcatfix.rocket.SeekerStateCheck'
+            javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(21) }
+        }
+        tasks.register('checkRadarObservation', JavaExec) {
+            dependsOn tasks.named('compileSeekerChecks')
+            classpath = files(layout.buildDirectory.dir('seeker-checks')) + sourceSets.main.runtimeClasspath
+            mainClass = 'com.cbcatfix.rocket.RadarObservationCheck'
+            javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(21) }
+        }
+    }
+}

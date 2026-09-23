@@ -59,7 +59,7 @@ This mod injects the missing bridge method via Mixin.
 [[dependencies.cbcatfix]]
     modId = "create_radar"
     type = "optional"
-    versionRange = "[0.4.4,)"
+    versionRange = "[5.0-EA-2.0.2-1.21.1,)"
     ordering = "AFTER"
     side = "BOTH"
 

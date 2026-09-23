@@ -12,7 +12,7 @@ public final class CbcatFixMixinPlugin implements IMixinConfigPlugin {
     @Override public boolean shouldApplyMixin(String target, String mixin) {
         String dependency = switch (mixin.substring(mixin.lastIndexOf('.') + 1)) {
             case "SableLauncherTransferMixin" -> "sable";
-            case "GuidedFuzeItemMixin" -> "create_radar";
+            case "GuidedFuzeItemMixin", "RadarDirectLauncherAimMixin" -> "create_radar";
             case "CBCATJEIMixin" -> "jei";
             default -> null;
         };

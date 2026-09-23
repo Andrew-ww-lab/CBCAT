@@ -48,6 +48,7 @@
     "RocketFuzingRecipeMixin",
     "RocketMechanicalCraftingMixin",
     "GuidedFuzeItemMixin",
+    "RadarDirectLauncherAimMixin",
     "RocketGroundPlacementMixin",
     "RocketItemStackSizeMixin",
     "RocketDetonationInvoker",

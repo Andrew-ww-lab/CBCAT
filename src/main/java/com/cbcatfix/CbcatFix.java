@@ -37,6 +37,10 @@ public class CbcatFix {
         com.cbcatfix.rocket.RocketArmPoint.register(modEventBus);
         modEventBus.addListener((net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent event) ->
             event.enqueueWork(com.cbcatfix.rocket.LauncherTransfer::verifyIntegration));
+        modEventBus.addListener((net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent event) -> {
+            if (net.neoforged.fml.ModList.get().isLoaded("create_radar"))
+                event.enqueueWork(() -> com.cbcatfix.rocket.RadarLauncherCompat.register());
+        });
         modEventBus.addListener(com.cbcatfix.rocket.RocketArmPoint::registerCapabilities);
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(com.cbcatfix.rocket.RocketSounds::onEntityJoin);
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(com.cbcatfix.rocket.MountedRocketInteraction::onRightClick);
@@ -72,6 +76,11 @@ public class CbcatFix {
         ordered.add(com.cbcatfix.munitions.CbcatFixMunitions.SMALL_ROCKET_PROPELLANT.get().getDefaultInstance());
         ordered.add(com.cbcatfix.munitions.CbcatFixMunitions.MEDIUM_ROCKET_PROPELLANT.get().getDefaultInstance());
         ordered.add(com.cbcatfix.munitions.CbcatFixMunitions.LARGE_ROCKET_PROPELLANT.get().getDefaultInstance());
+        if (net.neoforged.fml.ModList.get().isLoaded("create_radar")) {
+            var guidedFuze = ResourceLocation.fromNamespaceAndPath("create_radar", "guided_fuze");
+            net.minecraft.core.registries.BuiltInRegistries.ITEM.getOptional(guidedFuze)
+                .ifPresent(item -> ordered.add(item.getDefaultInstance()));
+        }
         var owned = ordered.stream().map(net.minecraft.world.item.ItemStack::getItem).collect(java.util.stream.Collectors.toSet());
         var remove = java.util.stream.Stream.concat(event.getParentEntries().stream(), event.getSearchEntries().stream())
             .filter(stack -> owned.contains(stack.getItem()) || isRocketStack(stack)).toList();

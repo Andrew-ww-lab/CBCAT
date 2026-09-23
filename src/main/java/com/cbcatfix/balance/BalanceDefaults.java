@@ -58,8 +58,8 @@ public final class BalanceDefaults {
     public static final double SMALL_RESPONSE_TICKS = 3.0;
     public static final double MEDIUM_RESPONSE_TICKS = 6.0;
     public static final double BIG_RESPONSE_TICKS = 10.0;
-    public static final double SMALL_FIRE_RATE = 0.9;
-    public static final double MEDIUM_FIRE_RATE = 1.0;
+    public static final double SMALL_FIRE_RATE = 0.675;
+    public static final double MEDIUM_FIRE_RATE = 0.75;
     public static final double BIG_FIRE_RATE = 0.5;
     public static final float EJECTION_SPEED = 0.15f;
     public static final float DOUBLE_PAYLOAD_SCALE = 1.75f;

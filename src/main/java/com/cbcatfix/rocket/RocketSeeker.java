@@ -16,16 +16,51 @@ public final class RocketSeeker {
     private final UUID designatedTargetId;
     private final boolean subLevelTarget;
     private Vec3 lastKnownPosition;
+    private final String contactId;
+    private final boolean activeRadar;
+    private final boolean synthetic;
+    private long suppressedUntil;
+    private ContactState contactState = ContactState.LAST_KNOWN;
+
+    public enum ContactState { CONFIRMED, DEGRADED, LAST_KNOWN, FALSE_CONTACT, AMBIGUOUS }
+
+    public RocketSeeker(String contactId, UUID targetId, boolean subLevelTarget, Vec3 position,
+                        boolean activeRadar, boolean synthetic) {
+        this.designatedTargetId = targetId;
+        this.contactId = contactId;
+        this.subLevelTarget = subLevelTarget;
+        this.lastKnownPosition = position;
+        this.activeRadar = activeRadar;
+        this.synthetic = synthetic;
+        this.contactState = synthetic ? ContactState.FALSE_CONTACT : ContactState.LAST_KNOWN;
+    }
+
+    public String contactId() { return contactId; }
+    public boolean activeRadar() { return activeRadar; }
+    public boolean synthetic() { return synthetic; }
+    public boolean subLevelTarget() { return subLevelTarget; }
+    public ContactState contactState() { return contactState; }
+    public void suppress(String targetId, long untilTick) {
+        if (activeRadar && contactId.equals(targetId)) suppressedUntil = Math.max(suppressedUntil, untilTick);
+    }
+    public boolean suppressed(long now) { return suppressedUntil > now; }
 
     public RocketSeeker(UUID targetId, boolean subLevelTarget, Vec3 initialPosition) {
-        this.designatedTargetId = targetId;
-        this.subLevelTarget = subLevelTarget;
-        this.lastKnownPosition = initialPosition;
+        this(targetId.toString(), targetId, subLevelTarget, initialPosition, true, false);
     }
 
     public Vec3 aimPoint(AbstractCannonProjectile rocket) {
         if (!(rocket.level() instanceof ServerLevel level)) return lastKnownPosition;
-        Observation observation = observe(level);
+        contactState = synthetic ? ContactState.FALSE_CONTACT
+            : designatedTargetId == null ? ContactState.AMBIGUOUS : ContactState.LAST_KNOWN;
+        if (suppressed(level.getGameTime())) return lastKnownPosition;
+        Observation observation;
+        if (activeRadar) {
+            if (!ModList.get().isLoaded("create_radar")) return lastKnownPosition;
+            observation = com.cbcatfix.compat.radars.RadarSeekerCompat.observe(rocket, this, observe(level));
+        } else {
+            observation = observe(level);
+        }
         if (observation == null || !isFinite(observation.position()) || !isFinite(observation.velocity())) {
             return lastKnownPosition;
         }
@@ -40,10 +75,12 @@ public final class RocketSeeker {
         if (!loadedRay(level, rocket.position(), observation.position())) return lastKnownPosition;
         ClipContext ray = new ClipContext(rocket.position(), observation.position(),
             ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, rocket);
-        if (subLevelTarget && ModList.get().isLoaded("sable")) {
+        if (subLevelTarget && designatedTargetId != null && !observation.synthetic() && ModList.get().isLoaded("sable")) {
             SableSeekerTarget.ignoreTargetHull(level, designatedTargetId, ray);
         }
         if (level.clip(ray).getType() != HitResult.Type.MISS) return lastKnownPosition;
+        contactState = observation.synthetic() ? ContactState.FALSE_CONTACT
+            : observation.jammed() ? ContactState.DEGRADED : ContactState.CONFIRMED;
         lastKnownPosition = observation.position();
         // Lead only a currently detected target; do not extrapolate an unseen target.
         double leadTicks = Math.min(com.cbcatfix.balance.BalanceDefaults.SEEKER_LEAD_TICKS, distance / Math.max(0.1, rocket.getDeltaMovement().length()));
@@ -51,6 +88,7 @@ public final class RocketSeeker {
     }
 
     private Observation observe(ServerLevel level) {
+        if (designatedTargetId == null || synthetic) return null;
         if (subLevelTarget) {
             return ModList.get().isLoaded("sable") ? SableSeekerTarget.observe(level, designatedTargetId) : null;
         }
@@ -84,7 +122,11 @@ public final class RocketSeeker {
 
     public CompoundTag save() {
         CompoundTag tag = new CompoundTag();
-        tag.putUUID("Target", designatedTargetId);
+        if (designatedTargetId != null) tag.putUUID("Target", designatedTargetId);
+        tag.putString("ContactId", contactId);
+        tag.putBoolean("ActiveRadar", activeRadar);
+        tag.putBoolean("Synthetic", synthetic);
+        tag.putLong("SuppressedUntil", suppressedUntil);
         tag.putBoolean("SubLevel", subLevelTarget);
         tag.putDouble("X", lastKnownPosition.x);
         tag.putDouble("Y", lastKnownPosition.y);
@@ -93,10 +135,16 @@ public final class RocketSeeker {
     }
 
     public static RocketSeeker load(CompoundTag tag) {
-        if (!tag.hasUUID("Target")) return null;
+        UUID targetId = tag.hasUUID("Target") ? tag.getUUID("Target") : null;
+        String contactId = tag.contains("ContactId") ? tag.getString("ContactId")
+            : targetId == null ? "" : targetId.toString();
+        if (contactId.isBlank()) return null;
         Vec3 position = new Vec3(tag.getDouble("X"), tag.getDouble("Y"), tag.getDouble("Z"));
         if (!isFinite(position)) return null;
-        RocketSeeker seeker = new RocketSeeker(tag.getUUID("Target"), tag.getBoolean("SubLevel"), position);
+        // Older saves contain only radar-guided seekers.
+        RocketSeeker seeker = new RocketSeeker(contactId, targetId, tag.getBoolean("SubLevel"), position,
+            !tag.contains("ActiveRadar") || tag.getBoolean("ActiveRadar"), tag.getBoolean("Synthetic"));
+        seeker.suppressedUntil = tag.getLong("SuppressedUntil");
         return seeker;
     }
 
@@ -104,5 +152,7 @@ public final class RocketSeeker {
         return vector != null && Double.isFinite(vector.x) && Double.isFinite(vector.y) && Double.isFinite(vector.z);
     }
 
-    record Observation(Vec3 position, Vec3 velocity) {}
+    public record Observation(Vec3 position, Vec3 velocity, boolean jammed, boolean synthetic) {
+        public Observation(Vec3 position, Vec3 velocity) { this(position, velocity, false, false); }
+    }
 }

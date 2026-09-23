@@ -97,9 +97,9 @@ dependencies {
     // CBC & Aeronautics Dependencies
     implementation name: "createbigcannons-5.11.7+mc.1.21.1"
     implementation name: "cbc_at_Neoforge_1.21.1_0.1.4c"
-    compileOnly name: "sable-neoforge-1.21.1-2.0.3"
+    compileOnly name: "sable-neoforge-1.21.1-2.0.5"
     // Public pose/target API is embedded in Sable at runtime; expose it only for compilation.
-    compileOnly files(zipTree('libs/sable-neoforge-1.21.1-2.0.3.jar').matching {
+    compileOnly files(zipTree('libs/sable-neoforge-1.21.1-2.0.5.jar').matching {
         include 'META-INF/jarjar/sable-companion-common-*.jar'
     })
     implementation name: "ritchiesprojectilelib-2.1.2+mc.1.21.1-neoforge"
@@ -107,14 +107,15 @@ dependencies {
     compileOnly("maven.modrinth:jade:15.10.6+neoforge")
     
 
-    compileOnly('maven.modrinth:create-radars:0.4.8-1.21.1')
+    compileOnly name: 'create_radar-5.0-EA-2.0.2-1.21.1'
     // Explicit development integrations: never ingest old builds or arbitrary libs/*.jar.
     if (!project.hasProperty('minimalRuntime')) {
-        runtimeOnly name: "sable-neoforge-1.21.1-2.0.3"
+        runtimeOnly name: "sable-neoforge-1.21.1-2.0.5"
         runtimeOnly name: "create-aeronautics-bundled-1.21.1-1.3.0"
         runtimeOnly name: "jei-1.21.1-neoforge-19.27.0.340"
         runtimeOnly("maven.modrinth:jade:15.10.6+neoforge")
-        runtimeOnly('maven.modrinth:create-radars:0.4.8-1.21.1')
+        runtimeOnly name: 'create_radar-5.0-EA-2.0.2-1.21.1'
+        runtimeOnly name: 'create_kaboom-1.21.1-1.0.0-EA'
     }
 }
 
