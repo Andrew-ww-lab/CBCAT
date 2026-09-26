@@ -46,7 +46,8 @@ This mod injects the missing bridge method via Mixin.
     modId = "createbigcannons"
     type = "required"
     versionRange = "[5.11.7,6.0)"
-    ordering = "BEFORE"
+    # Radars can load after CBC through CBC Neo Warfare; do not close that dependency cycle.
+    ordering = "AFTER"
     side = "BOTH"
 
 [[dependencies.cbcatfix]]
