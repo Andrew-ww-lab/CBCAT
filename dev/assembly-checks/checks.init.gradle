@@ -1,0 +1,6 @@
+allprojects {
+    afterEvaluate {
+        sourceSets.main.java.srcDir('dev/assembly-checks/java')
+        tasks.named('jar') { exclude('com/cbcatfix/audit/**') }
+    }
+}

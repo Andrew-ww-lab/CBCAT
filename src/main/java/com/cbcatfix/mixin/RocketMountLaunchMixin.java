@@ -26,6 +26,14 @@ import rbasamoyai.createbigcannons.munitions.AbstractCannonProjectile;
 @Mixin(targets = {"com.dsvv.cbcat.cannon.rocketpod.contraption.MountedRocketPodContraption",
     "com.dsvv.cbcat.cannon.medium_rocketpod.contraption.MountedMediumRocketRailContraption"}, remap = false)
 public class RocketMountLaunchMixin {
+    @org.spongepowered.asm.mixin.injection.ModifyConstant(method = "fireShot",
+        constant = {@org.spongepowered.asm.mixin.injection.Constant(floatValue = 0.825f),
+            @org.spongepowered.asm.mixin.injection.Constant(floatValue = 0.9f)})
+    private float cbcatfix$sharedSpreadFactor(float original) {
+        return com.cbcatfix.rocket.RocketBalance.launcherSpreadFactor(
+            (Object) this instanceof com.dsvv.cbcat.cannon.rocketpod.contraption.MountedRocketPodContraption
+                ? com.cbcatfix.rocket.RocketBalance.Tier.SMALL : com.cbcatfix.rocket.RocketBalance.Tier.MEDIUM);
+    }
     @Unique private Vec3 cbcatfix$launchCenter;
     @Unique private Vec3 cbcatfix$launchForward;
     @Unique private Vec3 cbcatfix$inheritedVelocity;

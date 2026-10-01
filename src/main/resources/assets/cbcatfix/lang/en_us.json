@@ -98,5 +98,15 @@
   "item.cbc_at.medium_hef_rocket_item": "Medium HEF Rocket",
   "item.cbc_at.medium_heat_rocket_item": "Medium HEAT Rocket",
   "tooltip.cbcatfix.rocket.payload_scale": "Payload effect:",
-  "tooltip.cbcatfix.rocket.acceleration_scale": "Motor response (relative to size):"
+  "tooltip.cbcatfix.rocket.acceleration_scale": "Motor response (relative to size):",
+  "tooltip.cbcatfix.launcher.hint": "Hold Shift for launcher details",
+  "tooltip.cbcatfix.launcher.capacity": "Capacity per launcher: %s rockets",
+  "tooltip.cbcatfix.launcher.length": "Minimum length: %s blocks, including breech",
+  "tooltip.cbcatfix.launcher.accuracy": "Rails for zero launch spread: %s (excluding breech)",
+  "tooltip.cbcatfix.launcher.rate": "Maximum single-launcher rate: ~%s rockets/min",
+  "tooltip.cbcatfix.launcher.load": "Cannon mount load per block: %s",
+  "tooltip.cbcatfix.launcher.sides": "Supports one matching-length launcher on each side",
+  "tooltip.cbcatfix.launcher.single": "Single launcher; no side launchers",
+  "tooltip.cbcatfix.launcher.above": "Large rocket rests above the rail",
+  "tooltip.cbcatfix.launcher.loading": "Load through the breech by hand or item transport"
 }

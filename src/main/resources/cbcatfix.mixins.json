@@ -5,6 +5,12 @@
   "compatibilityLevel": "JAVA_21",
   "refmap": "cbcatfix.refmap.json",
   "mixins": [
+    "CannonMountOrientationMixin",
+    "TwinAutocannonConnectivityMixin",
+    "HeavyMunitionAssemblyRecipeMixin",
+    "HeavyMunitionUnfuzingRecipeMixin",
+    "HeavyMunitionTracerRemovalRecipeMixin",
+    "LegacyRocketRecipeMixin",
     "ControlPitchContraptionMixin",
     "PartialBlockDamageManagerMixin",
     "ExplosionPropertiesComponentMixin",
@@ -55,6 +61,7 @@
     "RocketDetonationGuardMixin"
   ],
   "client": [
+    "HeavyAutocannonProjectileRendererMixin",
     "MediumRocketPodBreechInstanceMixin",
     "MediumRocketPodBreechRendererMixin",
     "CBCATJEIMixin",

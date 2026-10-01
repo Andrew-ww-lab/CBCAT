@@ -100,5 +100,15 @@
   "item.cbc_at.medium_hef_rocket_item": "Середня осколково-фугасна ракета",
   "item.cbc_at.medium_heat_rocket_item": "Середня кумулятивна ракета",
   "tooltip.cbcatfix.rocket.payload_scale": "Ефект заряду:",
-  "tooltip.cbcatfix.rocket.acceleration_scale": "Розгін (відносно свого розміру):"
+  "tooltip.cbcatfix.rocket.acceleration_scale": "Розгін (відносно свого розміру):",
+  "tooltip.cbcatfix.launcher.hint": "Утримуйте Shift для подробиць про пускову",
+  "tooltip.cbcatfix.launcher.capacity": "Місткість однієї пускової: %s ракет",
+  "tooltip.cbcatfix.launcher.length": "Мінімальна довжина: %s блоки, включно з казенником",
+  "tooltip.cbcatfix.launcher.accuracy": "Рейок для нульового розсіювання: %s (без казенника)",
+  "tooltip.cbcatfix.launcher.rate": "Максимальний темп однієї пускової: ~%s ракет/хв",
+  "tooltip.cbcatfix.launcher.load": "Навантаження на гарматне кріплення за блок: %s",
+  "tooltip.cbcatfix.launcher.sides": "Підтримує по одній пусковій тієї ж довжини з обох боків",
+  "tooltip.cbcatfix.launcher.single": "Одна пускова; бокові пускові не підтримуються",
+  "tooltip.cbcatfix.launcher.above": "Велика ракета розташовується над рейкою",
+  "tooltip.cbcatfix.launcher.loading": "Заряджання через казенник вручну або транспортом предметів"
 }

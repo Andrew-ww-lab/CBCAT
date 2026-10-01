@@ -19,7 +19,7 @@ public final class RocketFuzingSupport {
                 continue;
             }
             if (isRocket(stack)) {
-                if (!rocket.isEmpty()) {
+                if (!rocket.isEmpty() || AmmunitionFuzes.hasFuze(stack)) {
                     return null;
                 }
                 rocket = stack;

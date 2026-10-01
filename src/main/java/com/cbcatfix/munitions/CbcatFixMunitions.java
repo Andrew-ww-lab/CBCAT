@@ -184,7 +184,7 @@ public class CbcatFixMunitions {
             () -> com.dsvv.cbcat.registry.ItemRegister.HA_HEAT_ITEM.get());
         registerRocketVariants(bus, "big_ap_rocket", BigAPRocketItem::new,
             () -> rbasamoyai.createbigcannons.index.CBCBlocks.AP_SHOT.asItem());
-        registerRocketVariants(bus, "big_he_rocket", BigHERocketItem::new, () -> HEAVY_HE_SHELL_ITEM.get());
+        registerRocketVariants(bus, "big_he_rocket", BigHERocketItem::new, () -> rbasamoyai.createbigcannons.index.CBCBlocks.HE_SHELL.asItem());
         registerRocketVariants(bus, "big_heat_rocket", BigHEATRocketItem::new, () -> HEAT_SHELL_ITEM.get());
     }
 

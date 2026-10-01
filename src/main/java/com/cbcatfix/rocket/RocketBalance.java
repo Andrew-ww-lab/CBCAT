@@ -79,6 +79,11 @@ public final class RocketBalance {
             * (1 + CbcatFixConfig.value(CbcatFixConfig.MULTI_LAUNCHER_BONUS) * Math.max(0, lanes - 1));
     }
 
+    /** Native CBCAT spread reduction, shared by firing and launcher tooltips. */
+    public static float launcherSpreadFactor(Tier tier) {
+        return tier == Tier.SMALL ? 0.825f : 0.9f;
+    }
+
     public static double maxSpeed(ItemStack stack) {
         double speed = maxSpeed(tierForRocketItem(stack.getItem()));
         return Math.min(com.cbcatfix.balance.BalanceDefaults.MAX_POWERED_SPEED, speed * (RocketStackFactory.isLightweight(stack)
