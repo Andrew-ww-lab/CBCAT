@@ -26,13 +26,46 @@ import rbasamoyai.createbigcannons.cannons.autocannon.material.AutocannonMateria
 
 @Mixin(targets = {"com.dsvv.cbcat.cannon.rocketpod.contraption.MountedRocketPodContraption",
     "com.dsvv.cbcat.cannon.medium_rocketpod.contraption.MountedMediumRocketRailContraption"}, remap = false)
-public abstract class RocketLauncherAssemblyMixin extends AbstractMountedCannonContraption implements LauncherAssembly.Access, com.cbcatfix.rocket.LauncherShotView {
+public abstract class RocketLauncherAssemblyMixin extends AbstractMountedCannonContraption implements LauncherAssembly.Access, com.cbcatfix.rocket.LauncherShotView, com.cbcatfix.rocket.LauncherReadiness {
     @Shadow(remap = false) private AutocannonMaterial cannonMaterial;
     @Shadow(remap = false) private boolean collectCannonBlocks(Level level, BlockPos pos) throws AssemblyException { throw new AssertionError(); }
     // Only topology, derived from native blocks after assembly/load. No copied inventories or persistent parallel state.
     @Unique private java.util.List<BlockPos> cbcatfix$lanes = java.util.List.of();
     @Unique private int cbcatfix$nextLane;
     @Unique private double cbcatfix$intervalRemainder;
+    @Unique private int cbcatfix$armingTicksRemaining;
+
+    @Override public int cbcatfix$armingTicksRemaining() { return cbcatfix$armingTicksRemaining; }
+
+    @Override public void cbcatfix$receiveArmingSnapshot(int ticks) {
+        // Called exclusively from client entity-data delivery; server ownership stays here.
+        cbcatfix$armingTicksRemaining = Math.clamp(ticks, 0, cbcatfix$armingDuration());
+    }
+
+    @Override public boolean cbcatfix$hasRockets() {
+        for (var be : presentBlockEntities.values())
+            if (be instanceof MountedRocketStorage storage && storage.cbcatfix$firstOccupiedSlot() >= 0) return true;
+        return false;
+    }
+
+    @Unique private int cbcatfix$armingDuration() {
+        var breech = presentBlockEntities.get(startPos);
+        return breech instanceof MountedRocketStorage
+            ? com.cbcatfix.rocket.LauncherReadiness.duration(RocketMounts.tier(breech)) : 0;
+    }
+
+    @Inject(method = "tick", at = @At("TAIL"))
+    private void cbcatfix$tickArming(Level level, PitchOrientedContraptionEntity entity, CallbackInfo ci) {
+        if (disassembled || !entity.isAlive() || entity.getContraption() != this) return;
+        if (level.isClientSide()) {
+            // Predict the countdown, but only a server snapshot may declare the launcher armed.
+            if (cbcatfix$armingTicksRemaining > 1) cbcatfix$armingTicksRemaining--;
+            return;
+        }
+        if (cbcatfix$armingTicksRemaining > 0) cbcatfix$armingTicksRemaining--;
+        if (entity.tickCount == 1 || cbcatfix$armingTicksRemaining % 10 == 0)
+            ((com.cbcatfix.rocket.LauncherReadiness.Sync) entity).cbcatfix$syncArming(cbcatfix$armingTicksRemaining);
+    }
 
     @Override public BlockPos cbcatfix$nextLoadedLane() {
         if (cbcatfix$lanes.isEmpty()) cbcatfix$indexLanes();
@@ -56,11 +89,14 @@ public abstract class RocketLauncherAssemblyMixin extends AbstractMountedCannonC
         if (!cir.getReturnValue()) return;
         LauncherAssembly.attachSides(this, level, anchor);
         cbcatfix$indexLanes();
+        cbcatfix$armingTicksRemaining = cbcatfix$armingDuration();
     }
 
     @Inject(method = "readNBT", at = @At("RETURN"))
     private void cbcatfix$readLanes(Level level, CompoundTag tag, boolean clientData, CallbackInfo ci) {
         cbcatfix$indexLanes();
+        cbcatfix$armingTicksRemaining = tag.contains("CbcatFixArmingTicks", 3)
+            ? Math.clamp(tag.getInt("CbcatFixArmingTicks"), 0, cbcatfix$armingDuration()) : cbcatfix$armingDuration();
         cbcatfix$nextLane = Math.floorMod(tag.getInt("CbcatFixNextLane"), Math.max(1, cbcatfix$lanes.size()));
         double remainder = tag.getDouble("CbcatFixIntervalRemainder");
         cbcatfix$intervalRemainder = Double.isFinite(remainder) ? Math.clamp(remainder, 0, 0.999999) : 0;
@@ -76,6 +112,7 @@ public abstract class RocketLauncherAssemblyMixin extends AbstractMountedCannonC
                                        CallbackInfoReturnable<CompoundTag> cir) {
         cir.getReturnValue().putInt("CbcatFixNextLane", cbcatfix$nextLane);
         cir.getReturnValue().putDouble("CbcatFixIntervalRemainder", cbcatfix$intervalRemainder);
+        cir.getReturnValue().putInt("CbcatFixArmingTicks", cbcatfix$armingTicksRemaining);
     }
 
     @Unique private void cbcatfix$indexLanes() {
@@ -115,6 +152,7 @@ public abstract class RocketLauncherAssemblyMixin extends AbstractMountedCannonC
 
     @WrapMethod(method = "fireShot")
     private void cbcatfix$fireLanes(ServerLevel level, PitchOrientedContraptionEntity entity, Operation<Void> original) {
+        if (disassembled || cbcatfix$armingTicksRemaining > 0) return;
         if (cbcatfix$lanes.isEmpty()) cbcatfix$indexLanes();
         if (cbcatfix$lanes.isEmpty()) { original.call(level, entity); return; }
         BlockPos main = startPos;
@@ -137,7 +175,8 @@ public abstract class RocketLauncherAssemblyMixin extends AbstractMountedCannonC
                 // firing another lane on that stale assembled owner.
                 if (!entity.isAlive() || entity.getContraption() != this) break;
                 if (cooldown.cbcatfix$getCooldown() <= 0) continue;
-                double interval = cooldown.cbcatfix$getCooldown() / com.cbcatfix.rocket.RocketBalance.launcherRate(RocketMounts.tier(be), cbcatfix$lanes.size())
+                double interval = cooldown.cbcatfix$getCooldown() / (com.cbcatfix.rocket.RocketBalance.launcherRate(RocketMounts.tier(be), cbcatfix$lanes.size())
+                    * com.cbcatfix.rocket.SmallLauncherStructure.rateMultiplier(this))
                     + cbcatfix$intervalRemainder;
                 int ticks = Math.max(1, (int) Math.floor(interval));
                 cbcatfix$intervalRemainder = interval - Math.floor(interval);
@@ -162,7 +201,8 @@ public abstract class RocketLauncherAssemblyMixin extends AbstractMountedCannonC
         var breech = presentBlockEntities.get(startPos);
         if (!(breech instanceof MountedRocketStorage)) return;
         cir.setReturnValue(Math.min(1200, (int) Math.round(cir.getReturnValue()
-            * com.cbcatfix.rocket.RocketBalance.launcherRate(RocketMounts.tier(breech), cbcatfix$lanes.size()))));
+            * com.cbcatfix.rocket.RocketBalance.launcherRate(RocketMounts.tier(breech), cbcatfix$lanes.size())
+            * com.cbcatfix.rocket.SmallLauncherStructure.rateMultiplier(this))));
     }
 
     @Inject(method = "addBlocksToWorld", at = @At("HEAD"))

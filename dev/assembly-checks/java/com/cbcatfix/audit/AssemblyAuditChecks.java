@@ -38,6 +38,8 @@ public final class AssemblyAuditChecks {
     public static void started(ServerStartedEvent event) throws Exception {
         if (!event.getServer().isDedicatedServer()) return;
         ServerLevel level = event.getServer().overworld();
+        checks += LauncherProgressionChecks.run(level);
+        if (net.neoforged.fml.ModList.get().isLoaded("create_radar")) checks += OptionalTraverseChecks.run();
         checkTwinAssembly(level);
         checkRecipes(level);
         checks += ContentChecks.run(level);
@@ -135,16 +137,37 @@ public final class AssemblyAuditChecks {
                 continue;
             }
             if (com.cbcatfix.munitions.ClusterPayload.isAssembly(template)) {
+                check(recipe.getWidth() == 3 && recipe.getHeight() == 5, "vertical cluster recipe shape");
+                check(slots.get(7).is(rbasamoyai.createbigcannons.index.CBCItems.NITROPOWDER.get()), "central nitropowder");
+                check(slots.get(1).is(rbasamoyai.createbigcannons.index.CBCItems.SPRING_WIRE.get()), "top retaining wire");
+                check(slots.get(0).is(com.simibubi.create.AllItems.COPPER_SHEET.get()) && slots.get(2).is(com.simibubi.create.AllItems.COPPER_SHEET.get()), "two top copper sheets");
+                check(slots.get(13).is(net.minecraft.tags.ItemTags.WOODEN_SLABS), "wooden base");
+                check(slots.stream().filter(stack -> !stack.isEmpty()).count() == 13, "no extra cluster filler");
+                var expectedFuzes = new ArrayList<ItemStack>();
                 for (ItemStack stack : slots) {
-                    if (stack.getItem() instanceof com.dsvv.cbcat.cannon.heavy_autocannon.munitions.AbstractFuzedHeavyAutocannonProjectileItem)
-                        stack.set(CBCDataComponents.FUZE, fuzes);
+                    if (stack.getItem() instanceof com.dsvv.cbcat.cannon.heavy_autocannon.munitions.AbstractFuzedHeavyAutocannonProjectileItem) {
+                        var unique = fuze.copy();
+                        var settings = fuzeTag.copy();
+                        settings.putInt("Timer", 73 + expectedFuzes.size());
+                        unique.set(net.minecraft.core.component.DataComponents.CUSTOM_DATA, net.minecraft.world.item.component.CustomData.of(settings));
+                        expectedFuzes.add(unique.copy());
+                        stack.set(CBCDataComponents.FUZE, ItemContainerContents.fromItems(List.of(unique)));
+                    }
                 }
                 var clusterInput = mechanicalInput(recipe.getWidth(), recipe.getHeight(), slots);
+                check(expectedFuzes.size() == 8, "exactly eight real fuzed submunitions");
                 check(recipe.matches(clusterInput, level), "cluster accepts installed submunition fuzes");
                 var cluster = recipe.assemble(clusterInput, level.registryAccess());
                 var retained = cluster.get(DataComponentRegistry.CLUSTER_FUZES);
                 check(retained.getSlots() == com.cbcatfix.munitions.ClusterPayload.SUBMUNITION_COUNT, "all cluster fuzes retained");
-                for (var stored : retained.nonEmptyItems()) check(ItemStack.isSameItemSameComponents(stored, fuze), "cluster fuze settings retained");
+                int index = 0;
+                for (var stored : retained.nonEmptyItems()) check(ItemStack.isSameItemSameComponents(stored, expectedFuzes.get(index++)), "each distinct cluster fuze setting retained");
+                check(cluster.getCount() == 1, "one cluster output");
+                check(cluster.getOrDefault(CBCDataComponents.FUZE, ItemContainerContents.EMPTY).copyOne().isEmpty(), "carrier fuze remains separate");
+                var originalFuze = slots.get(3).remove(CBCDataComponents.FUZE);
+                var missingFuze = mechanicalInput(recipe.getWidth(), recipe.getHeight(), slots);
+                check(!recipe.matches(missingFuze, level) && recipe.assemble(missingFuze, level.registryAccess()).isEmpty(), "unfuzed submunition cannot bypass assembly");
+                slots.get(3).set(CBCDataComponents.FUZE, originalFuze);
                 check(!AmmunitionFuzes.isCleanPayload(cluster), "armed cluster cannot become clean rocket payload");
                 continue;
             }

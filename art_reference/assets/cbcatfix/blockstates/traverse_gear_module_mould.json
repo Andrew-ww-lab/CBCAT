@@ -1,0 +1,7 @@
+{
+    "variants":  {
+                     "":  {
+                              "model":  "cbcatfix:block/traverse_gear_module_mould"
+                          }
+                 }
+}

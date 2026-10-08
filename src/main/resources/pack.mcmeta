@@ -2,5 +2,11 @@
   "pack": {
     "description": "CBCAT Fix Resources",
     "pack_format": 15
+  },
+  "filter": {
+    "block": [{
+      "namespace": "createbigcannons",
+      "path": "createbigcannons/block_recipes/(casting|drilling)/rocket_pod/(unbored_)?(bronze|cast_iron)_rocket_pod_(rail|breech)\\.json"
+    }]
   }
 }

@@ -1,0 +1,870 @@
+{
+    "credit":  "Made with Blockbench",
+    "textures":  {
+                     "0":  "cbc_at:block/cluster_top",
+                     "1":  "cbc_at:block/cluster_side",
+                     "2":  "cbc_at:block/solid_shot_bottom",
+                     "particle":  "cbc_at:block/cluster_top",
+                     "packing":  "createbigcannons:item/nitropowder",
+                     "payload":  "cbc_at:item/ha_rounds"
+                 },
+    "elements":  [
+                     {
+                         "from":  [
+                                      3,
+                                      0,
+                                      3
+                                  ],
+                         "to":  [
+                                    13,
+                                    8,
+                                    13
+                                ],
+                         "rotation":  {
+                                          "angle":  0,
+                                          "axis":  "y",
+                                          "origin":  [
+                                                         3,
+                                                         0,
+                                                         3
+                                                     ]
+                                      },
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                3,
+                                                                8,
+                                                                13,
+                                                                16
+                                                            ],
+                                                     "texture":  "#1"
+                                                 },
+                                       "east":  {
+                                                    "uv":  [
+                                                               3,
+                                                               8,
+                                                               13,
+                                                               16
+                                                           ],
+                                                    "texture":  "#1"
+                                                },
+                                       "south":  {
+                                                     "uv":  [
+                                                                3,
+                                                                8,
+                                                                13,
+                                                                16
+                                                            ],
+                                                     "texture":  "#1"
+                                                 },
+                                       "west":  {
+                                                    "uv":  [
+                                                               3,
+                                                               8,
+                                                               13,
+                                                               16
+                                                           ],
+                                                    "texture":  "#1"
+                                                },
+                                       "up":  {
+                                                  "uv":  [
+                                                             3,
+                                                             3,
+                                                             13,
+                                                             13
+                                                         ],
+                                                  "texture":  "#2"
+                                              },
+                                       "down":  {
+                                                    "uv":  [
+                                                               3,
+                                                               3,
+                                                               13,
+                                                               13
+                                                           ],
+                                                    "texture":  "#2"
+                                                }
+                                   }
+                     },
+                     {
+                         "from":  [
+                                      3,
+                                      13.6,
+                                      3
+                                  ],
+                         "to":  [
+                                    13,
+                                    16,
+                                    13
+                                ],
+                         "rotation":  {
+                                          "angle":  0,
+                                          "axis":  "y",
+                                          "origin":  [
+                                                         3,
+                                                         0,
+                                                         3
+                                                     ]
+                                      },
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                3,
+                                                                0,
+                                                                13,
+                                                                2.4
+                                                            ],
+                                                     "texture":  "#1"
+                                                 },
+                                       "east":  {
+                                                    "uv":  [
+                                                               3,
+                                                               0,
+                                                               13,
+                                                               2.4
+                                                           ],
+                                                    "texture":  "#1"
+                                                },
+                                       "south":  {
+                                                     "uv":  [
+                                                                3,
+                                                                0,
+                                                                13,
+                                                                2.4
+                                                            ],
+                                                     "texture":  "#1"
+                                                 },
+                                       "west":  {
+                                                    "uv":  [
+                                                               3,
+                                                               0,
+                                                               13,
+                                                               2.4
+                                                           ],
+                                                    "texture":  "#1"
+                                                },
+                                       "up":  {
+                                                  "uv":  [
+                                                             3,
+                                                             3,
+                                                             13,
+                                                             13
+                                                         ],
+                                                  "texture":  "#0"
+                                              },
+                                       "down":  {
+                                                    "uv":  [
+                                                               3,
+                                                               3,
+                                                               13,
+                                                               13
+                                                           ],
+                                                    "texture":  "#2"
+                                                }
+                                   }
+                     },
+                     {
+                         "from":  [
+                                      3.08,
+                                      8,
+                                      3.08
+                                  ],
+                         "to":  [
+                                    12.92,
+                                    13.6,
+                                    12.92
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                5,
+                                                                7,
+                                                                10,
+                                                                11
+                                                            ],
+                                                     "texture":  "#packing"
+                                                 },
+                                       "east":  {
+                                                    "uv":  [
+                                                               5,
+                                                               7,
+                                                               10,
+                                                               11
+                                                           ],
+                                                    "texture":  "#packing"
+                                                },
+                                       "south":  {
+                                                     "uv":  [
+                                                                5,
+                                                                7,
+                                                                10,
+                                                                11
+                                                            ],
+                                                     "texture":  "#packing"
+                                                 },
+                                       "west":  {
+                                                    "uv":  [
+                                                               5,
+                                                               7,
+                                                               10,
+                                                               11
+                                                           ],
+                                                    "texture":  "#packing"
+                                                },
+                                       "up":  {
+                                                  "uv":  [
+                                                             5,
+                                                             7,
+                                                             10,
+                                                             11
+                                                         ],
+                                                  "texture":  "#packing"
+                                              },
+                                       "down":  {
+                                                    "uv":  [
+                                                               5,
+                                                               7,
+                                                               10,
+                                                               11
+                                                           ],
+                                                    "texture":  "#packing"
+                                                }
+                                   }
+                     },
+                     {
+                         "from":  [
+                                      3.000,
+                                      8.4,
+                                      3.000
+                                  ],
+                         "to":  [
+                                    5.800,
+                                    13.2,
+                                    5.800
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 },
+                                       "east":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                },
+                                       "south":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 },
+                                       "west":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                },
+                                       "up":  {
+                                                  "uv":  [
+                                                             0.25,
+                                                             12.25,
+                                                             3.75,
+                                                             15.75
+                                                         ],
+                                                  "texture":  "#payload"
+                                              },
+                                       "down":  {
+                                                    "uv":  [
+                                                               0.25,
+                                                               8.25,
+                                                               3.75,
+                                                               11.75
+                                                           ],
+                                                    "texture":  "#payload"
+                                                }
+                                   }
+                     },
+                     {
+                         "from":  [
+                                      3.000,
+                                      8.4,
+                                      6.600
+                                  ],
+                         "to":  [
+                                    5.800,
+                                    13.2,
+                                    9.400
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 },
+                                       "east":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                },
+                                       "south":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 },
+                                       "west":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                },
+                                       "up":  {
+                                                  "uv":  [
+                                                             0.25,
+                                                             12.25,
+                                                             3.75,
+                                                             15.75
+                                                         ],
+                                                  "texture":  "#payload"
+                                              },
+                                       "down":  {
+                                                    "uv":  [
+                                                               0.25,
+                                                               8.25,
+                                                               3.75,
+                                                               11.75
+                                                           ],
+                                                    "texture":  "#payload"
+                                                }
+                                   }
+                     },
+                     {
+                         "from":  [
+                                      3.000,
+                                      8.4,
+                                      10.200
+                                  ],
+                         "to":  [
+                                    5.800,
+                                    13.2,
+                                    13.000
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 },
+                                       "east":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                },
+                                       "south":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 },
+                                       "west":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                },
+                                       "up":  {
+                                                  "uv":  [
+                                                             0.25,
+                                                             12.25,
+                                                             3.75,
+                                                             15.75
+                                                         ],
+                                                  "texture":  "#payload"
+                                              },
+                                       "down":  {
+                                                    "uv":  [
+                                                               0.25,
+                                                               8.25,
+                                                               3.75,
+                                                               11.75
+                                                           ],
+                                                    "texture":  "#payload"
+                                                }
+                                   }
+                     },
+                     {
+                         "from":  [
+                                      6.600,
+                                      8.4,
+                                      3.000
+                                  ],
+                         "to":  [
+                                    9.400,
+                                    13.2,
+                                    5.800
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 },
+                                       "east":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                },
+                                       "south":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 },
+                                       "west":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                },
+                                       "up":  {
+                                                  "uv":  [
+                                                             0.25,
+                                                             12.25,
+                                                             3.75,
+                                                             15.75
+                                                         ],
+                                                  "texture":  "#payload"
+                                              },
+                                       "down":  {
+                                                    "uv":  [
+                                                               0.25,
+                                                               8.25,
+                                                               3.75,
+                                                               11.75
+                                                           ],
+                                                    "texture":  "#payload"
+                                                }
+                                   }
+                     },
+                     {
+                         "from":  [
+                                      6.600,
+                                      8.4,
+                                      10.200
+                                  ],
+                         "to":  [
+                                    9.400,
+                                    13.2,
+                                    13.000
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 },
+                                       "east":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                },
+                                       "south":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 },
+                                       "west":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                },
+                                       "up":  {
+                                                  "uv":  [
+                                                             0.25,
+                                                             12.25,
+                                                             3.75,
+                                                             15.75
+                                                         ],
+                                                  "texture":  "#payload"
+                                              },
+                                       "down":  {
+                                                    "uv":  [
+                                                               0.25,
+                                                               8.25,
+                                                               3.75,
+                                                               11.75
+                                                           ],
+                                                    "texture":  "#payload"
+                                                }
+                                   }
+                     },
+                     {
+                         "from":  [
+                                      10.200,
+                                      8.4,
+                                      3.000
+                                  ],
+                         "to":  [
+                                    13.000,
+                                    13.2,
+                                    5.800
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 },
+                                       "east":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                },
+                                       "south":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 },
+                                       "west":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                },
+                                       "up":  {
+                                                  "uv":  [
+                                                             0.25,
+                                                             12.25,
+                                                             3.75,
+                                                             15.75
+                                                         ],
+                                                  "texture":  "#payload"
+                                              },
+                                       "down":  {
+                                                    "uv":  [
+                                                               0.25,
+                                                               8.25,
+                                                               3.75,
+                                                               11.75
+                                                           ],
+                                                    "texture":  "#payload"
+                                                }
+                                   }
+                     },
+                     {
+                         "from":  [
+                                      10.200,
+                                      8.4,
+                                      6.600
+                                  ],
+                         "to":  [
+                                    13.000,
+                                    13.2,
+                                    9.400
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 },
+                                       "east":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                },
+                                       "south":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 },
+                                       "west":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                },
+                                       "up":  {
+                                                  "uv":  [
+                                                             0.25,
+                                                             12.25,
+                                                             3.75,
+                                                             15.75
+                                                         ],
+                                                  "texture":  "#payload"
+                                              },
+                                       "down":  {
+                                                    "uv":  [
+                                                               0.25,
+                                                               8.25,
+                                                               3.75,
+                                                               11.75
+                                                           ],
+                                                    "texture":  "#payload"
+                                                }
+                                   }
+                     },
+                     {
+                         "from":  [
+                                      10.200,
+                                      8.4,
+                                      10.200
+                                  ],
+                         "to":  [
+                                    13.000,
+                                    13.2,
+                                    13.000
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 },
+                                       "east":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                },
+                                       "south":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 },
+                                       "west":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                },
+                                       "up":  {
+                                                  "uv":  [
+                                                             0.25,
+                                                             12.25,
+                                                             3.75,
+                                                             15.75
+                                                         ],
+                                                  "texture":  "#payload"
+                                              },
+                                       "down":  {
+                                                    "uv":  [
+                                                               0.25,
+                                                               8.25,
+                                                               3.75,
+                                                               11.75
+                                                           ],
+                                                    "texture":  "#payload"
+                                                }
+                                   }
+                     }
+                 ],
+    "display":  {
+                    "thirdperson_righthand":  {
+                                                  "rotation":  [
+                                                                   75,
+                                                                   45,
+                                                                   0
+                                                               ],
+                                                  "translation":  [
+                                                                      0,
+                                                                      2.5,
+                                                                      0
+                                                                  ],
+                                                  "scale":  [
+                                                                0.375,
+                                                                0.375,
+                                                                0.375
+                                                            ]
+                                              },
+                    "thirdperson_lefthand":  {
+                                                 "rotation":  [
+                                                                  75,
+                                                                  45,
+                                                                  0
+                                                              ],
+                                                 "translation":  [
+                                                                     0,
+                                                                     2.5,
+                                                                     0
+                                                                 ],
+                                                 "scale":  [
+                                                               0.375,
+                                                               0.375,
+                                                               0.375
+                                                           ]
+                                             },
+                    "firstperson_righthand":  {
+                                                  "rotation":  [
+                                                                   0,
+                                                                   45,
+                                                                   0
+                                                               ],
+                                                  "scale":  [
+                                                                0.4,
+                                                                0.4,
+                                                                0.4
+                                                            ]
+                                              },
+                    "firstperson_lefthand":  {
+                                                 "rotation":  [
+                                                                  0,
+                                                                  225,
+                                                                  0
+                                                              ],
+                                                 "scale":  [
+                                                               0.4,
+                                                               0.4,
+                                                               0.4
+                                                           ]
+                                             },
+                    "ground":  {
+                                   "translation":  [
+                                                       0,
+                                                       3,
+                                                       0
+                                                   ],
+                                   "scale":  [
+                                                 0.25,
+                                                 0.25,
+                                                 0.25
+                                             ]
+                               },
+                    "gui":  {
+                                "rotation":  [
+                                                 30,
+                                                 225,
+                                                 0
+                                             ],
+                                "scale":  [
+                                              0.625,
+                                              0.625,
+                                              0.625
+                                          ]
+                            },
+                    "fixed":  {
+                                  "scale":  [
+                                                0.5,
+                                                0.5,
+                                                0.5
+                                            ]
+                              }
+                }
+}

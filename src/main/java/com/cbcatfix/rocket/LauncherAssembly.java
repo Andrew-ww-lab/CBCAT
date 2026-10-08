@@ -20,6 +20,20 @@ public final class LauncherAssembly {
         boolean cbcatfix$collectLane(Level level, BlockPos pos) throws AssemblyException;
     }
 
+    public static int maximumLength(RocketBalance.Tier tier) {
+        return switch (tier) {
+            case SMALL -> com.cbcatfix.balance.BalanceDefaults.SMALL_LAUNCHER_MAX_LENGTH;
+            case MEDIUM -> com.cbcatfix.balance.BalanceDefaults.MEDIUM_LAUNCHER_MAX_LENGTH;
+            case BIG -> com.cbcatfix.balance.BalanceDefaults.BIG_LAUNCHER_MAX_LENGTH;
+        };
+    }
+
+    private static void validateLength(AbstractMountedCannonContraption cannon, RocketBalance.Tier tier)
+        throws AssemblyException {
+        if (RocketMounts.length(cannon) > maximumLength(tier))
+            throw new AssemblyException(Component.translatable("exception.cbcatfix.launcher.too_long", maximumLength(tier)));
+    }
+
     public static Direction right(Direction forward) {
         return forward.getAxis().isHorizontal() ? forward.getClockWise() : Direction.EAST;
     }
@@ -27,11 +41,15 @@ public final class LauncherAssembly {
     public static void attachSides(AbstractMountedCannonContraption main, Level level, BlockPos anchor)
         throws AssemblyException {
         BlockEntity breech = main.presentBlockEntities.get(main.getStartPos());
-        if (!(breech instanceof MountedRocketStorage) || RocketMounts.tier(breech) == RocketBalance.Tier.BIG) return;
+        if (!(breech instanceof MountedRocketStorage)) return;
+        validateLength(main, RocketMounts.tier(breech));
+        if (RocketMounts.tier(breech) == RocketBalance.Tier.BIG) return;
         BlockPos worldRoot = anchor.offset(main.getStartPos());
         Direction forward = main.initialOrientation();
         Direction right = right(forward);
         int length = RocketMounts.length(main);
+        var mainStructure = SmallLauncherStructure.validate(main);
+        rejectUnfinishedEnd(main, level, worldRoot);
         // Collect/validate both sides before changing the parent; a failed assembly never removes world blocks.
         var sides = new java.util.LinkedHashMap<BlockPos, AbstractMountedCannonContraption>(2);
         for (int sign : new int[] {-1, 1}) {
@@ -48,7 +66,13 @@ public final class LauncherAssembly {
             if (!((Access) lane).cbcatfix$collectLane(level, sideRoot)
                 || !lane.getStartPos().equals(BlockPos.ZERO) || lane.initialOrientation() != forward)
                 throw failure("incompatible_side", sideRoot);
+            validateLength(lane, RocketMounts.tier(side));
             int sideLength = RocketMounts.length(lane);
+            var sideStructure = SmallLauncherStructure.validate(lane);
+            rejectUnfinishedEnd(lane, level, sideRoot);
+            if ((SmallLauncherStructure.isSteel(breech.getBlockState()) || SmallLauncherStructure.isSteel(side.getBlockState()))
+                && (!SmallLauncherStructure.isSteel(side.getBlockState()) || !mainStructure.equals(sideStructure)))
+                throw AbstractMountedCannonContraption.invalidCannon();
             if (sideLength != lane.getBlocks().size()) throw failure("incompatible_side", sideRoot);
             if (sideLength != length)
                 throw new AssemblyException(Component.translatable("exception.cbcatfix.launcher.length_mismatch", length, sideLength));
@@ -77,6 +101,14 @@ public final class LauncherAssembly {
             var info = cannon.getBlocks().get(pos);
             return info == null ? null : info.state();
         }, cannon.presentBlockEntities::get);
+    }
+
+    private static void rejectUnfinishedEnd(AbstractMountedCannonContraption cannon, Level level, BlockPos root)
+        throws AssemblyException {
+        if (!(level.getBlockState(root).getBlock() instanceof com.dsvv.cbcat.cannon.rocketpod.RocketPodBlock)) return;
+        var end = root.relative(cannon.initialOrientation(), RocketMounts.length(cannon));
+        if (LauncherModules.isUnfinished(level.getBlockState(end).getBlock()))
+            throw AbstractMountedCannonContraption.invalidCannon();
     }
 
     public static BlockEntity findBreech(net.minecraft.world.level.BlockGetter level, BlockPos hit) {

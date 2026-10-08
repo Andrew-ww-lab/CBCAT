@@ -1,0 +1,13 @@
+{
+    "ingredients":  [
+                        {
+                            "tag":  "minecraft:logs"
+                        }
+                    ],
+    "type":  "create:cutting",
+    "results":  [
+                    {
+                        "id":  "cbcatfix:rapid_cycling_module_mould"
+                    }
+                ]
+}

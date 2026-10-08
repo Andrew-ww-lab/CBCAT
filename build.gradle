@@ -13,6 +13,7 @@ def launcherGeometrySource = file('src/main/java/com/cbcatfix/rocket/RocketMount
 def launcherResources = layout.buildDirectory.dir('generated/launcherResources')
 tasks.register('generateLauncherModel') {
     inputs.file(launcherGeometrySource)
+    inputs.files('libs/create-1.21.1-6.0.10.jar', 'libs/createbigcannons-5.11.7+mc.1.21.1.jar')
     outputs.dir(launcherResources)
     doLast {
         def source = launcherGeometrySource.text
@@ -54,6 +55,146 @@ tasks.register('generateLauncherModel') {
         def output = launcherResources.get().file('assets/cbc_at/models/block/rocket_pod/rocket_pod.json').asFile
         output.parentFile.mkdirs()
         output.text = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(model))
+        // Subdivide only existing surfaces: identical solid volume, apertures and UV scale.
+        // Dark triangular +Y stencils and a narrow panel seam retain the original steel skin.
+        def breechElements = []
+        elements.each { element ->
+            def f = element.from, t = element.to
+            boolean outer = f[0] == 0 || t[0] == 16 || f[2] == 1.5 || t[2] == 14.5
+            if (!outer) { breechElements.add(element); return }
+            def cuts = (0..2).collect { axis ->
+                ([f[axis], t[axis]] + (axis == 1 ? [3.5,4,10,11,12,13] : [7,8,9,10])
+                    .findAll { it > f[axis] && it < t[axis] }).sort().unique()
+            }
+            for (int xi = 0; xi < cuts[0].size()-1; xi++) {
+                for (int yi = 0; yi < cuts[1].size()-1; yi++) {
+                    for (int zi = 0; zi < cuts[2].size()-1; zi++) {
+                        def a = [cuts[0][xi], cuts[1][yi], cuts[2][zi]]
+                        def b = [cuts[0][xi+1], cuts[1][yi+1], cuts[2][zi+1]]
+                        def faces = [:]
+                        def face = { name, boundary, uv, lateral, exterior ->
+                            if (!boundary) return
+                            double u = lateral, y = a[1]
+                            boolean mark = exterior && y >= 10 && y < 13 &&
+                                ((u >= 8 && u < 9) || (y < 12 && u >= 7 && u < 10))
+                            boolean seam = exterior && y == 3.5
+                            faces[name] = [texture: mark || seam ? '#mark' : '#0', uv: mark || seam ? [0,0,1,1] : uv]
+                        }
+                        face('west', a[0] == f[0], [a[2],16-b[1],b[2],16-a[1]], a[2], f[0] == 0)
+                        face('east', b[0] == t[0], [16-b[2],16-b[1],16-a[2],16-a[1]], a[2], t[0] == 16)
+                        face('north', a[2] == f[2], [16-b[0],16-b[1],16-a[0],16-a[1]], a[0], f[2] == 1.5)
+                        face('south', b[2] == t[2], [a[0],16-b[1],b[0],16-a[1]], a[0], t[2] == 14.5)
+                        if (a[1] == f[1]) faces.down = [texture: '#0', uv: [a[0],16-b[2],b[0],16-a[2]]]
+                        if (b[1] == t[1]) faces.up = [texture: '#0', uv: [a[0],a[2],b[0],b[2]]]
+                        if (!faces.isEmpty()) breechElements.add([from:a, to:b, faces:faces])
+                    }
+                }
+            }
+        }
+        def breechModel = [parent: 'minecraft:block/block', elements: breechElements, display: model.display,
+            textures: ['0': 'cbc_at:block/steel_cannon_chamber_side', mark: 'createbigcannons:block/steel_block',
+                particle: 'cbc_at:block/steel_cannon_chamber_side']]
+        def breechOutput = launcherResources.get().file('assets/cbc_at/models/block/rocket_pod/steel_rocket_pod_breech.json').asFile
+        breechOutput.text = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(breechModel))
+        // Shared open tubes; module mechanisms stay outside every launch aperture.
+        ['rapid_cycling_module', 'traverse_gear_module'].each { id ->
+            ['', 'unfinished_', 'unbored_'].each { prefix ->
+                boolean unfinished = !prefix.isEmpty()
+                def parts = []
+                def detail = { from,to,texture ->
+                    parts.add([from:from,to:to,faces:['north','south','east','west','up','down']
+                        .collectEntries { [(it):[texture:texture]] }])
+                }
+                // Read the real item silhouette; only its outline becomes a flat steel stencil.
+                def icon
+                new java.util.zip.ZipFile(file('libs/createbigcannons-5.11.7+mc.1.21.1.jar')).withCloseable { jar ->
+                    jar.getInputStream(jar.getEntry('assets/createbigcannons/textures/item/recoil_spring.png')).withCloseable { stream ->
+                        icon = javax.imageio.ImageIO.read(stream)
+                    }
+                }
+                def gearModels=[:]
+                if (id=='traverse_gear_module') new java.util.zip.ZipFile(file('libs/create-1.21.1-6.0.10.jar')).withCloseable { jar ->
+                    ['cogwheel','large_cogwheel'].each { name ->
+                        jar.getInputStream(jar.getEntry('assets/create/models/block/'+name+'.json')).withCloseable { stream ->
+                            gearModels[name]=new groovy.json.JsonSlurper().parse(stream).elements.findAll {it.name!='Axis'}
+                        }
+                    }
+                }
+                def gearContains = { name,cu,cy,size,u,y ->
+                    def span=name=='cogwheel'?20:32
+                    def px=8+(u-cu)*span/size, pz=8+(y-cy)*span/size
+                    gearModels[name].any { e ->
+                        def angle=-(e.rotation?.angle ?: 0).doubleValue()*Math.PI/180
+                        def origin=e.rotation?.origin ?: [8,8,8]
+                        def dx=px-origin[0], dz=pz-origin[2]
+                        def x=origin[0]+dx*Math.cos(angle)-dz*Math.sin(angle)
+                        def z=origin[2]+dx*Math.sin(angle)+dz*Math.cos(angle)
+                        x>=e.from[0] && x<=e.to[0] && z>=e.from[2] && z<=e.to[2]
+                    }
+                }
+                def gearOutline = { name,cu,cy,size,u,y ->
+                    if(!gearContains(name,cu,cy,size,u,y)) return false
+                    if(Math.abs((u-cu).doubleValue())<0.4 && Math.abs((y-cy).doubleValue())<0.4) return true
+                    [[-0.75,0],[0.75,0],[0,-0.75],[0,0.75]].any { d -> !gearContains(name,cu,cy,size,u+d[0],y+d[1]) }
+                }
+                def opaque = { x,y -> x>=0 && y>=0 && x<icon.width && y<icon.height
+                    && ((icon.getRGB(x.intValue(),y.intValue()) >>> 24) & 255) >= 128 }
+                def brightness = { x,y ->
+                    int rgb=icon.getRGB(x.intValue(),y.intValue())
+                    ((rgb>>>16)&255)+((rgb>>>8)&255)+(rgb&255)
+                }
+                def stencil = { u,y ->
+                    if (unfinished) return false
+                    // Equal half-pixel seams mirrored around the axial midpoint.
+                    if ((y>=2 && y<2.5) || (y>=13.5 && y<14)) return true
+                    if(id=='traverse_gear_module') return gearOutline('large_cogwheel',10,7,7,u,y) || gearOutline('cogwheel',5,10,4.5,u,y)
+                    int x=((u-4)*2).intValue(), v=((12-y)*2).intValue()
+                    if(u<4 || u>=12 || y<4 || y>=12 || !opaque(x,v)) return false
+                    return [[x-1,v],[x+1,v],[x,v-1],[x,v+1]].any { neighbour ->
+                        !opaque(neighbour[0],neighbour[1]) ||
+                            brightness(neighbour[0],neighbour[1])-brightness(x,v)>80
+                    }
+                }
+                elements.each { web ->
+                    def f=web.from, t=web.to
+                    def baseFaces = new LinkedHashMap(web.faces)
+                    ['north','south','west','east'].each { face ->
+                        boolean xFace = face in ['west','east']
+                        boolean external = face=='west' ? f[0]==0 : face=='east' ? t[0]==16
+                            : face=='north' ? f[2]==1.5 : t[2]==14.5
+                        if (!external) return
+                        baseFaces.remove(face)
+                        double low=xFace ? f[2] : f[0], high=xFace ? t[2] : t[0]
+                        def cuts=([low,high]+(0..32).collect {it/2.0}.findAll {it>low && it<high}).sort().unique()
+                        for(int i=0;i<cuts.size()-1;i++) for(int yi=0;yi<32;yi++) {
+                            def y=yi/2.0
+                            def a=new ArrayList(f), b=new ArrayList(t)
+                            a[1]=y; b[1]=y+0.5
+                            a[xFace ? 2 : 0]=cuts[i]; b[xFace ? 2 : 0]=cuts[i+1]
+                            if(xFace) { a[0]=face=='west'?f[0]:t[0]; b[0]=a[0] }
+                            else { a[2]=face=='north'?f[2]:t[2]; b[2]=a[2] }
+                            boolean ink=stencil((cuts[i]+cuts[i+1])/2,y+0.25)
+                            def uv=face in ['north','east'] ? [16-cuts[i+1],15.5-y,16-cuts[i],16-y]
+                                : [cuts[i],15.5-y,cuts[i+1],16-y]
+                            parts.add([from:a,to:b,faces:[(face):[texture:ink?'#mark':'#0',uv:ink?[0,0,1,1]:uv]]])
+                        }
+                    }
+                    parts.add([from:f,to:t,faces:baseFaces])
+                }
+                if (prefix == 'unbored_') {
+                    parts.clear()
+                    detail([0,0,1.5], [16,16,14.5], '#0')
+                }
+                def name = prefix + id
+                def moduleModel = [parent: 'minecraft:block/block', elements: parts, display: model.display,
+                    textures: ['0': 'cbc_at:block/steel_cannon_chamber_side', mark: 'createbigcannons:block/steel_block',
+                        spring: 'createbigcannons:block/autocannon/steel_autocannon',
+                        particle: 'cbc_at:block/steel_cannon_chamber_side']]
+                def target = launcherResources.get().file("assets/cbcatfix/models/block/${name}.json").asFile
+                target.parentFile.mkdirs()
+                target.text = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(moduleModel))
+            }
+        }
     }
 }
 sourceSets.main.resources.srcDir(launcherResources)
@@ -108,6 +249,7 @@ dependencies {
     
 
     compileOnly name: 'create_radar-5.0-EA-2.0.2-1.21.1'
+    compileOnly name: 'jei-1.21.1-neoforge-19.27.0.340'
     // Explicit development integrations: never ingest old builds or arbitrary libs/*.jar.
     if (!project.hasProperty('minimalRuntime')) {
         runtimeOnly name: "sable-neoforge-1.21.1-2.0.5"

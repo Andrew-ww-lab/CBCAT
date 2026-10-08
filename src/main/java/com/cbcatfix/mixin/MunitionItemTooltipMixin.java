@@ -24,7 +24,8 @@ import java.util.List;
 @Mixin(value = {
     AbstractHeavyAutocannonProjectileItem.class,
     AutocannonRoundItem.class,
-    FuzedProjectileBlockItem.class
+    FuzedProjectileBlockItem.class,
+    com.dsvv.cbcat.cluster_munition.FuzedClusterProjectileBlockItem.class
 }, remap = false)
 public class MunitionItemTooltipMixin {
     @Inject(method = "appendHoverText", at = @At("TAIL"))
@@ -36,7 +37,19 @@ public class MunitionItemTooltipMixin {
         CallbackInfo ci
     ) {
         ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
-        String profile = cbcatfix$profile(itemId);
+        if (itemId.getNamespace().equals("cbc_at") && List.of("cluster", "cluster_cartridge", "cluster_caseless").contains(itemId.getPath())) {
+            cbcatfix$addHoldShift(Screen.hasShiftDown(), tooltip);
+            if (Screen.hasShiftDown()) {
+                com.cbcatfix.client.AmmunitionDescriptions.append(tooltip, "cluster", false);
+                String payload = stack.get(com.dsvv.cbcat.registry.DataComponentRegistry.CLUSTER_PROJECTILE);
+                if (payload != null) cbcatfix$addSpecification(tooltip, "tooltip.cbcatfix.cluster.payload", Component.translatable(payload));
+                cbcatfix$addSpecification(tooltip, "tooltip.cbcatfix.cluster.count", Component.literal(Integer.toString(com.cbcatfix.munitions.ClusterPayload.SUBMUNITION_COUNT)));
+                for (String detail : List.of("main_fuze", "secondary_fuzes"))
+                    com.cbcatfix.client.AmmunitionDescriptions.text(tooltip, "tooltip.cbcatfix.cluster." + detail, 1);
+            }
+            return;
+        }
+        String profile = com.cbcatfix.client.AmmunitionDescriptions.munitionProfile(itemId);
         if (profile == null) {
             return;
         }
@@ -47,15 +60,7 @@ public class MunitionItemTooltipMixin {
             return;
         }
 
-        tooltip.add(Component.translatable("tooltip.cbcatfix.munition.summary").withStyle(ChatFormatting.GRAY));
-        cbcatfix$addSpecification(
-            tooltip,
-            "tooltip.cbcatfix.munition.type",
-            Component.translatable("tooltip.cbcatfix.munition.type." + profile)
-        );
-        tooltip.add(Component.literal("  ")
-            .append(Component.translatable("tooltip.cbcatfix.munition.description." + profile))
-            .withStyle(ChatFormatting.DARK_GRAY));
+        com.cbcatfix.client.AmmunitionDescriptions.append(tooltip, profile, false);
 
         CbcatFixConfig.HeatSettings heatSettings = cbcatfix$heatSettings(itemId);
         if (heatSettings != null) {
@@ -105,33 +110,6 @@ public class MunitionItemTooltipMixin {
             .append(Component.translatable(labelKey).withStyle(ChatFormatting.GRAY))
             .append(Component.literal(" "))
             .append(value.copy().withStyle(ChatFormatting.WHITE)));
-    }
-
-    private static String cbcatfix$profile(ResourceLocation itemId) {
-        String namespace = itemId.getNamespace();
-        String path = itemId.getPath();
-        if ("cbcatfix".equals(namespace)) {
-            return switch (path) {
-                case "flak_shell" -> "flak";
-                case "heavy_he_shell" -> "he";
-                case "heat_shell" -> "heat";
-                default -> null;
-            };
-        }
-        if (!"cbc_at".equals(namespace)) {
-            return null;
-        }
-        return switch (path) {
-            case "ha_ap_item" -> "ap";
-            case "apds_item", "ha_apds_item" -> "apds";
-            case "apdsfs_item", "ha_apdsfs_item" -> "apdsfs";
-            case "he_item", "ha_he_item" -> "he";
-            case "hei_item" -> "hei";
-            case "ha_hef_item" -> "hef";
-            case "ha_heat_item" -> "heat";
-            case "ha_smoke_item" -> "smoke";
-            default -> null;
-        };
     }
 
     private static CbcatFixConfig.HeatSettings cbcatfix$heatSettings(ResourceLocation itemId) {

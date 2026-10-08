@@ -1,0 +1,27 @@
+{
+    "key":  {
+                "S":  {
+                          "item":  "create:shaft"
+                      },
+                "I":  {
+                          "item":  "createbigcannons:steel_ingot"
+                      },
+                "B":  {
+                          "item":  "createbigcannons:steel_block"
+                      },
+                "R":  {
+                          "item":  "createbigcannons:steel_sliding_breechblock"
+                      }
+            },
+    "category":  "misc",
+    "pattern":  [
+                    "ISI",
+                    "IBI",
+                    " R "
+                ],
+    "result":  {
+                   "id":  "cbc_at:wrought_iron_medium_rocket_rail_breech",
+                   "count":  1
+               },
+    "type":  "minecraft:crafting_shaped"
+}

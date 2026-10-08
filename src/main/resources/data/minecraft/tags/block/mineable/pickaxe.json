@@ -1,5 +1,11 @@
 {
   "values": [
+    "cbcatfix:unbored_rapid_cycling_module",
+    "cbcatfix:unbored_traverse_gear_module",
+    "cbcatfix:rapid_cycling_module",
+    "cbcatfix:traverse_gear_module",
+    "cbcatfix:unfinished_rapid_cycling_module",
+    "cbcatfix:unfinished_traverse_gear_module",
     "cbcatfix:rocket",
     "cbc_at:bronze_muzzle_brake",
     "cbc_at:bronze_fume_extractor",

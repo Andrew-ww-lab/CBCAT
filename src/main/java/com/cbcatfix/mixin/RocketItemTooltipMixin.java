@@ -35,9 +35,7 @@ public class RocketItemTooltipMixin {
     ) {
         ItemContainerContents payload = stack.getOrDefault(CBCDataComponents.PROJECTILE, ItemContainerContents.EMPTY);
         ItemStack warhead = payload.copyOne();
-        if (warhead.isEmpty()) {
-            return;
-        }
+
 
         tooltip.removeIf(component -> component.getContents() instanceof TranslatableContents translated
             && "tooltip.cbc_at.rocket.fuel".equals(translated.getKey()));
@@ -47,6 +45,10 @@ public class RocketItemTooltipMixin {
         if (!shiftDown) {
             return;
         }
+
+        com.cbcatfix.client.AmmunitionDescriptions.append(tooltip,
+            com.cbcatfix.client.AmmunitionDescriptions.rocketProfile(stack), true);
+        if (warhead.isEmpty()) return;
 
         int count = Math.clamp(warhead.getCount(), 1, 2);
         int fuelTicks = RocketStackFactory.getFuelTicks(stack);

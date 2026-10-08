@@ -1,0 +1,187 @@
+{
+  "parent": "cbc_at:item/base/rocket_item",
+  "loader": "neoforge:composite",
+  "textures": {
+    "particle": "cbc_at:item/rocket_item"
+  },
+  "children": {
+    "body": {
+      "parent": "cbc_at:item/base/rocket_item"
+    },
+    "warhead": {
+      "textures": {
+        "palette": "createbigcannons:item/flak_autocannon_round"
+      },
+      "elements": [
+        {
+          "from": [
+            7,
+            11,
+            7
+          ],
+          "to": [
+            9,
+            13,
+            9
+          ],
+          "faces": {
+            "north": {
+              "texture": "#palette",
+              "uv": [
+                10.2,
+                2.2,
+                10.8,
+                2.8
+              ]
+            },
+            "east": {
+              "texture": "#palette",
+              "uv": [
+                10.2,
+                2.2,
+                10.8,
+                2.8
+              ]
+            },
+            "south": {
+              "texture": "#palette",
+              "uv": [
+                10.2,
+                2.2,
+                10.8,
+                2.8
+              ]
+            },
+            "west": {
+              "texture": "#palette",
+              "uv": [
+                10.2,
+                2.2,
+                10.8,
+                2.8
+              ]
+            },
+            "down": {
+              "texture": "#palette",
+              "uv": [
+                10.2,
+                2.2,
+                10.8,
+                2.8
+              ]
+            }
+          }
+        },
+        {
+          "from": [
+            7,
+            13,
+            7
+          ],
+          "to": [
+            9,
+            13.5,
+            9
+          ],
+          "faces": {
+            "north": {
+              "texture": "#palette",
+              "uv": [
+                5.2,
+                7.2,
+                5.8,
+                7.8
+              ]
+            },
+            "east": {
+              "texture": "#palette",
+              "uv": [
+                5.2,
+                7.2,
+                5.8,
+                7.8
+              ]
+            },
+            "south": {
+              "texture": "#palette",
+              "uv": [
+                5.2,
+                7.2,
+                5.8,
+                7.8
+              ]
+            },
+            "west": {
+              "texture": "#palette",
+              "uv": [
+                5.2,
+                7.2,
+                5.8,
+                7.8
+              ]
+            }
+          }
+        },
+        {
+          "from": [
+            7,
+            13.5,
+            7
+          ],
+          "to": [
+            9,
+            16,
+            9
+          ],
+          "faces": {
+            "north": {
+              "texture": "#palette",
+              "uv": [
+                8.2,
+                4.2,
+                8.8,
+                4.8
+              ]
+            },
+            "east": {
+              "texture": "#palette",
+              "uv": [
+                8.2,
+                4.2,
+                8.8,
+                4.8
+              ]
+            },
+            "south": {
+              "texture": "#palette",
+              "uv": [
+                8.2,
+                4.2,
+                8.8,
+                4.8
+              ]
+            },
+            "west": {
+              "texture": "#palette",
+              "uv": [
+                8.2,
+                4.2,
+                8.8,
+                4.8
+              ]
+            },
+            "up": {
+              "texture": "#palette",
+              "uv": [
+                8.2,
+                4.2,
+                8.8,
+                4.8
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

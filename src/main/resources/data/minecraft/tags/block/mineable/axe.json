@@ -1,5 +1,7 @@
 {
   "values": [
+    "cbcatfix:rapid_cycling_module_mould",
+    "cbcatfix:traverse_gear_module_mould",
     "cbc_at:muzzle_brake_cast_mould",
     "cbc_at:fume_extractor_cast_mould",
     "cbc_at:silencer_cast_mould",

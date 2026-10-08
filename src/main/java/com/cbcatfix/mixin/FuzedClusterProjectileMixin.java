@@ -20,6 +20,16 @@ public abstract class FuzedClusterProjectileMixin extends FuzedBigCannonProjecti
         super(type, level);
     }
 
+    @Override public void writeSpawnData(net.minecraft.network.RegistryFriendlyByteBuf buffer) {
+        super.writeSpawnData(buffer);
+        buffer.writeUtf(projectile);
+    }
+
+    @Override public void readSpawnData(net.minecraft.network.RegistryFriendlyByteBuf buffer) {
+        super.readSpawnData(buffer);
+        projectile = buffer.readUtf();
+    }
+
     @Override public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         ListTag fuzes = new ListTag();

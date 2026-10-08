@@ -1,0 +1,8 @@
+{
+    "fluid":  {
+                  "tag":  "c:molten_steel"
+              },
+    "cast_shape":  "cbcatfix:traverse_gear_module",
+    "result":  "cbcatfix:unbored_traverse_gear_module",
+    "type":  "createbigcannons:cannon_casting"
+}

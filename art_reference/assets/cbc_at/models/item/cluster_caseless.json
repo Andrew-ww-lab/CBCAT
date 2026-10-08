@@ -1,0 +1,29 @@
+{
+    "parent":  "cbc_at:block/projectile_cartridge/cluster_caseless",
+    "overrides":  [
+                      {
+                          "predicate":  {
+                                            "cbcatfix:cluster_payload":  1
+                                        },
+                          "model":  "cbcatfix:item/cluster_caseless_he"
+                      },
+                      {
+                          "predicate":  {
+                                            "cbcatfix:cluster_payload":  2
+                                        },
+                          "model":  "cbcatfix:item/cluster_caseless_hef"
+                      },
+                      {
+                          "predicate":  {
+                                            "cbcatfix:cluster_payload":  3
+                                        },
+                          "model":  "cbcatfix:item/cluster_caseless_heat"
+                      },
+                      {
+                          "predicate":  {
+                                            "cbcatfix:cluster_payload":  4
+                                        },
+                          "model":  "cbcatfix:item/cluster_caseless_smoke"
+                      }
+                  ]
+}

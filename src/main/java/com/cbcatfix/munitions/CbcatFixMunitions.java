@@ -157,6 +157,7 @@ public class CbcatFixMunitions {
         BLOCKS.addAlias(oldHesh, replacement);
         ITEMS.addAlias(oldHesh, replacement);
         ENTITY_TYPES.addAlias(oldHesh, replacement);
+        com.cbcatfix.rocket.LauncherModules.register(modEventBus);
         registerRocketVariants(modEventBus);
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);

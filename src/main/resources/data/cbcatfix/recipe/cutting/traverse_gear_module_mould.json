@@ -1,0 +1,13 @@
+{
+    "ingredients":  [
+                        {
+                            "tag":  "minecraft:logs"
+                        }
+                    ],
+    "type":  "create:cutting",
+    "results":  [
+                    {
+                        "id":  "cbcatfix:traverse_gear_module_mould"
+                    }
+                ]
+}

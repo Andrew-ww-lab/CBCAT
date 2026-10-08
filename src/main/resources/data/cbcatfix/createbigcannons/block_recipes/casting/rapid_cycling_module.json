@@ -1,0 +1,8 @@
+{
+    "fluid":  {
+                  "tag":  "c:molten_steel"
+              },
+    "cast_shape":  "cbcatfix:rapid_cycling_module",
+    "result":  "cbcatfix:unbored_rapid_cycling_module",
+    "type":  "createbigcannons:cannon_casting"
+}

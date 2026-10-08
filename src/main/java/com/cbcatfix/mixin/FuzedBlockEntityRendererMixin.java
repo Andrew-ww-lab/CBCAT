@@ -25,6 +25,14 @@ public class FuzedBlockEntityRendererMixin {
 
     @Inject(method = "renderSafe", at = @At("HEAD"), cancellable = true, remap = false)
     private void cbcatfix$renderFuzeAllShells(FuzedBlockEntity be, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light, int overlay, CallbackInfo ci) {
+        if (be instanceof com.dsvv.cbcat.cluster_munition.FuzedClusterProjectileBlockEntity cluster) {
+            ms.pushPose();
+            ms.translate(0.5, 0.5, 0.5);
+            ms.mulPose(be.getBlockState().getValue(SimpleShellBlock.FACING).getRotation());
+            ms.translate(-0.5, -0.5, -0.5);
+            com.cbcatfix.client.ClusterVisuals.renderPayload(cluster.getProjectile(), be.getBlockState(), ms, buffer, light, overlay);
+            ms.popPose();
+        }
         if (!be.hasFuze()) return;
         BlockState state = be.getBlockState();
         Block block = state.getBlock();

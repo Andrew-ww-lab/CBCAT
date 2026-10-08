@@ -46,6 +46,11 @@ public class CbcatFix {
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(com.cbcatfix.rocket.MountedRocketInteraction::onRightClick);
         com.cbcatfix.munitions.CbcatFixMunitions.register(modEventBus);
         modEventBus.addListener((net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent event) -> {
+            event.modify(com.dsvv.cbcat.registry.BlockEntityRegister.ROCKET_POD_BARREL_BLOCK_ENTITY.get(),
+                com.cbcatfix.rocket.LauncherModules.RAPID.get(), com.cbcatfix.rocket.LauncherModules.TRAVERSE.get());
+            event.modify(rbasamoyai.createbigcannons.index.CBCBlockEntities.INCOMPLETE_AUTOCANNON.get(),
+                com.cbcatfix.rocket.LauncherModules.UNBORED_RAPID.get(), com.cbcatfix.rocket.LauncherModules.UNBORED_TRAVERSE.get(),
+                com.cbcatfix.rocket.LauncherModules.UNFINISHED_RAPID.get(), com.cbcatfix.rocket.LauncherModules.UNFINISHED_TRAVERSE.get());
             event.modify(com.dsvv.cbcat.registry.BlockEntityRegister.MEDIUM_ROCKET_POD_BARREL_BLOCK_ENTITY.get(),
                 com.cbcatfix.munitions.CbcatFixMunitions.BIG_ROCKET_RAIL.get());
             event.modify(com.dsvv.cbcat.registry.BlockEntityRegister.MEDIUM_ROCKET_POD_BREECH_BLOCK_ENTITY.get(),
@@ -57,6 +62,9 @@ public class CbcatFix {
     }
 
     private void onBuildCreativeTabContents(BuildCreativeModeTabContentsEvent event) {
+        java.util.stream.Stream.concat(event.getParentEntries().stream(), event.getSearchEntries().stream())
+            .filter(com.cbcatfix.rocket.LegacySmallLaunchers::isLegacy).distinct().toList()
+            .forEach(stack -> event.remove(stack, net.minecraft.world.item.CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS));
         if (event.getTab() != com.dsvv.cbcat.registry.TabRegister.SIMPLE_TAB.get()) return;
         var vis = net.minecraft.world.item.CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS;
         var ordered = new java.util.ArrayList<net.minecraft.world.item.ItemStack>();
@@ -67,6 +75,11 @@ public class CbcatFix {
                 ((net.minecraft.world.item.BlockItem) stack.getItem()).getBlock() instanceof com.dsvv.cbcat.cannon.rocketpod.RocketPodBlock ? 0 : 1)
                 .thenComparing(stack -> net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem()).toString())).toList();
         ordered.addAll(launchers);
+        for (var module : java.util.List.of(com.cbcatfix.rocket.LauncherModules.RAPID, com.cbcatfix.rocket.LauncherModules.TRAVERSE,
+            com.cbcatfix.rocket.LauncherModules.UNBORED_RAPID, com.cbcatfix.rocket.LauncherModules.UNBORED_TRAVERSE,
+            com.cbcatfix.rocket.LauncherModules.UNFINISHED_RAPID, com.cbcatfix.rocket.LauncherModules.UNFINISHED_TRAVERSE,
+            com.cbcatfix.rocket.LauncherModules.RAPID_MOULD, com.cbcatfix.rocket.LauncherModules.TRAVERSE_MOULD))
+            ordered.add(new net.minecraft.world.item.ItemStack(module.get()));
         ordered.add(com.cbcatfix.munitions.CbcatFixMunitions.BIG_ROCKET_RAIL_BREECH_ITEM.get().getDefaultInstance());
         ordered.add(com.cbcatfix.munitions.CbcatFixMunitions.BIG_ROCKET_RAIL_ITEM.get().getDefaultInstance());
         addBalancedRocketVariants(ordered);

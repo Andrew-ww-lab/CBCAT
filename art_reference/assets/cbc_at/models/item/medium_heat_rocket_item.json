@@ -1,0 +1,89 @@
+{
+  "parent": "cbc_at:item/base/medium_rocket_item",
+  "loader": "neoforge:composite",
+  "textures": {
+    "particle": "cbc_at:item/medium_rocket"
+  },
+  "children": {
+    "body": {
+      "parent": "cbc_at:item/base/medium_rocket_item"
+    },
+    "warhead": {
+      "textures": {
+        "side": "cbc_at:item/ha_heat_round",
+        "top": "cbc_at:item/ha_heat_round",
+        "bottom": "cbc_at:item/ha_heat_round"
+      },
+      "elements": [
+        {
+          "from": [
+            6,
+            11,
+            6
+          ],
+          "to": [
+            10,
+            16,
+            10
+          ],
+          "faces": {
+            "north": {
+              "texture": "#side",
+              "uv": [
+                0.25,
+                0,
+                3.75,
+                8
+              ]
+            },
+            "east": {
+              "texture": "#side",
+              "uv": [
+                0.25,
+                0,
+                3.75,
+                8
+              ]
+            },
+            "south": {
+              "texture": "#side",
+              "uv": [
+                0.25,
+                0,
+                3.75,
+                8
+              ]
+            },
+            "west": {
+              "texture": "#side",
+              "uv": [
+                0.25,
+                0,
+                3.75,
+                8
+              ]
+            },
+            "up": {
+              "texture": "#top",
+              "uv": [
+                4.25,
+                4.25,
+                7.75,
+                7.75
+              ]
+            },
+            "down": {
+              "texture": "#bottom",
+              "uv": [
+                4.25,
+                0.25,
+                7.75,
+                3.75
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

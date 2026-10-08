@@ -124,8 +124,12 @@ public class RocketMountLaunchMixin {
         args.set(1, cbcatfix$launchForward.y);
         args.set(2, cbcatfix$launchForward.z);
         args.set(3, com.cbcatfix.balance.BalanceDefaults.EJECTION_SPEED);
-        args.set(4, (float) args.get(4) * com.cbcatfix.config.CbcatFixConfig.value(com.cbcatfix.config.CbcatFixConfig.LAUNCHER_SPREAD_MULTIPLIER).floatValue());
-        // Argument 4 is CBCAT's original spread; do not replace its formula or RNG.
+        var cannon = (AbstractMountedCannonContraption) (Object) this;
+        var root = cannon.getBlocks().get(cannon.getStartPos());
+        float spread = root != null && com.cbcatfix.rocket.SmallLauncherStructure.isSteel(root.state())
+            ? com.cbcatfix.rocket.SmallLauncherStructure.spread(RocketMounts.length(cannon)) : (float) args.get(4);
+        args.set(4, spread * com.cbcatfix.config.CbcatFixConfig.value(com.cbcatfix.config.CbcatFixConfig.LAUNCHER_SPREAD_MULTIPLIER).floatValue());
+        // Only the steel Small spread parameter changes; native shoot() still owns its RNG.
     }
 
     @Redirect(method = "fireShot", at = @At(value = "INVOKE",

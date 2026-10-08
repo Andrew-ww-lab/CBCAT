@@ -1,0 +1,9 @@
+{
+    "input":  {
+                  "type":  "block",
+                  "block":  "cbcatfix:unbored_rapid_cycling_module"
+              },
+    "result":  "cbcatfix:unfinished_rapid_cycling_module",
+    "obey_facing_or_axis":  true,
+    "type":  "createbigcannons:drill_boring"
+}

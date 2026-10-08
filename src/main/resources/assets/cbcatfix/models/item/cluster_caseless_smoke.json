@@ -1,0 +1,606 @@
+{
+    "credit":  "Made with Blockbench",
+    "textures":  {
+                     "0":  "cbc_at:block/cluster_top",
+                     "2":  "cbc_at:block/solid_shot_bottom",
+                     "particle":  "cbc_at:block/cluster_top",
+                     "1":  "cbc_at:block/projectile_cartridge/cluster_caseless_side",
+                     "packing":  "createbigcannons:item/nitropowder",
+                     "separator":  "minecraft:block/white_terracotta",
+                     "payload":  "cbc_at:item/ha_rounds"
+                 },
+    "elements":  [
+                     {
+                         "from":  [
+                                      3,
+                                      0,
+                                      3
+                                  ],
+                         "to":  [
+                                    13,
+                                    16,
+                                    13
+                                ],
+                         "rotation":  {
+                                          "angle":  0,
+                                          "axis":  "y",
+                                          "origin":  [
+                                                         3,
+                                                         0,
+                                                         3
+                                                     ]
+                                      },
+                         "faces":  {
+                                       "up":  {
+                                                  "uv":  [
+                                                             3,
+                                                             3,
+                                                             13,
+                                                             13
+                                                         ],
+                                                  "texture":  "#0"
+                                              },
+                                       "down":  {
+                                                    "uv":  [
+                                                               3,
+                                                               3,
+                                                               13,
+                                                               13
+                                                           ],
+                                                    "texture":  "#2"
+                                                }
+                                   }
+                     },
+                     {
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                3,
+                                                                8,
+                                                                13,
+                                                                16
+                                                            ],
+                                                     "texture":  "#1"
+                                                 }
+                                   },
+                         "from":  [
+                                      3,
+                                      0,
+                                      3
+                                  ],
+                         "to":  [
+                                    13,
+                                    8,
+                                    3
+                                ]
+                     },
+                     {
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                3,
+                                                                0,
+                                                                13,
+                                                                2.4
+                                                            ],
+                                                     "texture":  "#1"
+                                                 }
+                                   },
+                         "from":  [
+                                      3,
+                                      13.6,
+                                      3
+                                  ],
+                         "to":  [
+                                    13,
+                                    16,
+                                    3
+                                ]
+                     },
+                     {
+                         "faces":  {
+                                       "south":  {
+                                                     "uv":  [
+                                                                3,
+                                                                8,
+                                                                13,
+                                                                16
+                                                            ],
+                                                     "texture":  "#1"
+                                                 }
+                                   },
+                         "from":  [
+                                      3,
+                                      0,
+                                      13
+                                  ],
+                         "to":  [
+                                    13,
+                                    8,
+                                    13
+                                ]
+                     },
+                     {
+                         "faces":  {
+                                       "south":  {
+                                                     "uv":  [
+                                                                3,
+                                                                0,
+                                                                13,
+                                                                2.4
+                                                            ],
+                                                     "texture":  "#1"
+                                                 }
+                                   },
+                         "from":  [
+                                      3,
+                                      13.6,
+                                      13
+                                  ],
+                         "to":  [
+                                    13,
+                                    16,
+                                    13
+                                ]
+                     },
+                     {
+                         "faces":  {
+                                       "east":  {
+                                                    "uv":  [
+                                                               3,
+                                                               8,
+                                                               13,
+                                                               16
+                                                           ],
+                                                    "texture":  "#1"
+                                                }
+                                   },
+                         "from":  [
+                                      13,
+                                      0,
+                                      3
+                                  ],
+                         "to":  [
+                                    13,
+                                    8,
+                                    13
+                                ]
+                     },
+                     {
+                         "faces":  {
+                                       "east":  {
+                                                    "uv":  [
+                                                               3,
+                                                               0,
+                                                               13,
+                                                               2.4
+                                                           ],
+                                                    "texture":  "#1"
+                                                }
+                                   },
+                         "from":  [
+                                      13,
+                                      13.6,
+                                      3
+                                  ],
+                         "to":  [
+                                    13,
+                                    16,
+                                    13
+                                ]
+                     },
+                     {
+                         "faces":  {
+                                       "west":  {
+                                                    "uv":  [
+                                                               3,
+                                                               8,
+                                                               13,
+                                                               16
+                                                           ],
+                                                    "texture":  "#1"
+                                                }
+                                   },
+                         "from":  [
+                                      3,
+                                      0,
+                                      3
+                                  ],
+                         "to":  [
+                                    3,
+                                    8,
+                                    13
+                                ]
+                     },
+                     {
+                         "faces":  {
+                                       "west":  {
+                                                    "uv":  [
+                                                               3,
+                                                               0,
+                                                               13,
+                                                               2.4
+                                                           ],
+                                                    "texture":  "#1"
+                                                }
+                                   },
+                         "from":  [
+                                      3,
+                                      13.6,
+                                      3
+                                  ],
+                         "to":  [
+                                    3,
+                                    16,
+                                    13
+                                ]
+                     },
+                     {
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 }
+                                   },
+                         "from":  [
+                                      3,
+                                      8,
+                                      3
+                                  ],
+                         "to":  [
+                                    6.333333,
+                                    13.6,
+                                    3
+                                ]
+                     },
+                     {
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 }
+                                   },
+                         "from":  [
+                                      6.333333,
+                                      8,
+                                      3
+                                  ],
+                         "to":  [
+                                    9.666667,
+                                    13.6,
+                                    3
+                                ]
+                     },
+                     {
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 }
+                                   },
+                         "from":  [
+                                      9.666667,
+                                      8,
+                                      3
+                                  ],
+                         "to":  [
+                                    13,
+                                    13.6,
+                                    3
+                                ]
+                     },
+                     {
+                         "faces":  {
+                                       "south":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 }
+                                   },
+                         "from":  [
+                                      3,
+                                      8,
+                                      13
+                                  ],
+                         "to":  [
+                                    6.333333,
+                                    13.6,
+                                    13
+                                ]
+                     },
+                     {
+                         "faces":  {
+                                       "south":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 }
+                                   },
+                         "from":  [
+                                      6.333333,
+                                      8,
+                                      13
+                                  ],
+                         "to":  [
+                                    9.666667,
+                                    13.6,
+                                    13
+                                ]
+                     },
+                     {
+                         "faces":  {
+                                       "south":  {
+                                                     "uv":  [
+                                                                4.25,
+                                                                8,
+                                                                7.75,
+                                                                16
+                                                            ],
+                                                     "texture":  "#payload"
+                                                 }
+                                   },
+                         "from":  [
+                                      9.666667,
+                                      8,
+                                      13
+                                  ],
+                         "to":  [
+                                    13,
+                                    13.6,
+                                    13
+                                ]
+                     },
+                     {
+                         "faces":  {
+                                       "east":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                }
+                                   },
+                         "from":  [
+                                      13,
+                                      8,
+                                      3
+                                  ],
+                         "to":  [
+                                    13,
+                                    13.6,
+                                    6.333333
+                                ]
+                     },
+                     {
+                         "faces":  {
+                                       "east":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                }
+                                   },
+                         "from":  [
+                                      13,
+                                      8,
+                                      6.333333
+                                  ],
+                         "to":  [
+                                    13,
+                                    13.6,
+                                    9.666667
+                                ]
+                     },
+                     {
+                         "faces":  {
+                                       "east":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                }
+                                   },
+                         "from":  [
+                                      13,
+                                      8,
+                                      9.666667
+                                  ],
+                         "to":  [
+                                    13,
+                                    13.6,
+                                    13
+                                ]
+                     },
+                     {
+                         "faces":  {
+                                       "west":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                }
+                                   },
+                         "from":  [
+                                      3,
+                                      8,
+                                      3
+                                  ],
+                         "to":  [
+                                    3,
+                                    13.6,
+                                    6.333333
+                                ]
+                     },
+                     {
+                         "faces":  {
+                                       "west":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                }
+                                   },
+                         "from":  [
+                                      3,
+                                      8,
+                                      6.333333
+                                  ],
+                         "to":  [
+                                    3,
+                                    13.6,
+                                    9.666667
+                                ]
+                     },
+                     {
+                         "faces":  {
+                                       "west":  {
+                                                    "uv":  [
+                                                               4.25,
+                                                               8,
+                                                               7.75,
+                                                               16
+                                                           ],
+                                                    "texture":  "#payload"
+                                                }
+                                   },
+                         "from":  [
+                                      3,
+                                      8,
+                                      9.666667
+                                  ],
+                         "to":  [
+                                    3,
+                                    13.6,
+                                    13
+                                ]
+                     }
+                 ],
+    "display":  {
+                    "thirdperson_righthand":  {
+                                                  "rotation":  [
+                                                                   75,
+                                                                   45,
+                                                                   0
+                                                               ],
+                                                  "translation":  [
+                                                                      0,
+                                                                      2.5,
+                                                                      0
+                                                                  ],
+                                                  "scale":  [
+                                                                0.375,
+                                                                0.375,
+                                                                0.375
+                                                            ]
+                                              },
+                    "thirdperson_lefthand":  {
+                                                 "rotation":  [
+                                                                  75,
+                                                                  45,
+                                                                  0
+                                                              ],
+                                                 "translation":  [
+                                                                     0,
+                                                                     2.5,
+                                                                     0
+                                                                 ],
+                                                 "scale":  [
+                                                               0.375,
+                                                               0.375,
+                                                               0.375
+                                                           ]
+                                             },
+                    "firstperson_righthand":  {
+                                                  "rotation":  [
+                                                                   0,
+                                                                   45,
+                                                                   0
+                                                               ],
+                                                  "scale":  [
+                                                                0.4,
+                                                                0.4,
+                                                                0.4
+                                                            ]
+                                              },
+                    "firstperson_lefthand":  {
+                                                 "rotation":  [
+                                                                  0,
+                                                                  225,
+                                                                  0
+                                                              ],
+                                                 "scale":  [
+                                                               0.4,
+                                                               0.4,
+                                                               0.4
+                                                           ]
+                                             },
+                    "ground":  {
+                                   "translation":  [
+                                                       0,
+                                                       3,
+                                                       0
+                                                   ],
+                                   "scale":  [
+                                                 0.25,
+                                                 0.25,
+                                                 0.25
+                                             ]
+                               },
+                    "gui":  {
+                                "rotation":  [
+                                                 30,
+                                                 225,
+                                                 0
+                                             ],
+                                "scale":  [
+                                              0.625,
+                                              0.625,
+                                              0.625
+                                          ]
+                            },
+                    "fixed":  {
+                                  "scale":  [
+                                                0.5,
+                                                0.5,
+                                                0.5
+                                            ]
+                              }
+                }
+}

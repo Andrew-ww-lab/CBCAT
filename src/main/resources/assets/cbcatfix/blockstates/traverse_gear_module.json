@@ -1,0 +1,29 @@
+{
+    "variants":  {
+                     "facing=up":  {
+                                       "model":  "cbcatfix:block/traverse_gear_module"
+                                   },
+                     "facing=down":  {
+                                         "model":  "cbcatfix:block/traverse_gear_module",
+                                         "x":  180
+                                     },
+                     "facing=north":  {
+                                          "model":  "cbcatfix:block/traverse_gear_module",
+                                          "x":  90
+                                      },
+                     "facing=east":  {
+                                         "model":  "cbcatfix:block/traverse_gear_module",
+                                         "x":  90,
+                                         "y":  90
+                                     },
+                     "facing=south":  {
+                                          "model":  "cbcatfix:block/traverse_gear_module",
+                                          "x":  270
+                                      },
+                     "facing=west":  {
+                                         "model":  "cbcatfix:block/traverse_gear_module",
+                                         "x":  270,
+                                         "y":  90
+                                     }
+                 }
+}

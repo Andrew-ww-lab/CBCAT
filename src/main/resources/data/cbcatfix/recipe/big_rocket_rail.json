@@ -1,0 +1,20 @@
+{
+    "key":  {
+                "S":  {
+                          "item":  "create:shaft"
+                      },
+                "B":  {
+                          "item":  "createbigcannons:steel_block"
+                      }
+            },
+    "category":  "misc",
+    "pattern":  [
+                    "B B",
+                    " S "
+                ],
+    "result":  {
+                   "id":  "cbcatfix:big_rocket_rail",
+                   "count":  1
+               },
+    "type":  "minecraft:crafting_shaped"
+}
