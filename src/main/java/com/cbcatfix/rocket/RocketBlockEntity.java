@@ -73,18 +73,17 @@ public class RocketBlockEntity extends FuzedBlockEntity {
         this.syncInheritedInventory();
     }
 
-    public boolean addRocket(ItemStack stack) {
-        if (!RocketGroundPlacement.isRocket(stack)
-            || (isIndependent() && !rockets.isEmpty())
-            || this.rockets.size() >= RocketBlock.capacity(RocketBalance.tierForRocketItem(stack.getItem()))) {
-            return false;
-        }
-        if (!this.rockets.isEmpty()
-            && RocketBalance.tierForRocketItem(this.rockets.getFirst().getItem())
-                != RocketBalance.tierForRocketItem(stack.getItem())) {
-            return false;
-        }
+    /** Shared read-only admission check; previews never mutate stored rockets. */
+    public boolean canAddRocket(ItemStack stack) {
+        return RocketGroundPlacement.isRocket(stack)
+            && !(isIndependent() && !rockets.isEmpty())
+            && rockets.size() < RocketBlock.capacity(RocketBalance.tierForRocketItem(stack.getItem()))
+            && (rockets.isEmpty() || RocketBalance.tierForRocketItem(rockets.getFirst().getItem())
+                == RocketBalance.tierForRocketItem(stack.getItem()));
+    }
 
+    public boolean addRocket(ItemStack stack) {
+        if (!canAddRocket(stack)) return false;
         ItemStack stored = stack.copyWithCount(1);
         this.rockets.add(stored);
         if (this.rockets.size() == 1) {

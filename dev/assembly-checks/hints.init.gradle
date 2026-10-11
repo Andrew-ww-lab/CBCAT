@@ -1,0 +1,6 @@
+allprojects {
+    afterEvaluate {
+        neoForge.runs.client.systemProperty 'cbcatfix.hintProbe', 'true'
+    }
+}
+

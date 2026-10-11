@@ -196,5 +196,11 @@
     "tooltip.cbcatfix.ammo.action.opening":  "On Opening",
     "tooltip.cbcatfix.ammo.action.assembly":  "During Assembly",
     "tooltip.cbcatfix.ammo.action.launch":  "On Launch",
-    "exception.cbcatfix.launcher.too_long":  "Launcher is too long. Maximum: %s blocks including the breech."
+    "exception.cbcatfix.launcher.too_long":  "Launcher is too long. Maximum: %s blocks including the breech.",
+    "cbcatfix.ponder.small_launcher.header":  "Building a Small Rocket Launcher",
+    "cbcatfix.ponder.small_launcher.text_1":  "Start with a Cannon Mount. Place the breech in its upper support.",
+    "cbcatfix.ponder.small_launcher.text_2":  "One steel breech and one steel rail form the shortest Small launcher. Face both in the firing direction.",
+    "cbcatfix.ponder.small_launcher.text_3":  "Small launchers can be 2 or 3 blocks long in total, including the breech.",
+    "cbcatfix.ponder.small_launcher.text_4":  "An optional module replaces the rail directly in front of the breech. Use at most one module; it counts towards the length limit.",
+    "cbcatfix.ponder.small_launcher.text_5":  "Rapid Cycling doubles the firing rate. Traverse improves powered aiming instead. Choose the module to suit your installation."
 }

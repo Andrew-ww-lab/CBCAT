@@ -39,6 +39,7 @@ public final class AssemblyAuditChecks {
         if (!event.getServer().isDedicatedServer()) return;
         ServerLevel level = event.getServer().overworld();
         checks += LauncherProgressionChecks.run(level);
+        checks += RocketPlacementChecks.run(level);
         if (net.neoforged.fml.ModList.get().isLoaded("create_radar")) checks += OptionalTraverseChecks.run();
         checkTwinAssembly(level);
         checkRecipes(level);

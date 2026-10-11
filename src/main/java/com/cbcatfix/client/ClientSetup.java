@@ -48,7 +48,9 @@ public class ClientSetup {
     }
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
+        net.createmod.ponder.foundation.PonderIndex.addPlugin(new com.cbcatfix.client.ponder.LauncherPonderPlugin());
         event.enqueueWork(() -> {
+            net.createmod.catnip.placement.PlacementHelpers.register(new RocketPlacementHelper());
             try {
                 SimpleBlockEntityVisualizer.builder(CbcatFixMunitions.FUZED_BLOCK_ENTITY.get())
                     .factory((context, be, partialTicks) -> new FuzedBlockVisual(context, be, partialTicks))

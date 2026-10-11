@@ -43,7 +43,7 @@ public final class RocketGroundPlacement {
         }
 
         RocketBalance.Tier tier = RocketBalance.tierForRocketItem(held.getItem());
-        if (!RocketFootprint.canPlace(level, placementPos, facing, tier)) {
+        if (!canPlaceNew(level, placementPos, facing, tier)) {
             return InteractionResult.FAIL;
         }
         BlockState rocketState = CbcatFixMunitions.ROCKET_BLOCK.get().defaultBlockState()
@@ -79,6 +79,11 @@ public final class RocketGroundPlacement {
             consumeOne(held, player);
         }
         return InteractionResult.sidedSuccess(level.isClientSide());
+    }
+
+    /** Same footprint and root-space check for placement and its read-only hint. */
+    public static boolean canPlaceNew(Level level, BlockPos pos, Direction facing, RocketBalance.Tier tier) {
+        return level.getBlockState(pos).canBeReplaced() && RocketFootprint.canPlace(level, pos, facing, tier);
     }
 
     private static void consumeOne(ItemStack held, Player player) {

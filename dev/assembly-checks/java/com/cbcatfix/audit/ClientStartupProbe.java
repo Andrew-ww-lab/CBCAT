@@ -13,8 +13,16 @@ import net.neoforged.neoforge.client.event.ScreenEvent;
 public final class ClientStartupProbe {
     private static int titleFrames;
     private static int worldTicks;
+    private static int ponderTicks;
+    private static int ponderCapture;
     @SubscribeEvent
     public static void rendered(ScreenEvent.Render.Post event) {
+        if (event.getScreen() instanceof net.createmod.ponder.foundation.ui.PonderUI
+            && ponderCapture < 2 && ponderTicks >= (ponderCapture == 0 ? 270 : 450)) {
+            try (var image = net.minecraft.client.Screenshot.takeScreenshot(Minecraft.getInstance().getMainRenderTarget())) {
+                image.writeToFile(java.nio.file.Path.of("small-launcher-ponder-" + (++ponderCapture) + ".png"));
+            } catch (java.io.IOException error) { throw new RuntimeException(error); }
+        }
         if (event.getScreen() instanceof TitleScreen && Minecraft.getInstance().getOverlay() == null && ++titleFrames == 120) {
             System.out.println("CBCAT CLIENT PROBE: title screen rendered for 120 frames");
             Minecraft.getInstance().stop();
@@ -23,13 +31,18 @@ public final class ClientStartupProbe {
     @SubscribeEvent
     public static void tick(ClientTickEvent.Post event) {
         var mc = Minecraft.getInstance();
+        if (mc.screen instanceof net.createmod.ponder.foundation.ui.PonderUI && ++ponderTicks > 650) {
+            System.out.println("CBCAT PONDER: full UI playback completed");
+            mc.stop();
+        }
         if (mc.level != null && mc.player != null && mc.screen == null && ++worldTicks == 100) {
             checkModels(mc);
             checkTooltips(mc);
             checkClusterVariants(mc);
             checkAmmunition(mc);
             System.out.println("CBCAT CLIENT PROBE: existing world loaded; player active for 100 ticks");
-            mc.setScreen(new ModelReviewScreen());
+            if (Boolean.getBoolean("cbcatfix.hintProbe")) RocketHintClientProbe.start(mc);
+            else mc.setScreen(new ModelReviewScreen());
         }
     }
 
@@ -144,9 +157,27 @@ public final class ClientStartupProbe {
                 try (var image = net.minecraft.client.Screenshot.takeScreenshot(minecraft.getMainRenderTarget())) {
                     image.writeToFile(java.nio.file.Path.of("ammunition-tooltip-review.png"));
                 } catch (java.io.IOException error) { throw new RuntimeException(error); }
-                minecraft.stop();
+                checkPonder(minecraft);
             }
         }
+    }
+
+    private static void checkPonder(Minecraft mc) {
+        for (String item : new String[] {"steel_rocket_pod_breech", "steel_rocket_pod_rail"}) {
+            var scenes = net.createmod.ponder.foundation.PonderIndex.getSceneAccess()
+                .compile(net.minecraft.resources.ResourceLocation.parse("cbc_at:" + item));
+            var scene = scenes.stream().filter(s -> s.getId().equals(net.minecraft.resources.ResourceLocation.parse("cbcatfix:small_launcher")))
+                .findFirst().orElseThrow(() -> new AssertionError("Missing Ponder registration: " + item));
+            if (!scene.getTitle().equals("Building a Small Rocket Launcher")) throw new AssertionError("Ponder title not localized");
+            if (scene.getWorld().getBlockState(new net.minecraft.core.BlockPos(3,3,2)).isAir())
+                throw new AssertionError("Missing launcher schematic");
+            for (int i = 0; i < 600; i++) scene.tick();
+            if (!scene.isFinished()) throw new AssertionError("Ponder scene did not finish");
+            if (scene.getWorld().getBlockState(new net.minecraft.core.BlockPos(2,3,2)).getBlock() != com.cbcatfix.rocket.LauncherModules.TRAVERSE.get())
+                throw new AssertionError("Ponder module replacement did not execute");
+        }
+        System.out.println("CBCAT PONDER: both item registrations, localized title, schematic and complete timeline checked");
+        mc.setScreen(net.createmod.ponder.foundation.ui.PonderUI.of(net.minecraft.resources.ResourceLocation.parse("cbc_at:steel_rocket_pod_breech")));
     }
 
     private static void checkTooltips(Minecraft mc) {

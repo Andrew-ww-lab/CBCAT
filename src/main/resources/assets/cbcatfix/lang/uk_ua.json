@@ -198,5 +198,11 @@
     "tooltip.cbcatfix.ammo.action.opening":  "При розкритті",
     "tooltip.cbcatfix.ammo.action.assembly":  "Під час складання",
     "tooltip.cbcatfix.ammo.action.launch":  "При запуску",
-    "exception.cbcatfix.launcher.too_long":  "Установка задовга. Максимум: %s блоків разом із казенником."
+    "exception.cbcatfix.launcher.too_long":  "Установка задовга. Максимум: %s блоків разом із казенником.",
+    "cbcatfix.ponder.small_launcher.header":  "Будова малої ракетної установки",
+    "cbcatfix.ponder.small_launcher.text_1":  "Почніть із гарматного станка. Розмістіть казенник у його верхньому кріпленні.",
+    "cbcatfix.ponder.small_launcher.text_2":  "Один сталевий казенник і одна сталева рейка утворюють найкоротшу малу установку. Спрямуйте обидва блоки в напрямку пострілу.",
+    "cbcatfix.ponder.small_launcher.text_3":  "Загальна довжина малої установки — 2 або 3 блоки, разом із казенником.",
+    "cbcatfix.ponder.small_launcher.text_4":  "Додатковий модуль замінює рейку прямо перед казенником. Дозволено лише один модуль; він входить у загальну довжину.",
+    "cbcatfix.ponder.small_launcher.text_5":  "Rapid Cycling подвоює темп стрільби. Traverse натомість прискорює наведення від приводів. Оберіть модуль для своєї установки."
 }
