@@ -11,7 +11,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemContainerContents;
-import com.dsvv.cbcat.registry.DataComponentRegistry;
 import com.cbcatfix.rocket.RocketBalance;
 import com.cbcatfix.rocket.RocketStackFactory;
 import org.spongepowered.asm.mixin.Mixin;

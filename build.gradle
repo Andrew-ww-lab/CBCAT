@@ -5,6 +5,7 @@ plugins {
 
 group = 'com.cbcatfix'
 version = providers.gradleProperty('mod_version').get()
+def sableVersion = providers.gradleProperty('sable_version').get()
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
@@ -13,7 +14,6 @@ def launcherGeometrySource = file('src/main/java/com/cbcatfix/rocket/RocketMount
 def launcherResources = layout.buildDirectory.dir('generated/launcherResources')
 tasks.register('generateLauncherModel') {
     inputs.file(launcherGeometrySource)
-    inputs.files('libs/create-1.21.1-6.0.10.jar', 'libs/createbigcannons-5.11.7+mc.1.21.1.jar')
     outputs.dir(launcherResources)
     doLast {
         def source = launcherGeometrySource.text
@@ -105,55 +105,39 @@ tasks.register('generateLauncherModel') {
                     parts.add([from:from,to:to,faces:['north','south','east','west','up','down']
                         .collectEntries { [(it):[texture:texture]] }])
                 }
-                // Read the real item silhouette; only its outline becomes a flat steel stencil.
-                def icon
-                new java.util.zip.ZipFile(file('libs/createbigcannons-5.11.7+mc.1.21.1.jar')).withCloseable { jar ->
-                    jar.getInputStream(jar.getEntry('assets/createbigcannons/textures/item/recoil_spring.png')).withCloseable { stream ->
-                        icon = javax.imageio.ImageIO.read(stream)
-                    }
+                // Original geometric symbols, independent of dependency artwork.
+                // Alternating radial teeth and a circular hub identify a gear.
+                def gearContains = { cu,cy,radius,teeth,u,y ->
+                    double dx=u-cu, dy=y-cy
+                    double edge=radius*(Math.cos(Math.atan2(dy,dx)*teeth)>0.2 ? 1.0 : 0.79)
+                    Math.hypot(dx,dy)<=edge
                 }
-                def gearModels=[:]
-                if (id=='traverse_gear_module') new java.util.zip.ZipFile(file('libs/create-1.21.1-6.0.10.jar')).withCloseable { jar ->
-                    ['cogwheel','large_cogwheel'].each { name ->
-                        jar.getInputStream(jar.getEntry('assets/create/models/block/'+name+'.json')).withCloseable { stream ->
-                            gearModels[name]=new groovy.json.JsonSlurper().parse(stream).elements.findAll {it.name!='Axis'}
+                def gearOutline = { cu,cy,radius,teeth,u,y ->
+                    double distance=Math.hypot(u-cu,y-cy)
+                    if(distance>=0.45 && distance<=0.95) return true
+                    gearContains(cu,cy,radius,teeth,u,y) &&
+                        [[-0.5,0],[0.5,0],[0,-0.5],[0,0.5]].any { d ->
+                            !gearContains(cu,cy,radius,teeth,u+d[0],y+d[1])
                         }
-                    }
                 }
-                def gearContains = { name,cu,cy,size,u,y ->
-                    def span=name=='cogwheel'?20:32
-                    def px=8+(u-cu)*span/size, pz=8+(y-cy)*span/size
-                    gearModels[name].any { e ->
-                        def angle=-(e.rotation?.angle ?: 0).doubleValue()*Math.PI/180
-                        def origin=e.rotation?.origin ?: [8,8,8]
-                        def dx=px-origin[0], dz=pz-origin[2]
-                        def x=origin[0]+dx*Math.cos(angle)-dz*Math.sin(angle)
-                        def z=origin[2]+dx*Math.sin(angle)+dz*Math.cos(angle)
-                        x>=e.from[0] && x<=e.to[0] && z>=e.from[2] && z<=e.to[2]
-                    }
-                }
-                def gearOutline = { name,cu,cy,size,u,y ->
-                    if(!gearContains(name,cu,cy,size,u,y)) return false
-                    if(Math.abs((u-cu).doubleValue())<0.4 && Math.abs((y-cy).doubleValue())<0.4) return true
-                    [[-0.75,0],[0.75,0],[0,-0.75],[0,0.75]].any { d -> !gearContains(name,cu,cy,size,u+d[0],y+d[1]) }
-                }
-                def opaque = { x,y -> x>=0 && y>=0 && x<icon.width && y<icon.height
-                    && ((icon.getRGB(x.intValue(),y.intValue()) >>> 24) & 255) >= 128 }
-                def brightness = { x,y ->
-                    int rgb=icon.getRGB(x.intValue(),y.intValue())
-                    ((rgb>>>16)&255)+((rgb>>>8)&255)+(rgb&255)
+                // A folded wire between two end bars identifies a compression spring.
+                def springOutline = { u,y ->
+                    if(u<4 || u>=12 || y<4 || y>=12) return false
+                    if(y<4.5 || y>=11.5) return true
+                    double phase=(y-4.5)/1.75
+                    double fraction=phase-Math.floor(phase)
+                    double center=((int)Math.floor(phase))%2==0
+                        ? 4.5+7*fraction : 11.5-7*fraction
+                    // Perpendicular distance keeps steep wire segments connected on the grid.
+                    Math.abs(u-center)/Math.sqrt(17)<0.275
                 }
                 def stencil = { u,y ->
                     if (unfinished) return false
                     // Equal half-pixel seams mirrored around the axial midpoint.
                     if ((y>=2 && y<2.5) || (y>=13.5 && y<14)) return true
-                    if(id=='traverse_gear_module') return gearOutline('large_cogwheel',10,7,7,u,y) || gearOutline('cogwheel',5,10,4.5,u,y)
-                    int x=((u-4)*2).intValue(), v=((12-y)*2).intValue()
-                    if(u<4 || u>=12 || y<4 || y>=12 || !opaque(x,v)) return false
-                    return [[x-1,v],[x+1,v],[x,v-1],[x,v+1]].any { neighbour ->
-                        !opaque(neighbour[0],neighbour[1]) ||
-                            brightness(neighbour[0],neighbour[1])-brightness(x,v)>80
-                    }
+                    if(id=='traverse_gear_module')
+                        return gearOutline(10,7,3.5,8,u,y) || gearOutline(5,10,2.25,6,u,y)
+                    springOutline(u,y)
                 }
                 elements.each { web ->
                     def f=web.from, t=web.to
@@ -188,7 +172,6 @@ tasks.register('generateLauncherModel') {
                 def name = prefix + id
                 def moduleModel = [parent: 'minecraft:block/block', elements: parts, display: model.display,
                     textures: ['0': 'cbc_at:block/steel_cannon_chamber_side', mark: 'createbigcannons:block/steel_block',
-                        spring: 'createbigcannons:block/autocannon/steel_autocannon',
                         particle: 'cbc_at:block/steel_cannon_chamber_side']]
                 def target = launcherResources.get().file("assets/cbcatfix/models/block/${name}.json").asFile
                 target.parentFile.mkdirs()
@@ -201,8 +184,9 @@ sourceSets.main.resources.srcDir(launcherResources)
 tasks.named('processResources') {
     dependsOn('generateLauncherModel')
     inputs.property('mod_version', project.version)
+    inputs.property('mod_authors', providers.gradleProperty('mod_authors'))
     filesMatching('META-INF/neoforge.mods.toml') {
-        expand(mod_version: project.version)
+        expand(mod_version: project.version, mod_authors: providers.gradleProperty('mod_authors').get())
     }
 }
 
@@ -238,39 +222,41 @@ dependencies {
     // CBC & Aeronautics Dependencies
     implementation name: "createbigcannons-5.11.7+mc.1.21.1"
     implementation name: "cbc_at_Neoforge_1.21.1_0.1.4c"
-    compileOnly name: "sable-neoforge-1.21.1-2.0.5"
+    compileOnly name: "sable-neoforge-1.21.1-${sableVersion}"
     // Public pose/target API is embedded in Sable at runtime; expose it only for compilation.
-    compileOnly files(zipTree('libs/sable-neoforge-1.21.1-2.0.5.jar').matching {
+    compileOnly files(zipTree("libs/sable-neoforge-1.21.1-${sableVersion}.jar").matching {
         include 'META-INF/jarjar/sable-companion-common-*.jar'
     })
     implementation name: "ritchiesprojectilelib-2.1.2+mc.1.21.1-neoforge"
-    // Development-only targeting validation. This is not packaged and is not a required mod dependency.
+    // Optional client integration; Jade is not packaged or required.
     compileOnly("maven.modrinth:jade:15.10.6+neoforge")
     
 
-    compileOnly name: 'create_radar-5.0-EA-2.0.2-1.21.1'
+    compileOnly name: 'create_radar-5.0-EA-3.1.3-1.21.1'
     compileOnly name: 'jei-1.21.1-neoforge-19.27.0.340'
     // Explicit development integrations: never ingest old builds or arbitrary libs/*.jar.
     if (!project.hasProperty('minimalRuntime')) {
-        runtimeOnly name: "sable-neoforge-1.21.1-2.0.5"
+        runtimeOnly name: "sable-neoforge-1.21.1-${sableVersion}"
         runtimeOnly name: "create-aeronautics-bundled-1.21.1-1.3.0"
         runtimeOnly name: "jei-1.21.1-neoforge-19.27.0.340"
         runtimeOnly("maven.modrinth:jade:15.10.6+neoforge")
-        runtimeOnly name: 'create_radar-5.0-EA-2.0.2-1.21.1'
+        runtimeOnly name: 'create_radar-5.0-EA-3.1.3-1.21.1'
         runtimeOnly name: 'create_kaboom-1.21.1-1.0.0-EA'
     }
 }
 
 neoForge {
-    version = '21.1.228'
+    version = providers.gradleProperty('neo_version').get()
 
     runs {
         client {
             client()
             if (project.hasProperty('runDirectory')) gameDirectory = file(project.property('runDirectory'))
-            systemProperty 'neoforge.logging.console.level', 'debug'
-            systemProperty 'mixin.debug.verbose', 'true'
-            systemProperty 'mixin.debug.export', 'true'
+            if (project.hasProperty('verboseDiagnostics')) {
+                systemProperty 'neoforge.logging.console.level', 'debug'
+                systemProperty 'mixin.debug.verbose', 'true'
+                systemProperty 'mixin.debug.export', 'true'
+            }
             if (project.hasProperty('quickPlayWorld')) {
                 programArgument '--quickPlaySingleplayer'
                 programArgument project.property('quickPlayWorld').toString()
@@ -323,5 +309,6 @@ if (project.hasProperty('rocketTests')) {
 }
 
 tasks.named('jar') {
+    from('LICENSE', 'THIRD_PARTY_NOTICES.md')
     exclude('com/cbcatfix/rocket/tests/**', 'data/cbcatfix/structure/rocket_empty.nbt')
 }

@@ -1,5 +1,6 @@
 package com.cbcatfix;
 
+import com.cbcatfix.rocket.RocketGroundPlacement;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -96,7 +97,7 @@ public class CbcatFix {
         }
         var owned = ordered.stream().map(net.minecraft.world.item.ItemStack::getItem).collect(java.util.stream.Collectors.toSet());
         var remove = java.util.stream.Stream.concat(event.getParentEntries().stream(), event.getSearchEntries().stream())
-            .filter(stack -> owned.contains(stack.getItem()) || isRocketStack(stack)).toList();
+            .filter(stack -> owned.contains(stack.getItem()) || RocketGroundPlacement.isRocket(stack)).toList();
         remove.forEach(stack -> event.remove(stack, vis));
         var anchor = event.getParentEntries().stream().findFirst().orElse(net.minecraft.world.item.ItemStack.EMPTY);
         for (var stack : ordered) {
@@ -111,10 +112,6 @@ public class CbcatFix {
             || blockItem.getBlock() instanceof com.dsvv.cbcat.cannon.medium_rocketpod.MediumRocketPodBlock;
     }
 
-    private static boolean isRocketStack(net.minecraft.world.item.ItemStack stack) {
-        return stack.getItem() instanceof com.dsvv.cbcat.cannon.rocketpod.munitions.AbstractRocketItem
-            || stack.getItem() instanceof com.dsvv.cbcat.cannon.medium_rocketpod.munitions.AbstractMediumRocketItem;
-    }
 
     private static void addBalancedRocketVariants(java.util.List<net.minecraft.world.item.ItemStack> ordered) {
         java.util.List<RocketCreativePair> rockets = java.util.List.of(

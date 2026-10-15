@@ -10,8 +10,6 @@ import net.minecraft.world.level.block.Block;
 import com.dsvv.cbcat.cannon.medium_rocketpod.MediumRocketPodBarrelBlock;
 import com.dsvv.cbcat.cannon.medium_rocketpod.breech.MediumRocketPodBreechBlock;
 import com.dsvv.cbcat.cannon.medium_rocketpod.breech.MediumRocketPodBreechBlockEntity;
-import com.cbcatfix.munitions.CbcatFixMunitions;
-import com.cbcatfix.CbcatFix;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

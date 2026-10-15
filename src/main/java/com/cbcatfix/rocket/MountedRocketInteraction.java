@@ -1,8 +1,5 @@
 package com.cbcatfix.rocket;
 
-import com.cbcatfix.munitions.CbcatFixMunitions;
-import com.dsvv.cbcat.cannon.medium_rocketpod.MediumRocketPodBlock;
-import com.dsvv.cbcat.cannon.rocketpod.RocketPodBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -12,7 +9,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import rbasamoyai.createbigcannons.index.CBCItems;

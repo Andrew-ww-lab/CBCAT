@@ -83,6 +83,7 @@ public class RocketMountLaunchMixin {
         target = "Lnet/minecraft/server/level/ServerLevel;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))
     private boolean cbcatfix$spawnFromMountedFrame(ServerLevel level, Entity entity) {
         if (cbcatfix$launchCenter != null && entity instanceof AbstractCannonProjectile rocket) {
+            com.cbcatfix.rocket.RocketLaunchGuidance.initialize(cbcatfix$launchItem, rocket, cbcatfix$carrier);
             double speed = com.cbcatfix.balance.BalanceDefaults.EJECTION_SPEED; // Small ejection impulse; the existing force integrator supplies motor thrust.
             rocket.setPos(cbcatfix$launchCenter);
             ((com.cbcatfix.rocket.RocketPayloadAccess) rocket).cbcatfix$flightState().beginClearance(

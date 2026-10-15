@@ -1,24 +1,20 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
 license = "MIT"
-issueTrackerURL = "https://github.com/cbcatfix/issues"
+issueTrackerURL = "https://github.com/Andrew-ww-lab/CBCAT/issues"
 
 [[mods]]
     modId = "cbcatfix"
     version = "${mod_version}"
     displayName = "CBCAT Fix"
     description = '''
-Compatibility fix for Create Big Cannons: Advanced Technologies (cbc_at) on Minecraft 1.21.1 NeoForge.
+Rocket launcher progression, ammunition variants, loading assistance and compatibility
+fixes for Create Big Cannons: Advanced Technologies on Minecraft 1.21.1 NeoForge.
 
-Fixes crash: java.lang.NoSuchMethodError on ControlPitchContraption.onRecoil
-when firing any cannon from the cbc_at mod.
-
-Root cause: cbc_at was compiled against an older CBC API where onRecoil() had 2 parameters.
-CBC 5.11.7 changed it to 3 parameters (added cannon position Vec3 for Sable integration).
-This mod injects the missing bridge method via Mixin.
+Includes optional Sable, Radars, Jade and JEI integrations.
     '''
     logoFile = ""
-    authors = "cbcatfix"
+    authors = "${mod_authors}"
     credits = ""
 
 [[dependencies.cbcatfix]]
@@ -60,7 +56,7 @@ This mod injects the missing bridge method via Mixin.
 [[dependencies.cbcatfix]]
     modId = "create_radar"
     type = "optional"
-    versionRange = "[5.0-EA-2.0.2-1.21.1,)"
+    versionRange = "[5.0-EA-3.1.0-1.21.1,)"
     ordering = "AFTER"
     side = "BOTH"
 

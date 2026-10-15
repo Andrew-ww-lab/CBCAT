@@ -144,4 +144,3 @@ public final class RocketHintClientProbe {
         capture = -1;
     }
 }
-

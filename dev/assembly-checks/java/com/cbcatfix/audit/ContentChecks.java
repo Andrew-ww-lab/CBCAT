@@ -24,6 +24,21 @@ import java.util.Map;
 final class ContentChecks {
     static int run(ServerLevel level) throws Exception {
         int checks = 0;
+        for (String id : List.of("cbc_at:he_rocket_item", "cbc_at:medium_he_rocket_item", "cbcatfix:big_he_rocket")) {
+            var round = item(id);
+            require(!com.cbcatfix.rocket.RocketSeekerEquipment.hasActiveRadar(round), "default has no seeker equipment");
+            com.cbcatfix.rocket.RocketSeekerEquipment.setActiveRadar(round);
+            var restored = ItemStack.parseOptional(level.registryAccess(),
+                (net.minecraft.nbt.CompoundTag) round.saveOptional(level.registryAccess()));
+            require(com.cbcatfix.rocket.RocketSeekerEquipment.hasActiveRadar(restored), "equipment item roundtrip");
+            var projectile = RocketProjectileFactory.create(restored, level);
+            var payload = (com.cbcatfix.rocket.RocketPayloadAccess) projectile;
+            require(payload.cbcatfix$flightState().activeRadarEquipped && !payload.cbcatfix$hasGuidance(),
+                "equipped factory does not acquire a target");
+            require(restored.getOrDefault(CBCDataComponents.FUZE, ItemContainerContents.EMPTY).copyOne().isEmpty(),
+                "equipment does not create or replace fuze");
+            checks += 4;
+        }
         var normal = CBCMunitionPropertiesHandlers.COMMON_SHELL_BIG_CANNON_PROJECTILE
             .getPropertiesOf(CBCEntityTypes.HE_SHELL.get());
         for (String suffix : List.of("", "_double_payload", "_double_fuel")) {
@@ -35,6 +50,25 @@ final class ContentChecks {
             entry.setAccessible(true);
             require(entry.get(projectile) == null, "no heavy payload entity");
             checks += 3;
+        }
+        // Exercise real transformed factories: removing an own-class Mixin must
+        // preserve configuration exactly once for every large rocket variant.
+        for (String kind : List.of("ap", "he", "heat")) {
+            for (String suffix : List.of("", "_double_payload", "_double_fuel")) {
+                ItemStack stack = item("cbcatfix:big_" + kind + "_rocket" + suffix);
+                var projectile = RocketProjectileFactory.create(stack, level);
+                require(projectile instanceof com.cbcatfix.rocket.RocketPayloadAccess, "large rocket factory " + kind + suffix);
+                var payload = (com.cbcatfix.rocket.RocketPayloadAccess) projectile;
+                require(payload.cbcatfix$getPayloadCount() == (suffix.equals("_double_payload") ? 2 : 1), "large payload count");
+                require(payload.cbcatfix$getPoweredFlightTicks() == com.cbcatfix.rocket.RocketStackFactory.getFuelTicks(stack), "large fuel");
+                require(payload.cbcatfix$getMaxPoweredSpeed() == com.cbcatfix.rocket.RocketBalance.maxSpeed(stack), "large speed");
+                require(payload.cbcatfix$getMaximumDurability() == com.cbcatfix.rocket.RocketBalance.maximumDurability(stack), "large durability");
+                var baseline = RocketProjectileFactory.create(item("cbcatfix:big_" + kind + "_rocket"), level);
+                float scale = com.cbcatfix.rocket.RocketBalance.payloadScale(payload.cbcatfix$getPayloadCount());
+                require(Math.abs(projectile.getProjectileMass() - baseline.getProjectileMass() * scale) < 0.001,
+                    "large payload mass configured once");
+                checks += 6;
+            }
         }
         for (var item : BuiltInRegistries.ITEM) {
             if (!(item instanceof AbstractHeavyAutocannonProjectileItem)) continue;

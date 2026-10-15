@@ -42,4 +42,3 @@ public final class RocketPlacementHelper implements IPlacementHelper {
             GhostBlockParams.of(offset.getGhostState()).at(offset.getBlockPos()).breathingAlpha(), 1);
     }
 }
-

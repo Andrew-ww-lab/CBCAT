@@ -3,4 +3,3 @@ allprojects {
         neoForge.runs.client.systemProperty 'cbcatfix.hintProbe', 'true'
     }
 }
-

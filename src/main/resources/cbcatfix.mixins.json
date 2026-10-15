@@ -52,7 +52,6 @@
     "RocketIgnitionSoundMixin",
     "SmallRocketPayloadMixin",
     "MediumRocketPayloadMixin",
-    "BigRocketPayloadMixin",
     "RocketFuzingRecipeMixin",
     "RocketMechanicalCraftingMixin",
     "GuidedFuzeItemMixin",

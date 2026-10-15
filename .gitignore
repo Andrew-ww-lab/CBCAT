@@ -63,10 +63,9 @@ gradle.properties.local
 .env.*
 !.env.example
 
-# Built JARs; preserve the wrapper and intentional vendored dependencies
+# Local dependency and built JARs; preserve only the Gradle wrapper
 *.jar
 !/gradle/wrapper/gradle-wrapper.jar
-!/libs/*.jar
 /libs/cbcatfix-*.jar
 
 # Generated launcher/test resources live under build/.

@@ -7,6 +7,7 @@ import rbasamoyai.createbigcannons.munitions.AbstractCannonProjectile;
 /** Per-projectile state; no global entity caches and no second authoritative orientation. */
 public final class RocketFlightState {
     public RocketSeeker seeker;
+    public boolean activeRadarEquipped;
     double angularSpeed;
     public float launchMass;
     public double motorMassScale = 1.0;

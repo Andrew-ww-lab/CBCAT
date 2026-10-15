@@ -4,9 +4,10 @@ import com.cbcatfix.config.CbcatFixConfig;
 import com.cbcatfix.rocket.*;
 import com.happysg.radar.api.jamming.DirectionalJammingApi;
 import com.happysg.radar.block.arad.rwr.ExternalRwrEmitterRegistry;
-import com.happysg.radar.block.arad.rwr.RadarType;
-import com.happysg.radar.block.radar.track.RadarTrack;
-import com.happysg.radar.block.radar.track.TrackCategory;
+import com.happysg.radar.api.radar.rwr.RadarRwrTypes;
+import com.happysg.radar.api.tracking.BasicRadarContact;
+import com.happysg.radar.api.tracking.RadarContact;
+import com.happysg.radar.api.tracking.RadarContactCategory;
 import com.happysg.radar.chaff.ChaffLockAdapter;
 import com.happysg.radar.chaff.ChaffLockRegistry;
 import net.minecraft.server.level.ServerLevel;
@@ -67,12 +68,12 @@ public final class RadarSeekerCompat {
     public static RocketSeeker.Observation observe(AbstractCannonProjectile rocket, RocketSeeker seeker,
                                                    RocketSeeker.Observation canonical) {
         if (!(rocket.level() instanceof ServerLevel level)) return null;
-        var raw = canonical == null ? List.<RadarTrack>of() : List.of(new RadarTrack(seeker.contactId(),
-            canonical.position(), canonical.velocity(), level.getGameTime(),
-            seeker.subLevelTarget() ? TrackCategory.SABLE : TrackCategory.MISC, "cbcatfix:seeker_target", 1.0f));
+        var raw = canonical == null ? List.<RadarContact>of() : List.of(new BasicRadarContact(seeker.contactId(),
+            canonical.position(), canonical.velocity(),
+            seeker.subLevelTarget() ? RadarContactCategory.SABLE : RadarContactCategory.MISC));
         var emitter = new DirectionalJammingApi.EmitterContext(sourceId(rocket), rocket.getUUID(),
             rocket.position(), RocketFlightEffects.forward(rocket), range(rocket), halfAngle());
-        for (RadarTrack reported : DirectionalJammingApi.reportedTracks(level, emitter, raw)) {
+        for (var reported : DirectionalJammingApi.reportedTracks(level, emitter, raw)) {
             // Designated-target-only acquisition: never promote an unrelated ghost into a real entity.
             if (!seeker.contactId().equals(reported.getId())) continue;
             var observation = DirectionalJammingApi.resolveGuidance(reported,
@@ -96,7 +97,7 @@ public final class RadarSeekerCompat {
         AbstractCannonProjectile rocket = (AbstractCannonProjectile) entity;
         ExternalRwrEmitterRegistry.heartbeat(level, new ExternalRwrEmitterRegistry.EmitterState(
             sourceId(entity), entity.position(), RocketFlightEffects.forward(rocket), range(rocket), halfAngle(),
-            null, ExternalRwrEmitterRegistry.ThreatStage.ENGAGED, RadarType.AIRBORNE, false,
+            null, ExternalRwrEmitterRegistry.ThreatStage.ENGAGED, RadarRwrTypes.AIRBORNE, false,
             new ExternalRwrEmitterRegistry.SelectionMetadata(entity.getUUID(), 0, 0)), 2);
     }
 

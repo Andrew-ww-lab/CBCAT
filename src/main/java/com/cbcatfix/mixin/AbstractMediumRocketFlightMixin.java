@@ -200,6 +200,7 @@ public abstract class AbstractMediumRocketFlightMixin extends rbasamoyai.createb
     private void cbcatfix$saveBalancedPayload(CompoundTag tag, CallbackInfo ci) {
         tag.putInt("CbcatFixMechanicsVersion", 3);
         this.cbcatfix$flightState.saveClearance(tag);
+        tag.putBoolean("CbcatFixActiveRadarEquipped", this.cbcatfix$flightState.activeRadarEquipped);
         tag.putFloat("CbcatFixMaximumDurability", this.cbcatfix$maximumDurability);
         tag.putDouble("CbcatFixMotorMassScale", this.cbcatfix$flightState.motorMassScale);
         if (this.cbcatfix$flightState.seeker != null) {
@@ -220,6 +221,7 @@ public abstract class AbstractMediumRocketFlightMixin extends rbasamoyai.createb
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"), remap = false)
     private void cbcatfix$loadBalancedPayload(CompoundTag tag, CallbackInfo ci) {
         this.cbcatfix$flightState.loadClearance(tag);
+        this.cbcatfix$flightState.activeRadarEquipped = tag.getBoolean("CbcatFixActiveRadarEquipped");
         this.cbcatfix$flightState.seeker = RocketSeeker.load(tag.getCompound("CbcatFixSeeker"));
         this.fuel = tag.getByte("Fuel");
         this.cbcatfix$payloadCount = Math.clamp(tag.getInt("CbcatFixPayloadCount"), 1, 2);

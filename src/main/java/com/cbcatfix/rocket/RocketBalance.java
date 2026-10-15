@@ -24,7 +24,9 @@ public final class RocketBalance {
         ItemStack warhead = payload.copyOne();
         int payloadCount = warhead.isEmpty() ? 1 : Math.clamp(warhead.getCount(), 1, 2);
         ItemStack fuze = rocketStack.getOrDefault(CBCDataComponents.FUZE, ItemContainerContents.EMPTY).copyOne();
-        SableGuidanceCompat.initializeAtLaunch(fuze, projectile);
+        payloadAccess.cbcatfix$flightState().activeRadarEquipped = RocketSeekerEquipment.hasActiveRadar(rocketStack);
+        if (!payloadAccess.cbcatfix$flightState().activeRadarEquipped)
+            SableGuidanceCompat.initializeAtLaunch(fuze, projectile);
         boolean armorPiercing = isArmorPiercing(warhead);
         payloadAccess.cbcatfix$configurePayload(payloadCount, fuze, armorPiercing);
 

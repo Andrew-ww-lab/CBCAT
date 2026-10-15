@@ -95,7 +95,7 @@
 
 Версії: Java 21; Minecraft 1.21.1; NeoForge 21.1.228; Create 6.0.10; CBC 5.11.7; CBCA 0.1.4c; optional Sable 2.0.5, Radars 5.0-EA-2.0.2, JEI 19.27.0.340, Jade 15.10.6, Create Kaboom 1.0.0-EA.
 
-Середовище команд: `JAVA_HOME=C:/Users/andrt/.jdks/ms-21.0.12`, `GRADLE_USER_HOME=C:/Users/andrt/.gradle`.
+Середовище команд: `JAVA_HOME` вказує на Microsoft JDK 21.0.12, `GRADLE_USER_HOME` — на локальний кеш Gradle користувача.
 
 ```text
 ./gradlew.bat build --offline --console=plain --no-daemon --project-cache-dir build/architecture-cache -I build/architecture.init.gradle

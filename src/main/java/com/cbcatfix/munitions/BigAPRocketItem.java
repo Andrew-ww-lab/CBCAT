@@ -17,6 +17,7 @@ public class BigAPRocketItem extends APMediumRocketItem {
         BigAPRocketProjectile projectile = CbcatFixMunitions.BIG_AP_ROCKET_PROJECTILE.get().create(level);
         if (projectile != null) {
             projectile.setFuel(127);
+            com.cbcatfix.rocket.RocketBalance.configureProjectile(stack, projectile);
         }
         return projectile;
     }

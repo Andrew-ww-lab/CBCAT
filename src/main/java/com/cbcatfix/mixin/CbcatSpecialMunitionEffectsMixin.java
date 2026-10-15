@@ -3,7 +3,6 @@ package com.cbcatfix.mixin;
 import com.cbcatfix.RocketDetonationContext;
 import com.cbcatfix.config.CbcatFixConfig;
 import net.minecraft.core.Position;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

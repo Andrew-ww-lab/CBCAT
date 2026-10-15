@@ -3,7 +3,6 @@ package com.cbcatfix.mixin;
 import com.cbcatfix.rocket.MountedRocketStorage;
 import com.cbcatfix.rocket.RocketMounts;
 import com.dsvv.cbcat.cannon.rocketpod.breech.RocketPodBreechBlockEntity;
-import com.dsvv.cbcat.cannon.rocketpod.munitions.AbstractRocketItem;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;

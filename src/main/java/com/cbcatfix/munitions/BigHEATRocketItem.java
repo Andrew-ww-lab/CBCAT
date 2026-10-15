@@ -18,6 +18,7 @@ public class BigHEATRocketItem extends HEATMediumRocketItem {
         if (projectile != null) {
             projectile.setFuze(this.getFuze(stack));
             projectile.setFuel(127);
+            com.cbcatfix.rocket.RocketBalance.configureProjectile(stack, projectile);
         }
         return projectile;
     }
